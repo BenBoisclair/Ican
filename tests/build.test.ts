@@ -42,15 +42,21 @@ describe('page shell', () => {
   });
 });
 
-/** Inner HTML of the first element with this id (good enough for our flat sections). */
+/** Outer HTML of the element with this id, matching nested tags of the same name. */
 function section(id: string): string {
   const page = html();
   const start = page.indexOf(`id="${id}"`);
   expect(start, `#${id} exists`).toBeGreaterThan(-1);
   const tag = page.lastIndexOf('<', start);
   const name = page.slice(tag + 1).match(/^[a-z0-9]+/)![0];
-  const end = page.indexOf(`</${name}>`, start);
-  return page.slice(tag, end);
+  const re = new RegExp(`<${name}[\\s>]|</${name}>`, 'g');
+  re.lastIndex = tag + 1;
+  let depth = 1;
+  for (let m = re.exec(page); m; m = re.exec(page)) {
+    depth += m[0].startsWith('</') ? -1 : 1;
+    if (depth === 0) return page.slice(tag, m.index + m[0].length);
+  }
+  return page.slice(tag);
 }
 const text = (s: string) => s.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/\s+/g, ' ');
 
@@ -83,6 +89,60 @@ describe('hero', () => {
     const hero = section('hero');
     expect(hero).toMatch(/<img[^>]*src="[^"]*hero-cabling[^"]*\.webp"/);
     expect(hero).not.toMatch(/src="[^"]*\.jpg"/);
+  });
+});
+
+/** Every CSS rule (selector + body) in the build whose selector matches `pattern`. */
+function cssRules(pattern: RegExp): string[] {
+  const css = walk(DIST).filter((f) => f.endsWith('.css')).map((f) => readFileSync(f, 'utf8')).join('\n')
+    + [...html().matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1]).join('\n');
+  return [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].filter((m) => pattern.test(m[1])).map((m) => `${m[1]}{${m[2]}}`);
+}
+
+describe('solutions', () => {
+  test('heading "Our Solutions" with no eyebrow above it', () => {
+    const s = section('solutions');
+    expect(s).toMatch(/<h2[^>]*>Our Solutions<\/h2>/);
+    expect(s.slice(0, s.indexOf('Our Solutions'))).not.toContain('eyebrow');
+  });
+
+  test('six cards with the approved titles and blurbs', () => {
+    const t = text(section('solutions'));
+    for (const [title, blurb] of [
+      ['Network & IT Infrastructure', 'Resilient networks, from IP planning to fiber redundancy.'],
+      ['IT Security Assessment', 'Find weak spots across firewalls, servers, and Wi-Fi.'],
+      ['Server Room & Cabling Solutions', 'Racks, cabling, power, and cooling, assessed and improved.'],
+      ['Enterprise Wi-Fi Solutions', 'Access point and controller design for business Wi-Fi.'],
+      ['Software & Application Solutions', 'Custom applications built around your business.'],
+      ['IT Consulting & Assessment', 'Clear findings and a roadmap before you invest.'],
+    ]) { expect(t, title).toContain(title); expect(t, blurb).toContain(blurb); }
+  });
+
+  test('card hover only tints the border: no shadow, no lift', () => {
+    const hovers = cssRules(/\.sol[^,{]*:hover(?![^,{]*\.)/);
+    expect(hovers.length).toBeGreaterThan(0);
+    for (const rule of hovers) {
+      expect(rule).not.toMatch(/box-shadow|translate/);
+    }
+  });
+});
+
+describe('Start easy (Chang ICAN)', () => {
+  test('title, Thai name, chips, phone and LINE', () => {
+    const s = section('chang');
+    const t = text(s);
+    expect(t).toContain('Start easy');
+    expect(t).toContain('ช่างไอแคน');
+    for (const chip of ['Electrical & network', 'Handyman', 'Moving', 'Event setup']) expect(t, chip).toContain(chip);
+    expect(s).toContain('href="tel:+66816135243"');
+    expect(s).toMatch(/<a[^>]*href="https:\/\/lin\.ee\/zk70Gu8"[^>]*target="_blank"[^>]*rel="noopener"/);
+  });
+
+  test('secondary photo sits top-right so no technician face is covered', () => {
+    const rules = cssRules(/\.second/).join('\n');
+    expect(rules).toMatch(/top:0/);
+    expect(rules).toMatch(/right:0/);
+    expect(rules).toMatch(/width:28%/);
   });
 });
 

@@ -1,0 +1,37 @@
+---
+import Icon from '../Icon.astro';
+import StartEasy from './StartEasy.astro';
+import { solutions } from '../../data/home';
+---
+<section id="solutions" class="solutions">
+  <div class="wrap">
+    <div class="sec-head rv"><h2>{solutions.heading}</h2></div>
+    <div class="sol-grid">
+      {solutions.items.map((s, i) => (
+        <a class="sol rv" style={`--d:${(i % 3) * 90}ms`} href={s.href}>
+          <span class="ico"><Icon name={s.icon} size={24} /></span>
+          <h3>{s.title}</h3>
+          <p>{s.blurb}</p>
+          <span class="more">{solutions.moreLabel} <Icon name="arrow-right" size={16} /></span>
+        </a>
+      ))}
+    </div>
+    <StartEasy />
+  </div>
+</section>
+
+<style>
+  .solutions { padding: 96px 0; }
+  .sol-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .sol { display: flex; flex-direction: column; gap: 14px; padding: 28px; background: #fff; border: 1px solid var(--line); border-radius: 16px; transition: border-color .2s; }
+  .sol:hover { border-color: #B9C8EA; }
+  .ico { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 12px; background: var(--tint-2); color: var(--blue); transition: background .25s, color .25s, transform .35s var(--ease); }
+  .sol:hover .ico { background: var(--blue); color: #fff; transform: rotate(-8deg) scale(1.08); }
+  h3 { font-size: 19px; line-height: 1.3; }
+  p { font-size: 15.5px; line-height: 1.6; color: var(--muted); }
+  .more { margin-top: auto; padding-top: 4px; display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 600; color: var(--blue); }
+  .more :global(svg) { transition: transform .2s; }
+  .sol:hover .more :global(svg) { transform: translateX(3px); }
+  @media (max-width: 960px) { .sol-grid { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .sol-grid { grid-template-columns: 1fr; } }
+</style>
