@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ICAN Homepage — v5</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Sans+Thai:wght@500;600&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+:root{--blue:#143A93;--blue-600:#0F2E78;--blue-500:#2453C4;--tint:#F5F8FD;--tint-2:#EEF3FC;--ink:#0F1B33;--muted:#55617A;--line:#E3E8F2;--ease:cubic-bezier(.2,.7,.2,1)}
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;font-family:"IBM Plex Sans","IBM Plex Sans Thai",system-ui,sans-serif;color:var(--ink);background:#fff;-webkit-font-smoothing:antialiased}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,h4,p{margin:0}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+@media (max-width:640px){.wrap{padding:0 16px}}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:8px;font-weight:600;font-size:15px;transition:transform .15s,background .15s,box-shadow .15s;white-space:nowrap;border:0;cursor:pointer;font-family:inherit}
+.btn:hover{transform:translateY(-1px)}
+.btn svg{width:18px;height:18px}
+.btn-primary{background:var(--blue);color:#fff}
+.btn-primary:hover{background:var(--blue-600);box-shadow:0 8px 20px rgba(20,58,147,.25)}
+.btn-ghost{background:#fff;color:var(--blue);box-shadow:inset 0 0 0 1.5px #C9D4EA}
+.btn-ghost:hover{box-shadow:inset 0 0 0 1.5px var(--blue)}
+.btn-lg{padding:15px 26px;font-size:16px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-500)}
+h2{font-size:clamp(28px,3.4vw,40px);line-height:1.15;font-weight:700;letter-spacing:-.01em}
+.sec-head{margin-bottom:44px;max-width:720px}
+.sec-head h2{margin-top:10px}
+.sec-head .sub{margin-top:10px;color:var(--muted);font-size:16.5px}
+.sec-head.row{display:flex;justify-content:space-between;align-items:flex-end;max-width:none;gap:24px;flex-wrap:wrap}
+.link{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:var(--blue)}
+.link svg{width:18px;height:18px;transition:transform .2s}
+.link:hover svg{transform:translateX(3px)}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:50;background:rgba(255,255,255,.9);backdrop-filter:blur(10px);border-bottom:1px solid #E6EAF2;transition:box-shadow .25s}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px;transition:height .25s var(--ease)}
+.nav .logo img{height:44px;width:auto;transition:height .25s var(--ease)}
+.menu{display:flex;align-items:center;gap:6px;list-style:none;margin:0;padding:0}
+.menu>li{position:relative}
+.menu>li>a{display:flex;align-items:center;gap:4px;padding:10px 14px;font-size:15px;font-weight:500;border-radius:8px}
+.menu>li>a:hover{background:#F1F5FC;color:var(--blue)}
+.menu>li>a svg{width:16px;height:16px;transition:transform .2s}
+.menu>li:hover>a svg,.menu>li:focus-within>a svg{transform:rotate(180deg)}
+.drop{position:absolute;top:100%;left:0;min-width:310px;padding:8px;border-radius:12px;list-style:none;margin:0;opacity:0;visibility:hidden;transform:translateY(6px);transition:all .18s;background:#fff;border:1px solid var(--line);box-shadow:0 16px 40px rgba(15,27,51,.12)}
+.menu>li:hover .drop,.menu>li:focus-within .drop{opacity:1;visibility:visible;transform:none}
+.drop a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;font-size:14.5px;font-weight:500}
+.drop a:hover{background:#F1F5FC;color:var(--blue)}
+.drop a svg{width:18px;height:18px;flex:none;color:var(--blue)}
+.drop .sep{height:1px;background:var(--line);margin:6px 8px}
+.menu .cta{margin-left:10px}
+.burger{display:none;background:none;border:0;padding:8px;cursor:pointer;color:inherit}
+.burger svg{width:26px;height:26px}
+.mobile-panel{display:none}
+@media (max-width:960px){
+  .menu{display:none}.burger{display:block}
+  .mobile-panel.open{display:block;padding:8px 16px 20px}
+  .mobile-panel a{display:block;padding:12px 4px;font-weight:500;border-bottom:1px solid #EEF1F6}
+  .mobile-panel .sub{padding-left:16px;font-weight:400;font-size:15px}
+  .mobile-panel .btn{display:inline-flex;margin-top:14px}
+}
+.nav.scrolled{box-shadow:0 8px 28px rgba(15,27,51,.08)}
+.nav.scrolled .wrap{height:62px}
+.nav.scrolled .logo img{height:36px}
+
+/* ---------- hero ---------- */
+.hero{position:relative;padding:76px 0 96px;overflow:hidden;background:linear-gradient(180deg,#F2F6FE 0%,#FAFCFF 70%,#fff 100%)}
+.hero::before{content:"";position:absolute;inset:0;background-image:radial-gradient(rgba(20,58,147,.14) 1px,transparent 1.3px);background-size:22px 22px;-webkit-mask-image:radial-gradient(ellipse 55% 75% at 78% 45%,#000 0%,transparent 72%);mask-image:radial-gradient(ellipse 55% 75% at 78% 45%,#000 0%,transparent 72%)}
+.blob{position:absolute;border-radius:50%;filter:blur(80px);pointer-events:none}
+.blob.b1{width:560px;height:560px;background:#C3D5FF;right:-160px;top:-180px;opacity:.7}
+.blob.b2{width:420px;height:420px;background:#E1EAFF;left:-160px;bottom:-200px;opacity:.9}
+.hero .grid{position:relative;z-index:1;display:grid;grid-template-columns:1.02fr 1fr;gap:56px;align-items:center}
+.pill{display:inline-flex;align-items:center;gap:9px;padding:7px 14px 7px 11px;border-radius:999px;background:#fff;border:1px solid #DCE5F5;font-size:13px;font-weight:600;color:#2A4A92;box-shadow:0 2px 10px rgba(20,58,147,.07)}
+.pill .dot{width:8px;height:8px;border-radius:50%;background:#22C55E;box-shadow:0 0 0 4px rgba(34,197,94,.18)}
+.hero h1{font-size:clamp(40px,5.4vw,66px);line-height:1.04;font-weight:700;letter-spacing:-.025em;margin:22px 0 22px}
+.hero h1 .hl{position:relative;color:var(--blue);white-space:nowrap}
+.hero h1 .hl svg{position:absolute;left:-2%;bottom:-.16em;width:104%;height:.32em;overflow:visible}
+.hero h1 .hl path{fill:none;stroke:#6E9BF5;stroke-width:7;stroke-linecap:round;stroke-dasharray:420;stroke-dashoffset:0}
+.hero p.lead{font-size:19.5px;line-height:1.6;color:#46526E;max-width:470px}
+.hero .ctas{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
+.trusted{margin-top:44px}
+.trusted .t{font-size:13px;font-weight:600;color:#7A86A0;letter-spacing:.02em}
+.trusted .t b{color:var(--ink)}
+.trusted .row{display:flex;align-items:center;gap:14px 28px;flex-wrap:wrap;margin-top:16px}
+.trusted img{width:auto;filter:grayscale(1) contrast(1.1);opacity:.55;transition:opacity .2s,filter .2s}
+.trusted img:hover{filter:none;opacity:1}
+
+.collage{position:relative;height:560px}
+.c-main{position:absolute;right:0;top:0;width:80%;height:78%;border-radius:24px;overflow:hidden;box-shadow:0 34px 70px rgba(15,27,51,.24)}
+.c-main img,.c-second img{width:100%;height:100%;object-fit:cover}
+.c-second{position:absolute;left:0;bottom:0;width:52%;height:46%;border-radius:20px;overflow:hidden;border:6px solid #fff;box-shadow:0 24px 50px rgba(15,27,51,.22)}
+.fcard{position:absolute;z-index:2;display:flex;align-items:center;gap:14px;background:#fff;border-radius:16px;padding:14px 18px 14px 14px;box-shadow:0 18px 44px rgba(15,27,51,.18)}
+.fcard .fi{display:grid;place-items:center;width:44px;height:44px;border-radius:12px;background:var(--tint-2);color:var(--blue)}
+.fcard .fi svg{width:22px;height:22px}
+.fcard strong{display:block;font-size:24px;line-height:1.05;color:var(--ink);font-variant-numeric:tabular-nums}
+.fcard span{display:block;font-size:13px;color:var(--muted);margin-top:2px}
+.fc1{left:6%;top:9%}
+.fc2{right:-3%;bottom:14%}
+.fc2 strong{font-size:17px;letter-spacing:.01em}
+.fc3{left:47%;top:-4%;padding:10px 14px 10px 10px}
+.fc3 .fi{width:34px;height:34px;border-radius:9px;background:#E8F7EE;color:#16A34A}
+.fc3 .fi svg{width:18px;height:18px}
+.fc3 strong{font-size:15px}
+@media (max-width:960px){.hero .grid{grid-template-columns:1fr;gap:48px}.collage{height:460px}}
+@media (max-width:560px){.collage{height:360px}.fcard{padding:10px 12px 10px 10px;gap:10px}.fcard .fi{width:34px;height:34px}.fcard strong{font-size:18px}.fc2 strong{font-size:14px}.fc3{display:none}.fc1{left:0}.fc2{right:0}.trusted .row{gap:12px 22px}}
+
+/* ---------- solutions ---------- */
+.solutions{padding:96px 0}
+.sol-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.sol{display:flex;flex-direction:column;gap:14px;padding:28px;background:#fff;border:1px solid var(--line);border-radius:16px;transition:border-color .2s,box-shadow .2s,transform .2s}
+.sol:hover{border-color:#B9C8EA;box-shadow:0 18px 40px rgba(20,58,147,.10);transform:translateY(-3px)}
+.sol .ico{display:grid;place-items:center;width:48px;height:48px;border-radius:12px;background:var(--tint-2);color:var(--blue);transition:background .25s,color .25s,transform .35s var(--ease)}
+.sol:hover .ico{background:var(--blue);color:#fff;transform:rotate(-8deg) scale(1.08)}
+.sol .ico svg{width:24px;height:24px}
+.sol h3{font-size:19px;line-height:1.3}
+.sol p{font-size:15.5px;line-height:1.6;color:var(--muted)}
+.sol .more{margin-top:auto;padding-top:4px;display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600;color:var(--blue)}
+.sol .more svg{width:16px;height:16px;transition:transform .2s}
+.sol:hover .more svg{transform:translateX(3px)}
+@media (max-width:960px){.sol-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.sol-grid{grid-template-columns:1fr}}
+
+/* ---------- start easy (Chang ICAN) ---------- */
+.easy{margin-top:24px;display:grid;grid-template-columns:400px 1fr;gap:36px;align-items:center;padding:20px 32px 20px 20px;border-radius:18px;background:linear-gradient(120deg,#EAF1FF 0%,#F6F9FF 60%);border:1px solid #DCE6FA}
+/* The secondary photo sits top-right, over the curtain area only: every face in the team photo is below ~35% of its height. */
+.easy-media{position:relative;padding:8% 4% 0 0}
+.easy-media .main{border-radius:12px;aspect-ratio:4/3;object-fit:cover;width:100%;box-shadow:0 14px 30px rgba(15,27,51,.16)}
+.easy-media .second{position:absolute;right:0;top:0;width:28%;aspect-ratio:1;object-fit:cover;border-radius:10px;border:4px solid #fff;box-shadow:0 10px 24px rgba(15,27,51,.2)}
+.easy .eyebrow .th{font-family:"IBM Plex Sans Thai",sans-serif;letter-spacing:0;text-transform:none;font-weight:500;color:#7B869C;margin-left:4px}
+.easy h3{font-size:34px;line-height:1.1;letter-spacing:-.015em;margin:8px 0 10px}
+.easy p{font-size:16px;line-height:1.55;color:#3F4B66;max-width:560px}
+.easy .chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:16px}
+.easy .chips b{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;font-weight:500;padding:6px 12px;border-radius:999px;background:#fff;color:var(--ink);border:1px solid #DCE4F3}
+.easy .chips svg{width:15px;height:15px;color:var(--blue)}
+.easy .ctas{display:flex;align-items:center;gap:12px;margin-top:22px;flex-wrap:wrap}
+.lineq{position:relative}
+.lineq .pop{position:absolute;left:50%;bottom:calc(100% + 10px);transform:translateX(-50%) translateY(6px);background:#fff;padding:10px;border-radius:12px;box-shadow:0 16px 40px rgba(15,27,51,.2);opacity:0;visibility:hidden;transition:all .18s;text-align:center;font-size:12.5px;color:var(--muted);width:160px}
+.lineq .pop img{width:140px;height:140px;margin:0 auto 6px}
+.lineq:hover .pop,.lineq:focus-within .pop{opacity:1;visibility:visible;transform:translateX(-50%)}
+.btn-line{background:#06C755;color:#fff}
+.btn-line:hover{background:#05B34C}
+@media (max-width:960px){.easy{grid-template-columns:1fr;padding:20px}.easy-media{max-width:460px}}
+
+/* ---------- clients ---------- */
+.clients{padding:96px 0;background:var(--tint)}
+.logo-grid{display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.logo-grid .lg{flex:0 0 calc((100% - 60px)/6);display:grid;place-items:center;aspect-ratio:3/2;padding:14px;background:#fff;border:1px solid #E6EBF3;border-radius:12px}
+.logo-grid img{max-height:64px;max-width:100%;width:auto;object-fit:contain}
+.logo-grid img.white{filter:brightness(0);opacity:.72}
+@media (max-width:960px){.logo-grid .lg{flex-basis:calc((100% - 36px)/4)}}
+@media (max-width:640px){.logo-grid{gap:8px}.logo-grid .lg{flex-basis:calc((100% - 16px)/3);padding:10px}.logo-grid img{max-height:44px}}
+
+/* ---------- why ---------- */
+.why{padding:104px 0}
+.why-grid{display:grid;grid-template-columns:5fr 7fr;gap:64px;align-items:start}
+.why-intro h2{margin:12px 0 28px}
+.certs{margin-top:40px;padding:24px;border:1px solid var(--line);border-radius:16px}
+.certs h4{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:600;margin-bottom:16px}
+.certs h4 svg{width:20px;height:20px;color:var(--blue)}
+.cert-row{display:grid;grid-template-columns:96px 1fr;gap:12px;align-items:baseline;padding:10px 0;border-top:1px solid #EEF1F6}
+.cert-row .k{font-size:12.5px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:#7B869C}
+.chips2{display:flex;flex-wrap:wrap;gap:6px}
+.chips2 b{font-size:13.5px;font-weight:500;padding:5px 10px;border-radius:999px;background:var(--tint-2);color:var(--blue)}
+.why-items{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.why-item{padding:26px;border-radius:16px;background:var(--tint)}
+.why-item .wi{display:grid;place-items:center;width:42px;height:42px;border-radius:10px;background:#fff;color:var(--blue);box-shadow:0 2px 6px rgba(20,58,147,.08)}
+.why-item .wi svg{width:21px;height:21px}
+.why-item h3{font-size:18px;margin:16px 0 8px}
+.why-item p{font-size:15.5px;line-height:1.6;color:var(--muted)}
+@media (max-width:960px){.why-grid{grid-template-columns:1fr;gap:40px}}
+@media (max-width:640px){.why-items{grid-template-columns:1fr}.cert-row{grid-template-columns:1fr;gap:6px}}
+
+/* ---------- projects ---------- */
+.work{padding:96px 0 110px;border-top:1px solid #EEF1F6}
+.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tile{margin:0}
+.tile .imgbox{border-radius:16px;overflow:hidden;aspect-ratio:4/3;background:var(--tint)}
+.tile img{width:100%;height:100%;object-fit:cover;--py:0px;--s:1.14;transform:translateY(var(--py)) scale(var(--s));transition:transform .2s linear}
+.tile:hover img{--s:1.18}
+.tile figcaption{padding:16px 4px 4px}
+.tile .cat{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-500)}
+.tile strong{display:block;margin-top:4px;font-size:17px}
+@media (max-width:960px){.work-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.work-grid{grid-template-columns:1fr}}
+
+/* ---------- Area54 directory ---------- */
+.area{padding:96px 0;background:linear-gradient(180deg,#fff 0%,var(--tint) 100%)}
+.map{position:relative;border-radius:20px;overflow:hidden;aspect-ratio:2200/1241;box-shadow:0 30px 60px rgba(15,27,51,.18);background:#ddd}
+.map>img{width:100%;height:100%;object-fit:cover}
+.pin{position:absolute;transform:translate(-50%,-50%);width:40px;height:40px;border-radius:50%;background:var(--blue);color:#fff;border:3px solid #fff;font:700 16px "IBM Plex Sans",sans-serif;display:grid;place-items:center;cursor:pointer;box-shadow:0 6px 18px rgba(0,0,0,.35);z-index:2;padding:0;transition:transform .2s var(--ease),background .2s}
+.pin::before{content:"";position:absolute;inset:-9px;border-radius:50%;border:2px solid rgba(255,255,255,.9);opacity:0;animation:ping 2.6s var(--ease) infinite;animation-delay:var(--pd,0s)}
+@keyframes ping{0%{transform:scale(.6);opacity:.9}80%,100%{transform:scale(1.35);opacity:0}}
+.pin .lbl{position:absolute;left:50%;bottom:calc(100% + 12px);transform:translateX(-50%) translateY(4px);white-space:nowrap;background:#fff;color:var(--ink);font-size:14px;font-weight:600;padding:8px 12px;border-radius:8px;box-shadow:0 8px 22px rgba(0,0,0,.22);opacity:0;pointer-events:none;transition:all .2s}
+.pin:hover,.pin.hl{transform:translate(-50%,-50%) scale(1.12);background:#2F63E0}
+.pin:hover .lbl,.pin.hl .lbl{opacity:1;transform:translateX(-50%)}
+.spots{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:24px}
+.spot{display:flex;gap:14px;padding:20px;border:1px solid var(--line);border-radius:14px;background:#fff;transition:border-color .2s,box-shadow .2s}
+.spot.hl{border-color:#9DB4EC;box-shadow:0 12px 30px rgba(20,58,147,.12)}
+.spot .n{flex:none;width:30px;height:30px;border-radius:50%;background:var(--tint-2);color:var(--blue);font-weight:700;display:grid;place-items:center;font-size:14px;transition:background .2s,color .2s}
+.spot.hl .n{background:var(--blue);color:#fff}
+.spot .tag{display:block;font-size:11.5px;font-weight:600;letter-spacing:.07em;text-transform:uppercase;color:#7B869C}
+.spot h3{font-size:16.5px;margin-top:3px}
+.spot h3 .th{font-family:"IBM Plex Sans Thai",sans-serif;font-weight:500;color:#7B869C;font-size:14px;margin-left:4px}
+.spot p{font-size:14.5px;line-height:1.5;color:var(--muted);margin-top:6px}
+.spot .go{display:inline-flex;align-items:center;gap:5px;margin-top:10px;font-size:13.5px;font-weight:600;color:var(--blue)}
+.spot .go svg{width:15px;height:15px}
+@media (max-width:960px){.spots{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.spots{grid-template-columns:1fr}.pin{width:30px;height:30px;font-size:13px;border-width:2px}.pin .lbl{display:none}}
+
+/* ---------- footer ---------- */
+footer{background:#0B1A3F;color:#C9D3E8}
+footer .wrap{display:grid;grid-template-columns:1.2fr 1.4fr 1fr;gap:40px;padding-top:64px;padding-bottom:40px}
+footer .flogo img{height:48px;width:auto;filter:brightness(0) invert(1)}
+footer .co{margin-top:18px;font-weight:600;font-size:16px;line-height:1.5;color:#fff}
+footer h4{margin:0 0 14px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:600;color:#7F93C4}
+footer address{font-style:normal;line-height:1.7;font-size:15px}
+footer .maplink,footer .fb{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:9px 14px;border-radius:8px;font-size:14px;font-weight:600;background:rgba(255,255,255,.08);color:#fff}
+footer .maplink:hover{background:rgba(255,255,255,.14)}
+footer .fb{margin-top:22px}
+footer .fb:hover{background:#1877F2}
+footer .maplink svg,footer .tel svg{width:17px;height:17px}
+footer .fb svg{width:19px;height:19px}
+footer .tel{display:flex;align-items:center;gap:10px;font-size:15px;line-height:1.5;margin-bottom:10px}
+footer .tel small{opacity:.7}
+footer .legal{grid-column:1/-1;padding-top:24px;margin-top:8px;font-size:13px;border-top:1px solid rgba(255,255,255,.1);color:#8394BA}
+@media (max-width:960px){footer .wrap{grid-template-columns:1fr}}
+
+/* ---------- motion (Moderate) ---------- */
+@media (prefers-reduced-motion:no-preference){
+  .rv{opacity:0;transform:translateY(22px);transition:opacity .75s var(--ease),transform .75s var(--ease);transition-delay:var(--d,0ms)}
+  .rv.in{opacity:1;transform:none}
+  .fcard{animation:float 6s ease-in-out infinite alternate}
+  .fc2{animation-delay:-2s}.fc3{animation-delay:-4s}
+  @keyframes float{from{transform:translateY(0)}to{transform:translateY(-10px)}}
+  .hero h1 .hl path{stroke-dashoffset:420;transition:stroke-dashoffset 1.1s var(--ease) .7s}
+  .hero h1.in .hl path{stroke-dashoffset:0}
+}
+@media (prefers-reduced-motion:reduce){.pin::before{display:none}.tile img{--s:1;transform:none}}
+</style>
+</head>
+<body>
+
+<!-- ================= NAV ================= -->
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#"><img src="/files/ican-logo.png" alt="ICAN — International Computing And Networking Co., Ltd."></a>
+    <ul class="menu">
+      <li><a href="#solutions">Solutions <i data-lucide="chevron-down"></i></a>
+        <ul class="drop">
+          <li><a href="#solutions"><i data-lucide="network"></i>Network &amp; IT Infrastructure</a></li>
+          <li><a href="#solutions"><i data-lucide="shield-check"></i>IT Security Assessment</a></li>
+          <li><a href="#solutions"><i data-lucide="server"></i>Server Room &amp; Cabling Solutions</a></li>
+          <li><a href="#solutions"><i data-lucide="wifi"></i>Enterprise Wi-Fi Solutions</a></li>
+          <li><a href="#solutions"><i data-lucide="code-xml"></i>Software &amp; Application Solutions</a></li>
+          <li><a href="#solutions"><i data-lucide="clipboard-check"></i>IT Consulting &amp; Assessment</a></li>
+          <li class="sep"></li>
+          <li><a href="#chang"><i data-lucide="wrench"></i>Chang ICAN — Home &amp; Office Technicians</a></li>
+        </ul>
+      </li>
+      <li><a href="#work">Portfolio <i data-lucide="chevron-down"></i></a>
+        <ul class="drop" style="min-width:250px">
+          <li><a href="#work"><i data-lucide="cable"></i>IT Infrastructure</a></li>
+          <li><a href="#work"><i data-lucide="app-window"></i>Software &amp; Application</a></li>
+        </ul>
+      </li>
+      <li><a href="#why">About Us</a></li>
+      <li class="cta"><a class="btn btn-primary" href="#contact">Contact Us</a></li>
+    </ul>
+    <button class="burger" aria-label="Menu" onclick="document.querySelector('.mobile-panel').classList.toggle('open')"><i data-lucide="menu"></i></button>
+  </div>
+  <div class="mobile-panel">
+    <a href="#solutions">Solutions</a>
+    <a class="sub" href="#solutions">Network &amp; IT Infrastructure</a>
+    <a class="sub" href="#solutions">IT Security Assessment</a>
+    <a class="sub" href="#solutions">Server Room &amp; Cabling Solutions</a>
+    <a class="sub" href="#solutions">Enterprise Wi-Fi Solutions</a>
+    <a class="sub" href="#solutions">Software &amp; Application Solutions</a>
+    <a class="sub" href="#solutions">IT Consulting &amp; Assessment</a>
+    <a class="sub" href="#chang">Chang ICAN — Home &amp; Office</a>
+    <a href="#work">Portfolio</a>
+    <a class="sub" href="#work">IT Infrastructure</a>
+    <a class="sub" href="#work">Software &amp; Application</a>
+    <a href="#why">About Us</a>
+    <a class="btn btn-primary" href="#contact">Contact Us</a>
+  </div>
+</header>
+
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <div class="blob b1"></div><div class="blob b2"></div>
+  <div class="wrap grid">
+    <div class="copy">
+      <span class="pill rv"><span class="dot"></span>Established 1999 · Bangkok, Thailand</span>
+      <h1 class="rv" style="--d:80ms">Your Trusted Partner in <span class="hl">IT Solutions.<svg viewBox="0 0 400 24" preserveAspectRatio="none" aria-hidden="true"><path d="M4 16 C 90 6, 200 4, 396 12"/></svg></span></h1>
+      <p class="lead rv" style="--d:160ms">ICAN helps businesses build, assess, and improve their IT systems.</p>
+      <div class="ctas rv" style="--d:240ms">
+        <a class="btn btn-primary btn-lg" href="#solutions">Explore Solutions <i data-lucide="arrow-right"></i></a>
+        <a class="btn btn-ghost btn-lg" href="#contact">Contact Us</a>
+      </div>
+      <div class="trusted rv" style="--d:320ms">
+        <p class="t">Trusted by <b>50+ organizations</b>, including</p>
+        <div class="row">
+          <img src="/files/tlogo-c022.png" alt="SCG" style="height:26px">
+          <img src="/files/tlogo-c024.png" alt="PTT" style="height:30px">
+          <img src="/files/tlogo-c009.png" alt="7-Eleven" style="height:36px">
+          <img src="/files/tlogo-c016.png" alt="L'Oréal Thailand" style="height:22px">
+          <img src="/files/tlogo-synnex.png" alt="Synnex" style="height:19px">
+        </div>
+      </div>
+    </div>
+    <div class="collage rv" style="--d:200ms">
+      <div class="c-main"><img src="/files/hero-cabling.jpg" alt="Structured cabling installed by ICAN"></div>
+      <div class="c-second"><img src="/files/hero-room.jpg" alt="Server room installed by ICAN"></div>
+      <div class="fcard fc1"><span class="fi"><i data-lucide="history"></i></span><div><strong id="count">27+</strong><span>Years in IT services</span></div></div>
+      <div class="fcard fc2"><span class="fi"><i data-lucide="badge-check"></i></span><div><strong>CCIE · CCNP · CCNA</strong><span>Cisco-certified experts</span></div></div>
+      <div class="fcard fc3"><span class="fi"><i data-lucide="check"></i></span><div><strong>Assessment first</strong></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SOLUTIONS ================= -->
+<section id="solutions" class="solutions">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="eyebrow">Solutions</span><h2>Our Solutions</h2></div>
+    <div class="sol-grid">
+      <a class="sol rv" href="#"><span class="ico"><i data-lucide="network"></i></span><h3>Network &amp; IT Infrastructure</h3><p>Resilient networks, from IP planning to fiber redundancy.</p><span class="more">Learn more <i data-lucide="arrow-right"></i></span></a>
+      <a class="sol rv" style="--d:90ms" href="#"><span class="ico"><i data-lucide="shield-check"></i></span><h3>IT Security Assessment</h3><p>Find weak spots across firewalls, servers, and Wi-Fi.</p><span class="more">Learn more <i data-lucide="arrow-right"></i></span></a>
+      <a class="sol rv" style="--d:180ms" href="#"><span class="ico"><i data-lucide="server"></i></span><h3>Server Room &amp; Cabling Solutions</h3><p>Racks, cabling, power, and cooling, assessed and improved.</p><span class="more">Learn more <i data-lucide="arrow-right"></i></span></a>
+      <a class="sol rv" href="#"><span class="ico"><i data-lucide="wifi"></i></span><h3>Enterprise Wi-Fi Solutions</h3><p>Access point and controller design for business Wi-Fi.</p><span class="more">Learn more <i data-lucide="arrow-right"></i></span></a>
+      <a class="sol rv" style="--d:90ms" href="#"><span class="ico"><i data-lucide="code-xml"></i></span><h3>Software &amp; Application Solutions</h3><p>Custom applications built around your business.</p><span class="more">Learn more <i data-lucide="arrow-right"></i></span></a>
+      <a class="sol rv" style="--d:180ms" href="#"><span class="ico"><i data-lucide="clipboard-check"></i></span><h3>IT Consulting &amp; Assessment</h3><p>Clear findings and a roadmap before you invest.</p><span class="more">Learn more <i data-lucide="arrow-right"></i></span></a>
+    </div>
+
+    <!-- Start easy: Chang ICAN -->
+    <div class="easy rv" id="chang">
+      <div class="easy-media">
+        <img class="main" src="/files/chang-team.jpg" alt="The Chang ICAN team">
+        <img class="second" src="/files/chang-photo.jpg" alt="Chang ICAN technicians terminating fiber cables">
+      </div>
+      <div class="easy-body">
+        <span class="eyebrow">Chang ICAN <span class="th">ช่างไอแคน</span></span>
+        <h3>Start easy</h3>
+        <p>Five ICAN technicians for everyday home and office jobs. Book by the job or by the day.</p>
+        <div class="chips">
+          <b><i data-lucide="plug-zap"></i>Electrical &amp; network</b>
+          <b><i data-lucide="hammer"></i>Handyman</b>
+          <b><i data-lucide="truck"></i>Moving</b>
+          <b><i data-lucide="calendar-check"></i>Event setup</b>
+        </div>
+        <div class="ctas">
+          <a class="btn btn-primary" href="tel:+66816135243"><i data-lucide="phone"></i>Call 081-613-5243</a>
+          <span class="lineq">
+            <a class="btn btn-line" href="https://lin.ee/zk70Gu8" target="_blank" rel="noopener" aria-describedby="lineqr"><i data-lucide="message-circle"></i>LINE</a>
+            <span class="pop" id="lineqr" role="tooltip"><img src="/files/chang-line-qr.png" alt="LINE QR code">Scan to add Chang ICAN</span>
+          </span>
+          <a class="link" href="#">All services <i data-lucide="arrow-right"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CLIENTS ================= -->
+<section id="clients" class="clients">
+  <div class="wrap">
+    <div class="sec-head rv"><span class="eyebrow">Clients</span><h2>Our Clients</h2></div>
+    <div class="logo-grid" id="logoGrid"></div>
+  </div>
+</section>
+
+<!-- ================= WHY ================= -->
+<section id="why" class="why">
+  <div class="wrap why-grid">
+    <div class="why-intro">
+      <span class="eyebrow rv">Why choose ICAN?</span>
+      <h2 class="rv" style="--d:60ms">Experience, Technical Expertise, and Practical Solutions</h2>
+      <a class="btn btn-primary rv" style="--d:120ms" href="#contact">Contact Our Team <i data-lucide="arrow-right"></i></a>
+      <div class="certs rv" style="--d:180ms">
+        <h4><i data-lucide="badge-check"></i>Certified expertise</h4>
+        <div class="cert-row"><span class="k">Networking</span><span class="chips2"><b>Cisco CCIE</b><b>CCNP</b><b>CCNA</b></span></div>
+        <div class="cert-row"><span class="k">Cabling</span><span class="chips2"><b>Systimax</b><b>Panduit</b></span></div>
+        <div class="cert-row"><span class="k">Software</span><span class="chips2"><b>TQS / ISO 15504</b></span></div>
+        <div class="cert-row"><span class="k">Safety</span><span class="chips2"><b>Management level</b><b>Working level</b></span></div>
+      </div>
+    </div>
+    <div class="why-items">
+      <div class="why-item rv"><span class="wi"><i data-lucide="history"></i></span><h3>Established in 1999</h3><p>27+ years in Thailand's IT services industry.</p></div>
+      <div class="why-item rv" style="--d:90ms"><span class="wi"><i data-lucide="scan-search"></i></span><h3>Assessment First</h3><p>Clear findings and a roadmap before any change.</p></div>
+      <div class="why-item rv"><span class="wi"><i data-lucide="file-check"></i></span><h3>Approved Design</h3><p>You sign off a To-be Design before we build.</p></div>
+      <div class="why-item rv" style="--d:90ms"><span class="wi"><i data-lucide="users"></i></span><h3>One Team, One Contact</h3><p>In-house specialists, fair pricing, one point of contact.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= PROJECTS ================= -->
+<section id="work" class="work">
+  <div class="wrap">
+    <div class="sec-head row rv">
+      <div><span class="eyebrow">Portfolio</span><h2>See projects in action</h2></div>
+      <a class="link" href="#">View full portfolio <i data-lucide="arrow-right"></i></a>
+    </div>
+    <div class="work-grid">
+      <figure class="tile rv"><div class="imgbox"><img src="/files/pf-datacenter.jpg" alt=""></div><figcaption><span class="cat">IT Infrastructure</span><strong>Data Center</strong></figcaption></figure>
+      <figure class="tile rv" style="--d:90ms"><div class="imgbox"><img src="/files/pf-cabling.jpg" alt=""></div><figcaption><span class="cat">IT Infrastructure</span><strong>Structured Cabling</strong></figcaption></figure>
+      <figure class="tile rv" style="--d:180ms"><div class="imgbox"><img src="/files/pf-rack.jpg" alt=""></div><figcaption><span class="cat">IT Infrastructure</span><strong>Server &amp; Storage Racks</strong></figcaption></figure>
+      <figure class="tile rv"><div class="imgbox"><img src="/files/pf-fiber.jpg" alt=""></div><figcaption><span class="cat">IT Infrastructure</span><strong>Fiber Optic Installation</strong></figcaption></figure>
+      <figure class="tile rv" style="--d:90ms"><div class="imgbox"><img src="/files/pf-cctv.jpg" alt=""></div><figcaption><span class="cat">IT Infrastructure</span><strong>CCTV Control Room</strong></figcaption></figure>
+      <figure class="tile rv" style="--d:180ms"><div class="imgbox"><img src="/files/pf-fire.jpg" alt=""></div><figcaption><span class="cat">IT Infrastructure</span><strong>Server Room Fire Suppression</strong></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= AREA54 DIRECTORY ================= -->
+<section id="area54" class="area">
+  <div class="wrap">
+    <div class="sec-head row rv">
+      <div><span class="eyebrow">Vibhavadi Soi 5, Yaek 4</span><h2>Visit Area54</h2><p class="sub">Six businesses, one address. Tap a number to see what's where.</p></div>
+      <a class="link" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=Area54+Vibhavadi">Get directions <i data-lucide="arrow-up-right"></i></a>
+    </div>
+    <div class="map rv">
+      <img src="/files/area54.jpg" alt="Area54: the ICAN Group building and its neighbors">
+      <button class="pin" data-spot="1" style="left:15%;top:20%;--pd:0s"><span>1</span><span class="lbl">Tidnuad Thai Massage</span></button>
+      <button class="pin" data-spot="2" style="left:59.5%;top:22%;--pd:.4s"><span>2</span><span class="lbl">ICAN Group</span></button>
+      <button class="pin" data-spot="3" style="left:82%;top:26%;--pd:.8s"><span>3</span><span class="lbl">Chef's Place</span></button>
+      <button class="pin" data-spot="4" style="left:11%;top:68%;--pd:1.2s"><span>4</span><span class="lbl">Rice &amp; Curry</span></button>
+      <button class="pin" data-spot="5" style="left:47%;top:64%;--pd:1.6s"><span>5</span><span class="lbl">Carfé Area54</span></button>
+      <button class="pin" data-spot="6" style="left:84%;top:67%;--pd:2s"><span>6</span><span class="lbl">Chang ICAN</span></button>
+    </div>
+    <div class="spots">
+      <div class="spot rv" data-spot="1"><span class="n">1</span><div><span class="tag">Thai massage · ★ 5.0 Google</span><h3>Tidnuad Thai Massage</h3><p>Traditional Thai health massage, a few steps from the office.</p><a class="go" href="https://share.google/fep024W269fiv6ZjT" target="_blank" rel="noopener">Open in Maps <i data-lucide="arrow-up-right"></i></a></div></div>
+      <div class="spot rv" data-spot="2" style="--d:80ms"><span class="n">2</span><div><span class="tag">IT solutions</span><h3>ICAN Group</h3><p>Our head office: infrastructure, security, software, and consulting since 1999.</p><a class="go" href="#solutions">Our solutions <i data-lucide="arrow-right"></i></a></div></div>
+      <div class="spot rv" data-spot="3" style="--d:160ms"><span class="n">3</span><div><span class="tag">Restaurant · ★ 5.0 Google</span><h3>Chef's Place</h3><p>Chef-made Western comfort food: pasta, steak, and a 5-course tasting menu by reservation.</p><a class="go" href="https://share.google/YkK6HwHjR3dihpZi0" target="_blank" rel="noopener">Open in Maps <i data-lucide="arrow-up-right"></i></a></div></div>
+      <div class="spot rv" data-spot="4"><span class="n">4</span><div><span class="tag">Rice &amp; curry</span><h3>Rice &amp; Curry <span class="th">ร้านข้าวแกง</span></h3><p>Home-style Thai rice and curry, quick and affordable.</p></div></div>
+      <div class="spot rv" data-spot="5" style="--d:80ms"><span class="n">5</span><div><span class="tag">Café · ★ 4.9 Google</span><h3>Carfé Area54 Specialty Coffee</h3><p>Vintage coffee shop filled with classic cars. Pickup and delivery available.</p><a class="go" href="https://share.google/eFkmi0EJoEdeAjz2U" target="_blank" rel="noopener">Open in Maps <i data-lucide="arrow-up-right"></i></a></div></div>
+      <div class="spot rv" data-spot="6" style="--d:160ms"><span class="n">6</span><div><span class="tag">Technicians</span><h3>Chang ICAN <span class="th">ช่างไอแคน</span></h3><p>On-site technicians for home and office jobs. Call 081-613-5243.</p><a class="go" href="#chang">Start easy <i data-lucide="arrow-right"></i></a></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer id="contact">
+  <div class="wrap">
+    <div>
+      <div class="flogo"><img src="/files/ican-logo.png" alt="ICAN"></div>
+      <p class="co">International Computing And Networking Co., Ltd.</p>
+      <a class="fb" href="https://www.facebook.com/ICAN.Admin/" target="_blank" rel="noopener" aria-label="ICAN on Facebook">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/></svg>
+        Follow us on Facebook
+      </a>
+    </div>
+    <div>
+      <h4>Address</h4>
+      <address>102 Soi Yasoob 1, Vibhavadi Rangsit Road,<br>Chom Phon Subdistrict, Chatuchak District,<br>Bangkok 10900</address>
+      <a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=102+Soi+Yasoob+1+Vibhavadi+Rangsit+Road+Chatuchak+Bangkok+10900"><i data-lucide="map-pin"></i>Open in Google Maps</a>
+    </div>
+    <div>
+      <h4>Phone</h4>
+      <a class="tel" href="tel:+6622723111"><i data-lucide="phone"></i><span>+66 2-272-3111 <small>(Automatic)</small></span></a>
+      <a class="tel" href="tel:+66846723111"><i data-lucide="smartphone"></i><span>+66 84-672-3111 <small>(Hotline)</small></span></a>
+    </div>
+    <div class="legal">© 2026 International Computing And Networking Co., Ltd. All rights reserved.</div>
+  </div>
+</footer>
+
+<script>
+  // ---- client logos (Synnex added) ----
+  const logos = [];
+  for (let i = 1; i <= 45; i++) logos.push({ f: 'logo-c' + String(i).padStart(3, '0') + '.png' });
+  logos.splice(4, 0, { f: 'logo-synnex.png' });
+  logos.push({ f: 'logo-ubon.png' });
+  for (let i = 1; i <= 5; i++) logos.push({ f: 'logo-partner' + i + '.png', white: true });
+  document.getElementById('logoGrid').innerHTML = logos.map((l, i) =>
+    `<div class="lg rv" style="--d:${(i % 6) * 60}ms"><img loading="lazy" src="/files/${l.f}" alt="" class="${l.white ? 'white' : ''}"></div>`).join('');
+
+  lucide.createIcons();
+  const reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  // ---- 27+ counter ----
+  const countEl = document.getElementById('count');
+  function runCounter() {
+    if (reduced) return;
+    const t0 = performance.now(), dur = 1400;
+    (function step(t) {
+      const p = Math.min(1, (t - t0) / dur), e = 1 - Math.pow(1 - p, 3);
+      countEl.textContent = Math.round(27 * e) + (p === 1 ? '+' : '');
+      if (p < 1) requestAnimationFrame(step);
+    })(t0);
+  }
+
+  // ---- scroll reveal ----
+  const io = new IntersectionObserver(entries => entries.forEach(en => {
+    if (!en.isIntersecting) return;
+    en.target.classList.add('in');
+    if (en.target.classList.contains('collage')) setTimeout(runCounter, 400);
+    io.unobserve(en.target);
+  }), { threshold: 0.12, rootMargin: '0px 0px -6% 0px' });
+  document.querySelectorAll('.rv').forEach(el => io.observe(el));
+
+  // ---- nav compact + project parallax ----
+  const nav = document.querySelector('.nav');
+  const tiles = [...document.querySelectorAll('.tile img')];
+  function onScroll() {
+    nav.classList.toggle('scrolled', scrollY > 10);
+    if (reduced) return;
+    const vh = innerHeight;
+    tiles.forEach(img => {
+      const r = img.parentElement.getBoundingClientRect();
+      if (r.bottom < 0 || r.top > vh) return;
+      img.style.setProperty('--py', (((r.top + r.height / 2 - vh / 2) / vh) * -28).toFixed(1) + 'px');
+    });
+  }
+  addEventListener('scroll', () => requestAnimationFrame(onScroll), { passive: true });
+  onScroll();
+
+  // ---- Area54: link pins and cards ----
+  const byId = id => document.querySelectorAll(`[data-spot="${id}"]`);
+  document.querySelectorAll('[data-spot]').forEach(el => {
+    el.addEventListener('mouseenter', () => byId(el.dataset.spot).forEach(x => x.classList.add('hl')));
+    el.addEventListener('mouseleave', () => byId(el.dataset.spot).forEach(x => x.classList.remove('hl')));
+  });
+  document.querySelectorAll('.pin').forEach(pin => pin.addEventListener('click', () => {
+    document.querySelectorAll('.hl').forEach(x => x.classList.remove('hl'));
+    byId(pin.dataset.spot).forEach(x => x.classList.add('hl'));
+    const card = document.querySelector(`.spot[data-spot="${pin.dataset.spot}"]`);
+    if (innerWidth < 960) card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }));
+</script>
+</body>
+</html>

@@ -1,0 +1,570 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <!-- 
+    Microsoft ResX Schema 
+    
+    Version 2.0
+    
+    The primary goals of this format is to allow a simple XML format 
+    that is mostly human readable. The generation and parsing of the 
+    various data types are done through the TypeConverter classes 
+    associated with the data types.
+    
+    Example:
+    
+    ... ado.net/XML headers & schema ...
+    <resheader name="resmimetype">text/microsoft-resx</resheader>
+    <resheader name="version">2.0</resheader>
+    <resheader name="reader">System.Resources.ResXResourceReader, System.Windows.Forms, ...</resheader>
+    <resheader name="writer">System.Resources.ResXResourceWriter, System.Windows.Forms, ...</resheader>
+    <data name="Name1"><value>this is my long string</value><comment>this is a comment</comment></data>
+    <data name="Color1" type="System.Drawing.Color, System.Drawing">Blue</data>
+    <data name="Bitmap1" mimetype="application/x-microsoft.net.object.binary.base64">
+        <value>[base64 mime encoded serialized .NET Framework object]</value>
+    </data>
+    <data name="Icon1" type="System.Drawing.Icon, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+        <value>[base64 mime encoded string representing a byte array form of the .NET Framework object]</value>
+        <comment>This is a comment</comment>
+    </data>
+                
+    There are any number of "resheader" rows that contain simple 
+    name/value pairs.
+    
+    Each data row contains a name, and value. The row also contains a 
+    type or mimetype. Type corresponds to a .NET class that support 
+    text/value conversion through the TypeConverter architecture. 
+    Classes that don't support this are serialized and stored with the 
+    mimetype set.
+    
+    The mimetype is used for serialized objects, and tells the 
+    ResXResourceReader how to depersist the object. This is currently not 
+    extensible. For a given mimetype the value must be set accordingly:
+    
+    Note - application/x-microsoft.net.object.binary.base64 is the format 
+    that the ResXResourceWriter will generate, however the reader can 
+    read any of the formats listed below.
+    
+    mimetype: application/x-microsoft.net.object.binary.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Binary.BinaryFormatter
+            : and then encoded with base64 encoding.
+    
+    mimetype: application/x-microsoft.net.object.soap.base64
+    value   : The object must be serialized with 
+            : System.Runtime.Serialization.Formatters.Soap.SoapFormatter
+            : and then encoded with base64 encoding.
+
+    mimetype: application/x-microsoft.net.object.bytearray.base64
+    value   : The object must be serialized into a byte array 
+            : using a System.ComponentModel.TypeConverter
+            : and then encoded with base64 encoding.
+    -->
+  <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+    <xsd:import namespace="http://www.w3.org/XML/1998/namespace" />
+    <xsd:element name="root" msdata:IsDataSet="true">
+      <xsd:complexType>
+        <xsd:choice maxOccurs="unbounded">
+          <xsd:element name="metadata">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" />
+              </xsd:sequence>
+              <xsd:attribute name="name" use="required" type="xsd:string" />
+              <xsd:attribute name="type" type="xsd:string" />
+              <xsd:attribute name="mimetype" type="xsd:string" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="assembly">
+            <xsd:complexType>
+              <xsd:attribute name="alias" type="xsd:string" />
+              <xsd:attribute name="name" type="xsd:string" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="data">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+                <xsd:element name="comment" type="xsd:string" minOccurs="0" msdata:Ordinal="2" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" msdata:Ordinal="1" />
+              <xsd:attribute name="type" type="xsd:string" msdata:Ordinal="3" />
+              <xsd:attribute name="mimetype" type="xsd:string" msdata:Ordinal="4" />
+              <xsd:attribute ref="xml:space" />
+            </xsd:complexType>
+          </xsd:element>
+          <xsd:element name="resheader">
+            <xsd:complexType>
+              <xsd:sequence>
+                <xsd:element name="value" type="xsd:string" minOccurs="0" msdata:Ordinal="1" />
+              </xsd:sequence>
+              <xsd:attribute name="name" type="xsd:string" use="required" />
+            </xsd:complexType>
+          </xsd:element>
+        </xsd:choice>
+      </xsd:complexType>
+    </xsd:element>
+  </xsd:schema>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="about" xml:space="preserve">
+    <value>เกี่ยวกับเรา</value>
+  </data>
+  <data name="about_title" xml:space="preserve">
+    <value>บริษัท อินเตอร์เนชั่นแนล คอมพิวติ้ง แอนด์ เน็ตเวอร์กกิ้ง จำกัด (ICAN)</value>
+  </data>
+  <data name="about_title1" xml:space="preserve">
+    <value>ICAN เป็นบริษัทไอทีโซลูชั่นของไทยที่ตั้งอยู่ในกรุงเทพ ก่อตั้งเมื่อ พ.ศ. 2542 ธุรกิจหลักของ ICAN คือมอบบริการต่าง ๆ เกี่ยวกับการพัฒนาและทำตามความต้องการของลูกค้า ทั้งการติดตั้งฮาร์ดแวร์ (เช่น เซิร์ฟเวอร์ คอมพิวเตอร์ และอุปกรณ์) และการดำเนินการโครงการซอฟต์แวร์ (เช่น SAP, อีคอมเมิร์ซ, การปรับปรุงซอฟต์แวร์ตามความต้องการของลูกค้า)</value>
+  </data>
+  <data name="about_title2" xml:space="preserve">
+    <value>ICAN มีกระบวนการของเราเองในการดำเนินการโครงการต่าง ๆ และมอบโซลูชั่นทุกประเภทตั้งแต่เริ่มโครงการไปจนถึงปิดโครงการ ICAN ยังมีบริการดูแลระบบอย่างต่อเนื่องหลังจากโครงการเสร็จสิ้นลง</value>
+  </data>
+  <data name="about_title3" xml:space="preserve">
+    <value>หลักการของ ICAN คือ การคืนมูลค่าสูงสุดกลับสู่ลูกค้าและมอบความพึงพอใจสูงสุดให้กับลูกค้าเช่นกัน ICAN ตอบสนองลูกค้าทางด้านการนำเทคโนโลยีมาใช้ให้เกิดประโยชน์สุงสุด นอกจากนี้ ICAN ยังช่วยบริษัทต่าง ๆ ในการสร้าง รวบรวมและจัดการระบบสารสนเทศเพื่อตอบสนองและเพิ่มรายได้ในตลาดที่มีการแข่งขันสูงในโลกทุกวันนี้</value>
+  </data>
+  <data name="about_title4" xml:space="preserve">
+    <value>ฟีเจอร์ทั้งหมดนี้ของ ICAN สำเร็จลุล่วงได้เพราะผู้เชี่ยวชาญทั้งหมดที่ได้สร้างชื่อเสียงอย่างมากมายในโลกคอมพิวเตอร์</value>
+  </data>
+  <data name="ad" xml:space="preserve">
+    <value>สถานที่ติดต่อ</value>
+  </data>
+  <data name="ad1" xml:space="preserve">
+    <value>102 ซ.ยาสูบ 1 ถ.วิภาวดี-รังสิต</value>
+  </data>
+  <data name="ad2" xml:space="preserve">
+    <value>แขวงจอมพล เขตจตุจักร กทม. 10900</value>
+  </data>
+  <data name="ben" xml:space="preserve">
+    <value>สวัสดิการ</value>
+  </data>
+  <data name="ben1" xml:space="preserve">
+    <value>●  สิทธิประโยชน์ประกันสังคม อุบัติเหตุและประกันสุขภาพ</value>
+  </data>
+  <data name="ben2" xml:space="preserve">
+    <value>●  ตรวจสุขภาพประจำปี</value>
+  </data>
+  <data name="ben3" xml:space="preserve">
+    <value>●  ท่องเที่ยวประจำปี</value>
+  </data>
+  <data name="ben4" xml:space="preserve">
+    <value>●  งานรื่นเริงประจำปี หรือเนื่องในโอกาสพิเศษ (ประมาณ 6 ครั้งต่อปี)</value>
+  </data>
+  <data name="ben5" xml:space="preserve">
+    <value>●  เสื้อโปโลของบริษัท และ เสื้อแจ็คเก็ต</value>
+  </data>
+  <data name="ben6" xml:space="preserve">
+    <value>●  วันหยุดตามเทศกาลและวันหยุดประจำปี</value>
+  </data>
+  <data name="ben7" xml:space="preserve">
+    <value>●  หลักสูตรการฝึกอบรมต่างๆ</value>
+  </data>
+  <data name="ben8" xml:space="preserve">
+    <value>●  โบนัส (ขึ้นอยู่กับผลประกอบการของบริษัท)</value>
+  </data>
+  <data name="cm" xml:space="preserve">
+    <value>ชื่อบริษัท</value>
+  </data>
+  <data name="contact" xml:space="preserve">
+    <value>ติดต่อเรา</value>
+  </data>
+  <data name="dl_th" xml:space="preserve">
+    <value>ดาวน์โหลดข้อมูลเพิ่มเติมเวอร์ชั่นภาษาไทย....</value>
+  </data>
+  <data name="em" xml:space="preserve">
+    <value>อีเมล์ / ไลน์</value>
+  </data>
+  <data name="Ev" xml:space="preserve">
+    <value>หลักฐานในการสมัครงาน</value>
+  </data>
+  <data name="Ev1" xml:space="preserve">
+    <value>●  ประวัติส่วนตัว</value>
+  </data>
+  <data name="Ev2" xml:space="preserve">
+    <value>●  รูปถ่าย 1 หรือ 2 นิ้ว</value>
+  </data>
+  <data name="Ev3" xml:space="preserve">
+    <value>●  สำเนาใบรับรองผลการศึกษา</value>
+  </data>
+  <data name="Ev4" xml:space="preserve">
+    <value>●  สำเนาบัตรประจำตัวประชาชน</value>
+  </data>
+  <data name="Ev5" xml:space="preserve">
+    <value>●  สำเนาทะเบียนบ้าน</value>
+  </data>
+  <data name="Ev6" xml:space="preserve">
+    <value>●  ใบเปลี่ยนชื่อ - สกุล (ถ้ามี)</value>
+  </data>
+  <data name="Ev7" xml:space="preserve">
+    <value>●  ประกาศนียบัติรับรองว่าผ่านการอบรมหลักสูตรต่างๆ (ถ้ามี)</value>
+  </data>
+  <data name="Ev8" xml:space="preserve">
+    <value>●  ใบผ่านการเกณฑ์ทหารฯ (สำหรับเพศชาย)</value>
+  </data>
+  <data name="foremp" xml:space="preserve">
+    <value>สำหรับพนักงาน</value>
+  </data>
+  <data name="home" xml:space="preserve">
+    <value>หน้าแรก</value>
+  </data>
+  <data name="ht3" xml:space="preserve">
+    <value>●  ติดต่อฝ่ายบุคคล 02-2723111 ต่อ 102</value>
+  </data>
+  <data name="hta" xml:space="preserve">
+    <value>วิธีการสมัคร ?</value>
+  </data>
+  <data name="hta1" xml:space="preserve">
+    <value>●  สมัครด้วยตนเองที่ ICAN Office</value>
+  </data>
+  <data name="hta2" xml:space="preserve">
+    <value>●  สมัครผ่าน email : hr@ican.co.th</value>
+  </data>
+  <data name="i1" xml:space="preserve">
+    <value>data Center ให้เราสร้างและออกแบบห้อง Data Center ของคุณ เรามีบริการติดตั้งโดยบุคคลากรที่เชี่ยวชาญช่วยให้ DATA Center ของคุณเป็นระเบียบและมีมาตรฐานอย่างแน่นอน</value>
+  </data>
+  <data name="i10" xml:space="preserve">
+    <value>Video Conference System ให้เราบริการวางแผนออกแบบติดตั้งอุปกรณ์ Video Conference ที่มีคุณภาพจากบุคคลากรผู้เชี่ยวชาญ ช่วยให้การประชุมของคุณเป็นไปได้อย่างสะดวกสบาย</value>
+  </data>
+  <data name="i11" xml:space="preserve">
+    <value>Access Control ให้เราช่วยคุณวางแผนออกแบบระบบการเข้าออกประตู และตรวจสอบการเข้างานของพนักงานในองกรคุณ พร้อมการติดตั้งโดยบุคคลากรผู้เชี่ยวชาญช่วยให้องกรของคุณมีความปลอดภัยและน่าเชื่อถือ</value>
+  </data>
+  <data name="i2" xml:space="preserve">
+    <value>Network Infrastructure ให้เราช่วยคุณออกแบบโครงสร้างพร้อมติดตั้ง ระบบเครือข่าย โดยบุคคลากรผู้เชี่ยวชาญช่วยให้คุณมั่นใจได้ว่า ระบบเครือข่ายของคุณเป็นระเบียบและมีมาตรฐานอย่างแน่นอน</value>
+  </data>
+  <data name="i3" xml:space="preserve">
+    <value>Network Equipment ให้เราบริการวางแผนออกแบบติดตั้งอุปกรณ์เครือข่ายให้กับคุณ เรามีสินค้าชั้นนำมากมายหลากหลายยี่ห้อ ช่วยให้คุณมั่นใจได้ว่า ระบบเครือข่ายของคุณทำงานอย่างมีประสิทธิภาพและมีมาตรฐานอย่างแน่นอน</value>
+  </data>
+  <data name="i4" xml:space="preserve">
+    <value>Server and PC เราให้บริการจัดจำหน่าย Server &amp; PC ที่มีคุณภาพในราคาที่คุณสามารถจับจองได้และบริการติดตั้งโดยบุคคลากรผู้เชี่ยวชาญช่วยให้คุณมั่นใจได้ว่า Server and PC ของคุณมีมาตรฐานอย่างแน่นอน</value>
+  </data>
+  <data name="i5" xml:space="preserve">
+    <value>Power Supply ให้เราออกแบบวางแผนติดตั้งอุปกรณ์ Power Supply ที่มีคุณภาพในราคาที่คุณสามารถจับจองได้และบริการจากบุคคลากรผู้เชี่ยวชาญช่วยให้คุณมั่นใจได้ว่าของคุณมีมาตรฐานอย่างแน่นอน</value>
+  </data>
+  <data name="i6" xml:space="preserve">
+    <value>CCTV System ให้เราออกแบบวางแผนติดตั้ง อุปกรณ์กล้องวงจรปิดที่มีคุณภาพและบริการจากบุคคลากรผู้เชี่ยวชาญช่วยให้คุณไม่พลาดทุกเหตุการณ์</value>
+  </data>
+  <data name="i7" xml:space="preserve">
+    <value>IP Phone System ให้เราออกแบบวางแผนติดตั้งอุปกรณ์ IP Phone System ที่มีคุณภาพหลากหลายยี่ห้อและบริการจากบุคคลากรผู้เชี่ยวชาญช่วยให้คุณมั่นใจได้ว่ามีมาตรฐานอย่างแน่นอน</value>
+  </data>
+  <data name="i8" xml:space="preserve">
+    <value>Fire Extinguisher System ให้เราบริการวางแผนออกแบบติดตั้งอุปกรณ์ ป้องกันอัคคีภัย ที่มีคุณภาพจากบุคคลากรผู้เชี่ยวชาญช่วยให้คุณมั่นใจได้ว่าระบบป้องกันอัคคีภัยที่สมบูรณ์แบบ</value>
+  </data>
+  <data name="i9" xml:space="preserve">
+    <value>ICAN Alert เราภูมิใจเสนอระบบ ICAN Alert ซึ่งเป็นระบบแจ้งเตือนเหตุการณ์ต่างๆ มีทั้งระบบตรวจจับควัน ระบบตรวจจับอุณหภูมิ ระบบแจ้งเตือนไฟดับ ระบบเตือนสัญญาณกันขโมย และเมื่อมีเหตุฉุกเฉินจะมีระบบอัตโนมัติแจ้งเตือนไปที่เบอร์โทรศัพท์ของคุณผ่านการโทรและข้อความแจ้งเตือน ทำให้คุณสามารถทราบเหตุการณ์และยับยั้งได้ทันท่วงที เพื่อความปลอดภัยต่อชีวิตและทรัพย์สิน</value>
+  </data>
+  <data name="ias" xml:space="preserve">
+    <value>ICAN Alert เป็นระบบที่ทาง ICAN ภูมิใจเสนอต่อลูกค้า ซึ่งเป็นระบบแจ้งเตือนเหตุการณ์ต่างๆ มีทั้งระบบตรวจจับควัน ระบบตรวจจับอุณหภูมิ ระบบแจ้งเตือนไฟดับ ระบบเตือนสัญญาณกันขโมย และเมื่อมีเหตุฉุกเฉินจะมีระบบอัตโนมัติแจ้งเตือนไปที่เบอร์โทรศัพท์ผ่านการโทรเข้าและข้อความแจ้งเตือน ทำให้สามารถทราบเหตุการณ์และยับยั้งได้ทันท่วงที เพื่อความปลอดภัยต่อชีวิตและทรัยพ์สิน</value>
+  </data>
+  <data name="itif1" xml:space="preserve">
+    <value> มอบบริการที่ครบครันจากการวางแผน ออกแบบ และดำเนินการโครงการเพื่อให้มั่นใจว่าลูกค้าจะมีกลยุทธ์ที่ดีที่สุดสำหรับการเพิ่มผลกำไรให้กับบริษัทของพวกเขา</value>
+  </data>
+  <data name="itif2" xml:space="preserve">
+    <value>1. บริการเตรียมพื้นที่ไซต์งาน</value>
+  </data>
+  <data name="itif3" xml:space="preserve">
+    <value>บริการของเราครอบคลุมถึงการให้บริการที่ปรึกษา บริการวิเคราะห์และออกแบบ และอื่น ๆ</value>
+  </data>
+  <data name="itif4" xml:space="preserve">
+    <value>2. บริการการบำรุงรักษา</value>
+  </data>
+  <data name="itif5" xml:space="preserve">
+    <value>บริการบำรุงรักษาฮาร์ดแวร์ของ ICAN ครอบคลุมทั่วทุกพื้นของประเทศไทย</value>
+  </data>
+  <data name="j1" xml:space="preserve">
+    <value>●  เพศชาย , อายุระหว่าง 25 - 35 ปี , สัญชาติไทย</value>
+  </data>
+  <data name="j10" xml:space="preserve">
+    <value>●  มีความกระตือรือร้นที่จะเรียนรู้และพัฒนาตนเอง</value>
+  </data>
+  <data name="j11" xml:space="preserve">
+    <value>●  ยินดีที่จะมีส่วนร่วมในการทำงานเป็นทีม</value>
+  </data>
+  <data name="j12" xml:space="preserve">
+    <value>●  เพศชาย / เพศหญิง , สัญชาติไทย</value>
+  </data>
+  <data name="j13" xml:space="preserve">
+    <value>●  ประสบการทำงานอย่างน้อย 1 ปี</value>
+  </data>
+  <data name="j14" xml:space="preserve">
+    <value>●  ปริญญาตรีในสาขาวิศวกรรมคอมพิวเตอร์, วิทยาศาสตร์คอมพิวเตอร์, คอมพิวเตอร์ธุรกิจหรือสาขาอื่น ๆ ที่เกี่ยวข้อง</value>
+  </data>
+  <data name="j15" xml:space="preserve">
+    <value>●  มีประสบการณ์ในการเขียนโปรแกรมหรือพัฒนาซอฟต์แวร์ด้วยภาษาคอมพิวเตอร์พื้นฐานเช่น Visual Basic , ASP , .Net หรืออื่นๆ</value>
+  </data>
+  <data name="j16" xml:space="preserve">
+    <value>●  มีความเข้าใจแนวคิดเชิงสัมพันธ์ของฐานข้อมูล เช่น MySQL หรือ MSSQL Server หรืออื่นๆ</value>
+  </data>
+  <data name="j17" xml:space="preserve">
+    <value>●  สามารถสื่อสารภาษาอังกฤษพื้นฐานได้</value>
+  </data>
+  <data name="j18" xml:space="preserve">
+    <value>●  มีความสามารถในการทำงานภายใต้ความกดดันและทำงานแบบปฏิสัมพันธ์</value>
+  </data>
+  <data name="j19" xml:space="preserve">
+    <value>●  มีความสามารถในการทำงานเป็นทีม</value>
+  </data>
+  <data name="j2" xml:space="preserve">
+    <value>●  ปริญญาตรีหรือสูงกว่าในสาขาวิทยาศาสตร์คอมพิวเตอร์หรือสาขาที่เกี่ยวกับวิศวกรคอมพิวเตอร์</value>
+  </data>
+  <data name="j20" xml:space="preserve">
+    <value>●  ปริญญาตรีหรือปริญญาโทสาขาวิทยาศาสตร์คอมพิวเตอร์, วิศวกรแลคอมพิวเตอร์หรือสาขาที่เกี่ยวข้อง</value>
+  </data>
+  <data name="j21" xml:space="preserve">
+    <value>●  มีประสบการณ์อย่างน้อย 2 ปีในการจัดการความปลอดภัยของข้อมูลและนโยบาย</value>
+  </data>
+  <data name="j22" xml:space="preserve">
+    <value>●  มีพื้นฐานที่แข็งแกร่งในบทบาทของ Technical IT สร้างความชัดเจนและให้ความสนใจในหน้าที่</value>
+  </data>
+  <data name="j23" xml:space="preserve">
+    <value>●  สามารถเป็นผู้นำทีมและมีประสบการณ์บริหารจัดการโครงการ</value>
+  </data>
+  <data name="j24" xml:space="preserve">
+    <value>●  เป็นผู้แก้ไขปํญหาอย่างยอดเยี่ยมและตรงจุด</value>
+  </data>
+  <data name="j25" xml:space="preserve">
+    <value>●  เป็นบุคคลที่มีเชื่อมั่นในมาตรฐาน</value>
+  </data>
+  <data name="j26" xml:space="preserve">
+    <value>●  มีความสามารถในการสนทนา การเขียน การสื่อสารในทุกระดับ</value>
+  </data>
+  <data name="j27" xml:space="preserve">
+    <value>●  ได้รับประกาศนียบัตรวิชาชีพชั้นสูงในเทคโนโลยีคอมพิวเตอร์หรือปริญญาตรีสาขาคอมพิวเตอร์</value>
+  </data>
+  <data name="j28" xml:space="preserve">
+    <value>●  มีประสบการณ์ 2 ปี ใน IT Help desk /IT support หรือในสาขา IT Service</value>
+  </data>
+  <data name="j29" xml:space="preserve">
+    <value>●  สามารถใช้โปรแกรม MS Office, MS Project, MS Visio, E-mail, &amp; Internet programsได้อย่างเชี่ยวชาญ</value>
+  </data>
+  <data name="j3" xml:space="preserve">
+    <value>●  มีประสบการณ์อย่างน้อย 2 ปีในระบบเครือข่าย,โครงสร้างพื้นฐานหรือ Security Filed</value>
+  </data>
+  <data name="j30" xml:space="preserve">
+    <value>●  มีความเชี่ยวชาญในเขียน และการสนทนาภาษาอังกฤษ</value>
+  </data>
+  <data name="j31" xml:space="preserve">
+    <value>●  มีแรงจูงใจ , บริการด้วยใจ , อดทน และมีการสื่อสารที่ดี</value>
+  </data>
+  <data name="j32" xml:space="preserve">
+    <value>●  สามารถทำงานนอกสถานที่ได้</value>
+  </data>
+  <data name="j33" xml:space="preserve">
+    <value>●  พร้อมทำงานในวันหยุดสุดสัปดาห์หรือวันหยุดที่จำเป็น</value>
+  </data>
+  <data name="j34" xml:space="preserve">
+    <value>●  หากมีประสบการณ์การทำงานในระบบปฏิบัติการขั้นพื้นฐานและสถาปัตยกรรมเครือข่ายจะพิจารณาเป็นพิเศษ</value>
+  </data>
+  <data name="j4" xml:space="preserve">
+    <value>●  มีความรู้ในโครงสร้างเครือข่ายพื้นฐาน , อุปกรณ์เครือข่ายและการกำหนดค่า</value>
+  </data>
+  <data name="j5" xml:space="preserve">
+    <value>●  มีความรู้ในการติดตั้ง Switch, Router, Firewall, IDS, IPS และอื่นๆ</value>
+  </data>
+  <data name="j6" xml:space="preserve">
+    <value>●  มีความเชี่ยวชาญในภาษาอังกฤษทั้ง การพูด,อ่านและเขียน</value>
+  </data>
+  <data name="j7" xml:space="preserve">
+    <value>●  มุ่งเน้นบริการลูกค้าเป็นหลักและมีวินัยในตนเองสูง</value>
+  </data>
+  <data name="j8" xml:space="preserve">
+    <value>●  สามารถทำงานภายใต้สภาพแวดล้อมแบบ dynamic และสามามารถจัดการกับสถานะการณ์ที่ตรึงเครียดได้</value>
+  </data>
+  <data name="j9" xml:space="preserve">
+    <value>●  มีความคิดสร้างสรรค์และสามารถควบคุมตนเอง,กระตือรือร้น,มีความรับผิดชอบ,ตรงต่อเวลาและสามารถจัดการกับงานที่เป็นอิสระได้</value>
+  </data>
+  <data name="job" xml:space="preserve">
+    <value>ร่วมงานกับเรา</value>
+  </data>
+  <data name="job1" xml:space="preserve">
+    <value>ตำแหน่งงาน @ ICAN</value>
+  </data>
+  <data name="job2" xml:space="preserve">
+    <value>ส่งประวัติของท่านมาที่ HR@ICAN.CO.TH</value>
+  </data>
+  <data name="job3" xml:space="preserve">
+    <value>คุณสมบัติ :</value>
+  </data>
+  <data name="kib" xml:space="preserve">
+    <value>รู้จักกับ ICAN</value>
+  </data>
+  <data name="kib1" xml:space="preserve">
+    <value>●  ICAN ก่อตั้งเมื่อ พ.ศ. 2542 โดยกลุ่มของผู้เชี่ยวชาญด้าน IT ที่มีประสบการณ์</value>
+  </data>
+  <data name="kib2" xml:space="preserve">
+    <value>●  เรามอบไอทีโซลูชั่นแบบครบวงจร</value>
+  </data>
+  <data name="kib3" xml:space="preserve">
+    <value>●  ผู้เชี่ยวชาญของเรามีประสบการณ์มากกว่า 20 ปี</value>
+  </data>
+  <data name="kib4" xml:space="preserve">
+    <value>●  เรามีประสบการณ์ทางด้านการออกแบบ ปรับปรุง ปรับขนาด การจัดระเบียบใหม่ การย้ายข้อมูลและการพัฒนาระบบใหม่</value>
+  </data>
+  <data name="kib5" xml:space="preserve">
+    <value>●  เรามีทรัพยากรของเราเองและใช้ทรัพยากรจากภายนอกให้น้อยที่สุดเพื่อการควบคุมงานที่ดีกว่าและประสิทธิภาพของการดำเนินงาน</value>
+  </data>
+  <data name="lc" xml:space="preserve">
+    <value>ตำแหน่งที่ตั้งบริษัท</value>
+  </data>
+  <data name="os1" xml:space="preserve">
+    <value>ทางบริษัทเรามีบริการด้านบุคลากร ที่มีประสบการณ์และความสามารถในด้านต่างๆ ที่พร้อมช่วยเหลือทางลูกค้า ทั้งรูปแบบ onsite support และ remote support</value>
+  </data>
+  <data name="os2" xml:space="preserve">
+    <value>สำหรับด้าน Software ทางเรามีทีมที่สามารถช่วยพัฒนาโปรแกรมและเว็บไซต์ ทีมให้คำปรึกษาและสนับสนุนในระบบงาน SAP</value>
+  </data>
+  <data name="os3" xml:space="preserve">
+    <value>ทางเรามีทีมที่สามารถช่วยแก้ปัญหาเบื้องต้น ทีมแก้ไขปัญหาทางด้านอุปกรณ์และระบบเน็ตเวิร์คขัดข้องในสถานที่ มีทีมที่คอยซัพพอร์ทที่พร้อมบริการตลอด 24 ชั่วโมง อีกทั้งยังมีบุคลากรผู้เชี่ยวชาญในด้าน Network และ ระบบงาน อีกด้วย</value>
+  </data>
+  <data name="os4" xml:space="preserve">
+    <value>บริการ Software และ Hardware</value>
+  </data>
+  <data name="os5" xml:space="preserve">
+    <value>ทางเรามีบริการด้าน Software และ Hardware ดังนี้</value>
+  </data>
+  <data name="readmore" xml:space="preserve">
+    <value>  รายละเอียดเพิ่มเติม...</value>
+  </data>
+  <data name="s1" xml:space="preserve">
+    <value>Web Portal (หน้าหลัก) สำหรับใช้เป็นจุดรวม Application และ WEB Site ทั้งหมดทำให้ผู้ใช้งานได้ประโยชน์ในการเข้าถึง Application ได้หลากหลาย และ สามารถเข้าถึงได้อย่างรวดเร็ว</value>
+  </data>
+  <data name="s10" xml:space="preserve">
+    <value>Application ที่ใช้รับข้อมูลจากเครื่องชั่งน้ำหนัก (weighbridge) จำนวน 3 ตัว และเขียนค่าน้ำหนักลงไฟล์ .txt ซึ่งไฟล์เหล่านี้จะถูกเข้ารหัสและนำข้อมูลเข้าสู่โปรแกรม ERP (SAP) และโปรแกรมนี้จะแสดงภาพจาก CCTV ของเครื่องชั่งแต่ละตัวด้วย</value>
+  </data>
+  <data name="s11" xml:space="preserve">
+    <value>Web Application ส่วนกลางที่นำข้อมูลการขายจาก Distributors มารวมกับข้อมูลจาก SAP และข้อมูลภายนอกอื่นๆ เช่น Excel เพื่อใช้ในการออกรายงานวิเคราะห์การขาย เพื่อให้นักวิเคราะห์และผู้บริหารสามารถนำข้อมูลส่วนนี้ไปใช้ได้สะดวกมากขึ้น</value>
+  </data>
+  <data name="s12" xml:space="preserve">
+    <value>ระบบจัดการเกี่ยวกับทะเบียนผู้รับเหมาและใช้ประชาสัมพันธ์ ข่าวสารกฏระเบียบของฝ่ายความปลอดภัย ความสามารถของระบบโดยรวม,ระบบการลงทะเบียน,ประวัติการฝึกอบรม,ระบบการบันทึกข้อมูล,รายงานสำหรับการติดตามผู้รับเหมา</value>
+  </data>
+  <data name="s13" xml:space="preserve">
+    <value>Web Application ฝ่ายโครงสร้างพื้นฐานและบริการ ลักษณะการทำงานแบบ Work flow โดยเริ่มตั้งแต่ การร้องขอบริการซ่อมหรือสร้าง,การผ่านอนุมัติตามขั้นตอน PR และ PO,การติดตามสถานะการทำงาน,บันทึกการว่าจ้างผู้รับเหมา,บันทึกการชำระเงิน,นอกจากนี้ระบบยังจัดเก็บประวัติอุปกรณ์และการบำรุงรักษาร่วมอยู่ด้วย</value>
+  </data>
+  <data name="s14" xml:space="preserve">
+    <value>ระบบสำหรับงานประชุมผู้ถือหุ้น ประกอบด้วย งานลงทะเบียน,พิมพ์ใบลงทะเบียน,พิมพ์บัตรลงคะแนน,การกำหนดวาระการประชุม,การบันการนับคะแนน,รายงานสรุป</value>
+  </data>
+  <data name="s15" xml:space="preserve">
+    <value>Web Application ลักษณะการทำงานแบบ Work flow เพื่อควบคุมคุณภาพของวัตุดิบที่จะนำเข้าผลิตปูนฯ โดยมีการตรวจสอบจากผลแล็ป ขั้นตอนการจัดซื้อ การแนบเอกสารอ้างอิงต่างๆเป็นต้น</value>
+  </data>
+  <data name="s16" xml:space="preserve">
+    <value>Application สำหรับช่วยงานขาย รองรับการใช้งานได้ทั้ง 3 รูปแบบ Web Browser,Smartphone,Tablet</value>
+  </data>
+  <data name="s17" xml:space="preserve">
+    <value>Web Applicaiotn แบบสำรวจความต้องการชุดพนักงาน ความสามารถของระบบ สร้างตัวเลือก,สร้างแบบสอบถาม,สรุปผลการสำรวจ,ออกรายงานในรูปแบบ Excel</value>
+  </data>
+  <data name="s18" xml:space="preserve">
+    <value>Web Application สำหรับการจัดเก็บข้อมูล เพื่อใช้ในการค้นหาหรือรวบรวมไว้ในรูปแบบคลังข้อมูล ซึ่งประกอบด้วย E-Learning,E-Library,E- Personal,Training and Knowledge management</value>
+  </data>
+  <data name="s19" xml:space="preserve">
+    <value>Web Application สำหรับจัดการบริหารงานไซโลและเครื่องกรองฝุ่น งานประกอบด้วย งานขอไซโลใหม่, ซ่อม, ยืม, คืน, อะไหล่, การควบคุมการจ่ายเงินผู้รับเหมา, Stock Control, Location by Digital Map</value>
+  </data>
+  <data name="s2" xml:space="preserve">
+    <value>Web Application สำหรับเก็บประวัติลูกค้า และยอดขายสินค้า เพื่อมาใช้ในการวิเคราะห์การขาย</value>
+  </data>
+  <data name="s20" xml:space="preserve">
+    <value>ระบบการบริหารติดตามงานบริการ และ ควบคุมการทำงานให้เป็นระบบ โดยมีการกำหนด SLA และมีการแจ้งเตือนก่อนจะถึงกำหนดปิดงาน</value>
+  </data>
+  <data name="s3" xml:space="preserve">
+    <value>เป็นโปรแกรมสำหรับ ดึงข้อมูลการเข้าออกพนักงานจาก ระบบ Access Control เพื่อส่งข้อมูลให้โปรแกรม ERP ไปประมวลผล</value>
+  </data>
+  <data name="s4" xml:space="preserve">
+    <value>Web Site สำหรับเพิ่มช่องทางการติดต่อเมื่อเกิดภาวะฉุกเฉิน</value>
+  </data>
+  <data name="s5" xml:space="preserve">
+    <value>Application พัฒนาเพื่อใช้รองรับการบริการลูกค้า ลักษณะการทำงานคล้ายกับ HELPDESK MANAGEMENT SYSTEM</value>
+  </data>
+  <data name="s6" xml:space="preserve">
+    <value>ระบบสำหรับการจัดเก็บข้อมูลเครื่องจักร ประวัติการบำรุงรักษาเครื่องจักร และการซ่อมเครื่อง</value>
+  </data>
+  <data name="s7" xml:space="preserve">
+    <value>ระบบการบริหารข้อมูลและจัดเก็บข้อมูลของคลีนิค ประกอบด้วย 1.บันทึกข้อมูลการรักษา 2.ประวัติคนไข้ 3.ควบคุมการเบิกจ่ายยา 4.รายงาน</value>
+  </data>
+  <data name="s8" xml:space="preserve">
+    <value>Application ที่จะทำการดึงข้อมูลการขายจาก Program Express ของทุก Distributors และนำข้อมูลเข้าสู่ Database ส่วนกลาง</value>
+  </data>
+  <data name="s9" xml:space="preserve">
+    <value>Web Application ลักษณะการทำงานแบบ Work Flow โดยที่เป็นระบบจัดเก็บข้อมูลราคาขายสินค้า และสถานที่จัดส่งสินค้า รวมทั้งการขอส่วนลดให้ลูกค้าจาก Sale โดยควบคุมจากยอดขาย โดยต้องผ่านการอนุมัติเป็นไปตาม Flow</value>
+  </data>
+  <data name="serviceandproduct" xml:space="preserve">
+    <value>บริการและสินค้า</value>
+  </data>
+  <data name="svap" xml:space="preserve">
+    <value>ICAN มอบบริการต่าง ๆ เกี่ยวกับการพัฒนาและทำตามความต้องการของลูกค้า ผลงานที่มีชื่อเสียงของ ICAN มีหลากหลายมากมายและสั่งสมมากขึ้นเรื่อย ๆ จนเป็นที่รู้จักดีในโลกของเทคโนโลยีสารสนเทศ</value>
+  </data>
+  <data name="svif" xml:space="preserve">
+    <value>ICAN มอบบริการที่ครบครันจากการวางแผน ออกแบบ และดำเนินการโครงการเพื่อให้มั่นใจว่าลูกค้าจะมีกลยุทธ์ที่ดีที่สุดสำหรับการเพิ่มผลกำไรให้กับบริษัทของพวกเขา</value>
+  </data>
+  <data name="svos" xml:space="preserve">
+    <value>บริการที่ปรึกษาระบบ โปรแกรมเมอร์ ไอทีซัพพอร์ต ไอทีเซอร์วิสเดสก์ และอื่น ๆ</value>
+  </data>
+  <data name="sw1" xml:space="preserve">
+    <value>มอบบริการต่าง ๆ เกี่ยวกับการพัฒนาและทำตามความต้องการของลูกค้า ผลงานที่มีชื่อเสียงของ ICAN มีหลากหลายมากมายและสั่งสมมากขึ้นเรื่อย ๆ จนเป็นที่รู้จักดีในโลกของเทคโนโลยีสารสนเทศ</value>
+  </data>
+  <data name="sw2" xml:space="preserve">
+    <value>ให้ความสำคัญสูงสุดเกี่ยวกับผลประโยชน์ที่ลูกค้าจะได้รับจากบริการของเรา อีกทั้งยังมอบโซลูชั่นที่ดีกว่าเสมอ ซึ่งเป็นเหตุผลที่ทำให้ ICAN ได้รับความไว้ทางใจจากลูกค้าทางด้านงาน IT</value>
+  </data>
+  <data name="tol" xml:space="preserve">
+    <value>เบอร์ติดต่อ</value>
+  </data>
+  <data name="tol1" xml:space="preserve">
+    <value>โทรศัพท์ : +66 2-2723111 (อัตโนมัติ)/</value>
+  </data>
+  <data name="tol2" xml:space="preserve">
+    <value>+66 84-672-3111 (เบอร์ด่วน !!)</value>
+  </data>
+  <data name="tol3" xml:space="preserve">
+    <value>แฟกซ์ : +66 2-2723115</value>
+  </data>
+  <data name="welcome" xml:space="preserve">
+    <value>ยินดีต้อนรับ</value>
+  </data>
+  <data name="welcome2" xml:space="preserve">
+    <value>บริษัท อินเตอร์เนชั่นแนล คอมพิวติ้ง แอนด์ เน็ตเวอร์กกิ้ง จำกัด</value>
+  </data>
+  <data name="whyican" xml:space="preserve">
+    <value>ทำไมต้องเลือกเรา?</value>
+  </data>
+  <data name="whyican1" xml:space="preserve">
+    <value>●  ที่ ICAN เราทำการออกแบบตามพื้นฐานความต้องการของลูกค้าเพื่อให้มั่นใจว่าลูกค้าจะได้รับการส่งมอบงานที่ถูกต้องและครบถ้วน เราจัดทำ “To-be Design” สำหรับการตรวจรับระหว่างขั้นตอนการออกแบบ</value>
+  </data>
+  <data name="whyican2" xml:space="preserve">
+    <value>●  ที่ ICAN เรามีทรัพยากรของเราเองซึ่งทำให้ค่าใช้จ่ายสำหรับบริการของเรานั้นสมเหตุสมผล สามารถจัดการได้โดยตรงและสามารถติดต่อเราสำหรับบริการแบบเบ็ดเสร็จได้</value>
+  </data>
+  <data name="whyican3" xml:space="preserve">
+    <value>●  ที่ ICAN ผู้เชี่ยวชาญของเรามีใบรับรองสำหรับงานเฉพาะทาง เช่น</value>
+  </data>
+  <data name="whyican4" xml:space="preserve">
+    <value>○  CISCO Certifications (CCIE, CCNP,CCNA)</value>
+  </data>
+  <data name="whyican5" xml:space="preserve">
+    <value>○  การเดินสายเคเบิ้ล (Systimax, Penduit)</value>
+  </data>
+  <data name="whyican6" xml:space="preserve">
+    <value>○  การพัฒนาแอปพลิเคชัน (TQS/ISO 15504)</value>
+  </data>
+  <data name="whyican7" xml:space="preserve">
+    <value>○  ความปลอดภัยสำหรับระดับผู้บริหารและระดับปฏิบัติการ</value>
+  </data>
+  <data name="whyican8" xml:space="preserve">
+    <value>●  ที่ ICAN เรารับรองคุณภาพของสินค้าและบริการก่อนการส่งมอบ อุปกรณ์ทั้งหมดที่ถูกติดตั้งจะถูกตรวจสอบและผลการทดสอบจะถูกแสดงในรายงานการส่งมอบ</value>
+  </data>
+  <data name="whyican9" xml:space="preserve">
+    <value>●  ที่ ICAN เราได้รับความไว้วางใจจากองค์กรชั้นนำมากมาย เราสามารถดำเนินการโครงการภายใต้เวลาที่จำกัด สภาพแวดล้อมทุกรูปแบบ การออกแบบและการปรับใช้สิ่งที่มีอยู่แล้ว รวมทั้งภายใต้กฎและระเบียบต่าง ๆ</value>
+  </data>
+  <data name="dl_en" xml:space="preserve">
+    <value>ดาวน์โหลดข้อมูลเพิ่มเติมเวอร์ชั่นภาษาอังกฤษ....</value>
+  </data>
+  <data name="portfolio" xml:space="preserve">
+    <value>แฝ้มผลงาน</value>
+  </data>
+  <data name="shop" xml:space="preserve">
+    <value>ร้านค้า</value>
+  </data>
+</root>

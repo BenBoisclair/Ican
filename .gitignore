@@ -1,0 +1,17 @@
+# Original password-protected archive of the 2019 site: 325 MB, over GitHub's
+# 100 MB file limit. Its contents are extracted in old-site/.
+*.rar
+
+# Tool and session state (preview-server key, logs, session notes)
+.remember/
+.superpowers/brainstorm/*/state/
+.DS_Store
+
+# Old ASP.NET site: build output, NuGet packages, Visual Studio user files
+old-site/.vs/
+old-site/packages/
+old-site/**/bin/
+old-site/**/obj/
+*.suo
+*.user
+*.pubxml

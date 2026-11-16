@@ -1,0 +1,149 @@
+﻿<%@ Master Language="C#" AutoEventWireup="true" CodeBehind="SiteMenu.master.cs" Inherits="webican.SiteMenu" %>
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head runat="server">
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="shortcut icon" href="Content/icon/icon_ican.ico" type="image/png" />
+    <title>ICAN – International Computing And Networking Co.,Ltd</title>
+
+    <!-- Bootstrap -->
+  <%--  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">--%>
+   
+    <link href="Content/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="Content/stylesheet" href="css/font-awesome.min.css" />
+    <link rel="Content/stylesheet" href="css/animate.css" />
+    <link href="Content/css/prettyPhoto.css" rel="stylesheet" />
+    <link href="Content/css/style.css" rel="stylesheet" />
+    <link rel="stylesheet" href="Content/Picture/dist/css/lightbox.min.css" />
+
+
+</head>
+<body>
+    
+    <form id="form1" runat="server">
+        <header>
+            <nav class="navbar navbar-default navbar-fixed-top" role="navigation">
+                <div class="navigation">
+                    <div class="container">
+                        <div class="navbar-header" style="height: 100px;">
+                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse.collapse">
+                                <span class="sr-only">Toggle navigation</span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                                <span class="icon-bar"></span>
+                            </button>
+                            <div class="navbar-brand">
+                                <a href="home.aspx"><span>
+                                    <img src="Content/Logo/LOGO_ICAN.png" width="150" height="60" />
+                                </span></a>
+                            </div>
+                        </div>
+
+                        <div class="navbar-collapse collapse">
+                            <div class="menu">
+                                <ul class="nav nav-tabs" role="tablist">
+                                    <li role="presentation" runat="server"><a href="home.aspx">
+                                        <asp:Label ID="Label1" Text="<%$Resources:Resource,home %>" runat="server" />
+                                    </a></li>
+                                    <li role="presentation" runat="server"><a href="about.aspx">
+                                        <asp:Label ID="Label2" Text="<%$Resources:Resource,about %>" runat="server" /></a></li>
+                                    <li role="presentation" runat="server"><a href="service_product.aspx">
+                                        <asp:Label ID="Label3" Text="<%$Resources:Resource,serviceandproduct %>" runat="server" /></a></li>
+                                        
+                                    <%-- <li role="presentation" runat="server"><a href="portfolio.aspx" target="_blank"">
+                                        <asp:Label ID="Label8" Text="<%$Resources:Resource,portfolio %>" runat="server" /></a>
+                                               <a class="collapse-item" href="#.">ประเภทการซ่อม</a>
+                                               <a class="collapse-item" href="#">สิทธิ์</a>
+                                         </li>--%>
+                                         <li class="dropdown" runat="server">
+            <a class="dropdown-toggle" data-toggle="dropdown" href="#"><asp:Label ID="Label9" Text="<%$Resources:Resource,portfolio %>" runat="server" /> <b class="caret"></b></a>
+                      <ul class="dropdown-menu" runat="server">
+                <li><a href="portfolio_datacenter.aspx"  runat="server">IT INFRASTRUCTURE</a></li>
+                <li><a href="portfolio_software.aspx"  runat="server">SOFTWARE & APPLICATION</a></li>
+          
+            </ul>
+  </li>
+                                     
+                                    <li role="presentation" runat="server"><a href="http://shop.ican.co.th/" target="_blank"">
+                                        <asp:Label ID="Label7" Text="<%$Resources:Resource,shop %>" runat="server" /></a></li>
+                                    <li role="presentation" runat="server"><a href="contact_us">
+                                        <asp:Label ID="Label4" Text="<%$Resources:Resource,contact %>" runat="server" /></a></li>
+                                    <li role="presentation" runat="server" ><a href="join_us.aspx" >
+                                        <asp:Label ID="Label5" Text="<%$Resources:Resource,job %>" runat="server" /></a></li>
+                                    <li role="presentation" runat="server"><a href="portal.aspx">
+                                        <asp:Label ID="Label6" Text="<%$Resources:Resource,foremp %>" runat="server" /></a></li>
+                                    <li role="presentation" runat="server"><a>
+                                        <asp:DropDownList ID="ddlLanguages" runat="server" AutoPostBack="true" OnSelectedIndexChanged="ddlLanguages_SelectedIndexChanged">
+                                            <asp:ListItem Text="Thai" Value="th" />
+                                            <asp:ListItem Text="English" Value="en-us" />
+                                        </asp:DropDownList></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <div>
+            <asp:ContentPlaceHolder ID="body" runat="server">
+            </asp:ContentPlaceHolder>
+        </div>
+
+
+        <footer>
+            <div class="footer">
+                <div class="container">
+                    <div class="col-md-12">
+                        <div class=" text-center">
+                            Copyright &copy;International Computing And Networking Co.,Ltd. All rights reserved.
+                        </div>
+                    </div>
+                </div>
+
+                <div class="pull-right">
+                    <a href="#home" class="scrollup"><i class="fa fa-angle-up fa-3x"></i></a>
+                </div>
+            </div>
+
+<%-- modal--%>
+   
+<%--    <div class="modal fade" id="myModal" role="dialog" runat="server">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Modal Header</h4>
+        </div>
+        <div class="modal-body">
+          <p>This is a large modal.</p>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>--%>
+       <%-- end modal--%>
+
+        </footer>
+        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+        <script src="Content/js/jquery-2.1.1.min.js"></script>
+        <%--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>--%>
+        <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="Content/js/bootstrap.min.js"></script>
+        
+        <%--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>--%>
+        <script src="Content/js/jquery.prettyPhoto.js"></script>
+        <script src="Content/js/jquery.isotope.min.js"></script>
+        <script src="Content/js/wow.min.js"></script>
+        <script src="Content/js/functions.js"></script>
+        <script src="Content/Picture/dist/js/lightbox-plus-jquery.min.js"></script>
+         
+    </form>
+</body>
+</html>

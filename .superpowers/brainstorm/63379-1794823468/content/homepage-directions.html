@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ICAN Homepage — Directions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600;700&family=Inter:wght@400;500;600&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+<style>
+/* ---------- base ---------- */
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{margin:0;-webkit-font-smoothing:antialiased;padding-bottom:96px}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+h1,h2,h3,p{margin:0}
+.wrap{max-width:1200px;margin:0 auto;padding:0 24px}
+@media (max-width:640px){.wrap{padding:0 16px}}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 22px;border-radius:8px;font-weight:600;font-size:15px;transition:transform .15s,background .15s,box-shadow .15s;white-space:nowrap}
+.btn:hover{transform:translateY(-1px)}
+.btn svg{width:18px;height:18px}
+.eyebrow{display:inline-block;font-size:13px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+.only-a,.only-b,.only-c{display:none}
+body.a .only-a,body.b .only-b,body.c .only-c{display:revert}
+body.a .hero.only-a,body.b .hero.only-b,body.c .hero.only-c{display:block}
+
+/* ---------- nav ---------- */
+.nav{position:sticky;top:0;z-index:50;transition:background .2s,border-color .2s}
+.nav .wrap{display:flex;align-items:center;justify-content:space-between;height:76px}
+.nav .logo img{height:44px;width:auto}
+.menu{display:flex;align-items:center;gap:6px;list-style:none;margin:0;padding:0}
+.menu>li{position:relative}
+.menu>li>a{display:flex;align-items:center;gap:4px;padding:10px 14px;font-size:15px;font-weight:500;border-radius:8px}
+.menu>li>a svg{width:16px;height:16px;transition:transform .2s}
+.menu>li:hover>a svg,.menu>li:focus-within>a svg{transform:rotate(180deg)}
+.drop{position:absolute;top:100%;left:0;min-width:300px;padding:8px;border-radius:12px;list-style:none;margin:0;opacity:0;visibility:hidden;transform:translateY(6px);transition:all .18s}
+.menu>li:hover .drop,.menu>li:focus-within .drop{opacity:1;visibility:visible;transform:none}
+.drop a{display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:8px;font-size:14.5px;font-weight:500}
+.drop a svg{width:18px;height:18px;flex:none}
+.menu .cta{margin-left:10px}
+.burger{display:none;background:none;border:0;padding:8px;cursor:pointer;color:inherit}
+.burger svg{width:26px;height:26px}
+.mobile-panel{display:none}
+@media (max-width:960px){
+  .menu{display:none}
+  .burger{display:block}
+  .mobile-panel.open{display:block;padding:8px 16px 20px}
+  .mobile-panel a{display:block;padding:12px 4px;font-weight:500;border-bottom:1px solid rgba(127,127,127,.18)}
+  .mobile-panel .sub{padding-left:16px;font-weight:400;font-size:15px}
+  .mobile-panel .btn{display:inline-flex;margin-top:14px;border:0}
+}
+
+/* ---------- shared section bits ---------- */
+section{position:relative}
+.sec-head{margin-bottom:44px;max-width:720px}
+.sec-head h2{margin-top:10px}
+.sec-head.row{display:flex;justify-content:space-between;align-items:flex-end;max-width:none;gap:24px;flex-wrap:wrap}
+.sol-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.sol{display:flex;flex-direction:column;gap:14px;padding:28px;transition:all .2s}
+.sol .ico{display:grid;place-items:center;width:48px;height:48px;border-radius:12px}
+.sol .ico svg{width:24px;height:24px}
+.sol h3{font-size:19px;line-height:1.3}
+.sol p{font-size:15px;line-height:1.65}
+.sol .more{margin-top:auto;padding-top:6px;display:inline-flex;align-items:center;gap:6px;font-size:14px;font-weight:600}
+.sol .more svg{width:16px;height:16px;transition:transform .2s}
+.sol:hover .more svg{transform:translateX(3px)}
+.sol .num{display:none}
+.sol .body{display:flex;flex-direction:column;gap:14px;flex:1}
+@media (max-width:960px){.sol-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.sol-grid{grid-template-columns:1fr}}
+
+.logo-grid{display:grid;grid-template-columns:repeat(6,1fr)}
+.logo-grid .lg{display:grid;place-items:center;aspect-ratio:3/2;padding:14px}
+.logo-grid img{max-height:64px;max-width:100%;width:auto;object-fit:contain}
+.logo-grid img.white{filter:brightness(0);opacity:.72}
+@media (max-width:960px){.logo-grid{grid-template-columns:repeat(4,1fr)}}
+@media (max-width:640px){.logo-grid{grid-template-columns:repeat(3,1fr)}.logo-grid img{max-height:48px}}
+
+.why-grid{display:grid;grid-template-columns:5fr 7fr;gap:64px;align-items:start}
+.why-items{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.why-item h3{font-size:18px;margin:10px 0 8px}
+.why-item p{font-size:15px;line-height:1.65}
+.why-intro h2{margin:12px 0 28px}
+.why-stat{display:none}
+@media (max-width:960px){.why-grid{grid-template-columns:1fr;gap:40px}}
+@media (max-width:640px){.why-items{grid-template-columns:1fr}}
+
+.work-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.tile{margin:0;position:relative;overflow:hidden}
+.tile img{width:100%;height:100%;object-fit:cover;transition:transform .5s}
+.tile:hover img{transform:scale(1.04)}
+.tile .cat{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase}
+@media (max-width:960px){.work-grid{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:640px){.work-grid{grid-template-columns:1fr}}
+
+footer .wrap{display:grid;grid-template-columns:1.2fr 1.4fr 1fr;gap:40px;padding-top:64px;padding-bottom:40px}
+footer .flogo img{height:48px;width:auto;filter:brightness(0) invert(1)}
+footer .co{margin-top:18px;font-weight:600;font-size:16px;line-height:1.5}
+footer h4{margin:0 0 14px;font-size:13px;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+footer address{font-style:normal;line-height:1.7;font-size:15px}
+footer .maplink{display:inline-flex;align-items:center;gap:8px;margin-top:14px;padding:9px 14px;border-radius:8px;font-size:14px;font-weight:600}
+footer .maplink svg,footer .tel svg{width:17px;height:17px}
+footer .tel{display:flex;align-items:center;gap:10px;font-size:15px;line-height:1.5;margin-bottom:10px}
+footer .tel small{opacity:.7}
+footer .legal{grid-column:1/-1;padding-top:24px;margin-top:8px;font-size:13px}
+@media (max-width:960px){footer .wrap{grid-template-columns:1fr}}
+
+/* =====================================================================
+   DIRECTION A — Clean Corporate
+   ===================================================================== */
+body.a{font-family:"IBM Plex Sans",system-ui,sans-serif;color:#0F1B33;background:#fff}
+body.a .nav{background:rgba(255,255,255,.92);backdrop-filter:blur(10px);border-bottom:1px solid #E6EAF2}
+body.a .menu>li>a:hover{background:#F1F5FC;color:#143A93}
+body.a .drop{background:#fff;border:1px solid #E3E8F2;box-shadow:0 16px 40px rgba(15,27,51,.12)}
+body.a .drop a:hover{background:#F1F5FC;color:#143A93}
+body.a .drop a svg{color:#143A93}
+body.a .btn-primary{background:#143A93;color:#fff}
+body.a .btn-primary:hover{background:#0F2E78;box-shadow:0 8px 20px rgba(20,58,147,.25)}
+body.a .btn-ghost{background:#fff;color:#143A93;box-shadow:inset 0 0 0 1.5px #C9D4EA}
+body.a .btn-ghost:hover{box-shadow:inset 0 0 0 1.5px #143A93}
+body.a .eyebrow{color:#2453C4}
+body.a h2{font-size:clamp(28px,3.4vw,40px);line-height:1.15;font-weight:700;letter-spacing:-.01em}
+
+body.a .hero-a{padding:72px 0 88px;background:linear-gradient(180deg,#F5F8FD 0%,#fff 100%)}
+.hero-a .grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.hero-a h1{font-size:clamp(36px,5vw,58px);line-height:1.08;font-weight:700;letter-spacing:-.02em;margin:18px 0 22px}
+.hero-a h1 em{font-style:normal;color:#143A93}
+.hero-a p.lead{font-size:18px;line-height:1.65;color:#4A5672;max-width:540px}
+.hero-a .ctas{display:flex;gap:12px;margin-top:34px;flex-wrap:wrap}
+.hero-a .media{position:relative}
+.hero-a .media img{border-radius:18px;aspect-ratio:4/3.3;object-fit:cover;width:100%;box-shadow:0 30px 60px rgba(15,27,51,.18)}
+.hero-a .badge{position:absolute;left:-28px;bottom:32px;background:#fff;border-radius:14px;padding:16px 20px;box-shadow:0 16px 40px rgba(15,27,51,.16);display:flex;align-items:center;gap:14px}
+.hero-a .badge strong{font-size:34px;line-height:1;color:#143A93}
+.hero-a .badge span{font-size:13.5px;line-height:1.35;color:#4A5672}
+@media (max-width:960px){.hero-a .grid{grid-template-columns:1fr}.hero-a .badge{left:16px}}
+
+body.a .solutions{padding:96px 0;background:#fff}
+body.a .sol{background:#fff;border:1px solid #E3E8F2;border-radius:16px}
+body.a .sol:hover{border-color:#B9C8EA;box-shadow:0 18px 40px rgba(20,58,147,.10);transform:translateY(-3px)}
+body.a .sol .ico{background:#EEF3FC;color:#143A93}
+body.a .sol p{color:#55617A}
+body.a .sol .more{color:#143A93}
+
+body.a .clients{padding:96px 0;background:#F5F8FD}
+body.a .logo-grid{background:#fff;border:1px solid #E3E8F2;border-radius:16px;overflow:hidden}
+body.a .logo-grid .lg{border-right:1px solid #EEF1F6;border-bottom:1px solid #EEF1F6}
+
+body.a .why{padding:104px 0}
+body.a .why-item{padding:26px;border-radius:16px;background:#F5F8FD}
+body.a .why-item .num{font-size:13px;font-weight:700;color:#2453C4}
+body.a .why-item p{color:#55617A}
+
+body.a .work{padding:96px 0 110px;background:#fff;border-top:1px solid #EEF1F6}
+body.a .tile{border-radius:16px;background:#F5F8FD}
+body.a .tile img{aspect-ratio:4/3;height:auto}
+body.a .tile figcaption{padding:16px 4px 4px}
+body.a .tile .cat{color:#2453C4}
+body.a .tile strong{display:block;margin-top:4px;font-size:17px}
+body.a .tile{background:none}
+body.a .tile .imgbox{border-radius:16px;overflow:hidden}
+body.a .link{display:inline-flex;align-items:center;gap:6px;font-weight:600;color:#143A93}
+body.a .link svg{width:18px;height:18px}
+
+body.a footer{background:#0B1A3F;color:#C9D3E8}
+body.a footer .co{color:#fff}
+body.a footer h4{color:#7F93C4}
+body.a footer .maplink{background:rgba(255,255,255,.08);color:#fff}
+body.a footer .maplink:hover{background:rgba(255,255,255,.14)}
+body.a footer .legal{border-top:1px solid rgba(255,255,255,.1);color:#8394BA}
+
+/* =====================================================================
+   DIRECTION B — Engineering Dark
+   ===================================================================== */
+body.b{font-family:"Inter",system-ui,sans-serif;color:#E6ECF7;background:#060B18}
+body.b h1,body.b h2,body.b h3{font-family:"Space Grotesk",sans-serif}
+body.b .mono,body.b .eyebrow,body.b .sol .num,body.b .tile .cat,body.b .why-item .num{font-family:"IBM Plex Mono",monospace}
+body.b .nav{background:rgba(6,11,24,.6);backdrop-filter:blur(14px);border-bottom:1px solid rgba(255,255,255,.08);margin-bottom:-77px}
+body.b .nav .logo img{filter:brightness(0) invert(1)}
+body.b .menu>li>a{color:#D5DDEC}
+body.b .menu>li>a:hover{background:rgba(255,255,255,.07);color:#fff}
+body.b .drop{background:#0D1630;border:1px solid rgba(255,255,255,.1);box-shadow:0 20px 50px rgba(0,0,0,.5)}
+body.b .drop a{color:#D5DDEC}
+body.b .drop a:hover{background:rgba(56,189,248,.08);color:#fff}
+body.b .drop a svg{color:#38BDF8}
+body.b .btn{border-radius:6px}
+body.b .btn-primary{background:#2F63E0;color:#fff}
+body.b .btn-primary:hover{background:#3B70F0;box-shadow:0 0 0 4px rgba(47,99,224,.25)}
+body.b .btn-ghost{background:rgba(255,255,255,.04);color:#fff;box-shadow:inset 0 0 0 1px rgba(255,255,255,.25)}
+body.b .btn-ghost:hover{box-shadow:inset 0 0 0 1px #38BDF8}
+body.b .eyebrow{color:#38BDF8;font-weight:500;font-size:12.5px;letter-spacing:.14em}
+body.b h2{font-size:clamp(30px,3.6vw,44px);line-height:1.1;font-weight:600;letter-spacing:-.02em;color:#fff}
+body.b .mobile-panel{background:#0B1328}
+
+body.b .hero-b{min-height:760px;display:flex!important;flex-direction:column;justify-content:flex-end;background:#060B18;overflow:hidden}
+.hero-b .bg{position:absolute;inset:0;background:url(/files/hero-cabling.jpg) center/cover}
+.hero-b .bg::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(6,11,24,.97) 0%,rgba(6,11,24,.85) 42%,rgba(6,11,24,.35) 100%),linear-gradient(0deg,#060B18 0%,rgba(6,11,24,0) 40%)}
+.hero-b .gridlines{position:absolute;inset:0;background-image:linear-gradient(rgba(255,255,255,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.04) 1px,transparent 1px);background-size:64px 64px;mask-image:linear-gradient(90deg,#000 0%,transparent 70%)}
+.hero-b .wrap{position:relative;width:100%;padding-top:150px;padding-bottom:56px}
+.hero-b h1{font-size:clamp(40px,6vw,74px);line-height:1.02;font-weight:600;letter-spacing:-.03em;color:#fff;max-width:820px;margin:22px 0 24px}
+.hero-b h1 span{color:#38BDF8}
+.hero-b p.lead{font-size:18px;line-height:1.65;color:#A9B5CB;max-width:600px}
+.hero-b .ctas{display:flex;gap:12px;margin-top:36px;flex-wrap:wrap}
+.hero-b .ticker{position:relative;margin-top:72px;border-top:1px solid rgba(255,255,255,.1);display:grid;grid-template-columns:repeat(6,1fr)}
+.hero-b .ticker div{padding:18px 16px 0 0;font-size:12px;letter-spacing:.12em;color:#7D8BA6;text-transform:uppercase}
+.hero-b .ticker b{display:block;color:#38BDF8;font-weight:500;margin-bottom:6px}
+@media (max-width:960px){.hero-b .ticker{grid-template-columns:repeat(3,1fr);row-gap:16px}}
+
+body.b .solutions{padding:110px 0}
+body.b .sol-grid{gap:0;border-top:1px solid rgba(255,255,255,.1);border-left:1px solid rgba(255,255,255,.1)}
+body.b .sol{border-right:1px solid rgba(255,255,255,.1);border-bottom:1px solid rgba(255,255,255,.1);padding:34px 30px;position:relative}
+body.b .sol:hover{background:linear-gradient(180deg,rgba(56,189,248,.07),rgba(56,189,248,0))}
+body.b .sol .num{display:block;font-size:12.5px;color:#5F6E8C;letter-spacing:.1em}
+body.b .sol .ico{background:none;border:1px solid rgba(56,189,248,.35);color:#38BDF8;border-radius:8px}
+body.b .sol h3{color:#fff;font-size:20px;font-weight:600}
+body.b .sol p{color:#93A0B8}
+body.b .sol .more{color:#38BDF8}
+
+body.b .clients{padding:96px 0;background:#F3F5F9;color:#0B1328}
+body.b .clients h2{color:#0B1328}
+body.b .clients .eyebrow{color:#2F63E0}
+body.b .logo-grid{gap:12px}
+body.b .logo-grid .lg{background:#fff;border-radius:10px;border:1px solid #E4E8EF}
+body.b .logo-grid img{filter:grayscale(1);opacity:.75;transition:all .25s}
+body.b .logo-grid img.white{filter:brightness(0) ;opacity:.55}
+body.b .logo-grid .lg:hover img{filter:none;opacity:1}
+body.b .logo-grid .lg:hover img.white{filter:brightness(0);opacity:.85}
+
+body.b .why{padding:110px 0}
+body.b .why-stat{display:flex;align-items:baseline;gap:16px;margin-top:40px;padding-top:28px;border-top:1px solid rgba(255,255,255,.1)}
+body.b .why-stat strong{font-family:"Space Grotesk";font-size:76px;line-height:1;color:#fff;letter-spacing:-.03em}
+body.b .why-stat span{color:#93A0B8;font-size:15px;line-height:1.4}
+body.b .why-items{gap:0;border-top:1px solid rgba(255,255,255,.1)}
+body.b .why-item{padding:28px 28px 30px 0;border-bottom:1px solid rgba(255,255,255,.1)}
+body.b .why-item:nth-child(odd){padding-right:28px;border-right:1px solid rgba(255,255,255,.1)}
+body.b .why-item:nth-child(even){padding-left:28px}
+body.b .why-item .num{font-size:12.5px;color:#38BDF8;letter-spacing:.1em}
+body.b .why-item h3{color:#fff;font-weight:600;font-size:19px}
+body.b .why-item p{color:#93A0B8}
+@media (max-width:640px){body.b .why-item:nth-child(n){padding:24px 0;border-right:0}}
+
+body.b .work{padding:20px 0 120px}
+body.b .work-grid{grid-template-columns:repeat(4,1fr);grid-auto-rows:240px;gap:14px}
+body.b .tile{border-radius:10px}
+body.b .tile:nth-child(1){grid-column:span 2;grid-row:span 2}
+body.b .tile:nth-child(4),body.b .tile:nth-child(5),body.b .tile:nth-child(6){grid-column:span 2}
+body.b .tile .imgbox{position:absolute;inset:0}
+body.b .tile figcaption{position:absolute;inset:auto 0 0 0;padding:40px 20px 18px;background:linear-gradient(0deg,rgba(6,11,24,.92),rgba(6,11,24,0))}
+body.b .tile .cat{color:#38BDF8;font-weight:500;font-size:11.5px}
+body.b .tile strong{display:block;margin-top:6px;font-family:"Space Grotesk";font-weight:600;font-size:19px;color:#fff}
+body.b .link{display:inline-flex;align-items:center;gap:8px;font-weight:500;color:#38BDF8;font-family:"IBM Plex Mono";font-size:14px}
+body.b .link svg{width:18px;height:18px}
+@media (max-width:960px){body.b .work-grid{grid-template-columns:repeat(2,1fr)}body.b .tile:nth-child(n){grid-column:span 1;grid-row:span 1}body.b .tile:nth-child(1){grid-column:span 2}}
+@media (max-width:640px){body.b .work-grid{grid-template-columns:1fr}body.b .tile:nth-child(1){grid-column:span 1}}
+
+body.b footer{background:#040812;border-top:1px solid rgba(255,255,255,.08);color:#9AA7BF}
+body.b footer .co{color:#fff;font-family:"Space Grotesk"}
+body.b footer h4{color:#38BDF8;font-family:"IBM Plex Mono";font-weight:500}
+body.b footer .maplink{background:rgba(56,189,248,.08);color:#38BDF8;box-shadow:inset 0 0 0 1px rgba(56,189,248,.3)}
+body.b footer .legal{border-top:1px solid rgba(255,255,255,.08);color:#5F6E8C}
+
+/* =====================================================================
+   DIRECTION C — Consultancy Editorial
+   ===================================================================== */
+body.c{font-family:"Inter",system-ui,sans-serif;color:#0E1A3A;background:#F5F3EE}
+body.c h1,body.c h2{font-family:"Newsreader",Georgia,serif;font-weight:500}
+body.c .nav{background:rgba(245,243,238,.9);backdrop-filter:blur(10px);border-bottom:1px solid #E2DDD1}
+body.c .menu>li>a:hover{background:#ECE8DE}
+body.c .drop{background:#FBFAF7;border:1px solid #E2DDD1;box-shadow:0 18px 40px rgba(14,26,58,.10)}
+body.c .drop a:hover{background:#F0ECE3}
+body.c .drop a svg{color:#143A93}
+body.c .btn{border-radius:999px;padding:13px 24px}
+body.c .btn-primary{background:#0E1A3A;color:#fff}
+body.c .btn-primary:hover{background:#143A93}
+body.c .btn-ghost{background:transparent;color:#0E1A3A;box-shadow:inset 0 0 0 1.5px #0E1A3A}
+body.c .btn-ghost:hover{background:#0E1A3A;color:#fff}
+body.c .eyebrow{color:#143A93;font-size:12.5px;letter-spacing:.14em}
+body.c h2{font-size:clamp(34px,4.2vw,54px);line-height:1.05;letter-spacing:-.015em}
+body.c .mobile-panel{background:#F5F3EE}
+
+body.c .hero-c{padding:80px 0 40px}
+.hero-c h1{font-size:clamp(46px,7.6vw,104px);line-height:.98;letter-spacing:-.025em;max-width:1100px;margin:22px 0 0}
+.hero-c h1 em{font-style:italic;color:#143A93}
+.hero-c .sub{display:grid;grid-template-columns:1.3fr 1fr;gap:48px;align-items:end;margin-top:40px;padding-top:32px;border-top:1px solid #DCD6C8}
+.hero-c p.lead{font-size:19px;line-height:1.6;color:#3F4862;max-width:620px}
+.hero-c .ctas{display:flex;gap:12px;justify-content:flex-end;flex-wrap:wrap}
+.hero-c .photo{margin-top:48px;border-radius:22px;overflow:hidden;aspect-ratio:21/8;position:relative}
+.hero-c .photo img{width:100%;height:100%;object-fit:cover}
+.hero-c .photo .tag{position:absolute;left:24px;bottom:22px;background:rgba(245,243,238,.94);border-radius:999px;padding:9px 16px;font-size:13.5px;font-weight:500;display:flex;gap:8px;align-items:center}
+.hero-c .photo .tag svg{width:16px;height:16px;color:#143A93}
+@media (max-width:960px){.hero-c .sub{grid-template-columns:1fr}.hero-c .ctas{justify-content:flex-start}.hero-c .photo{aspect-ratio:16/10}}
+
+body.c .solutions{padding:110px 0 100px}
+body.c .sol-grid{grid-template-columns:repeat(2,1fr);gap:0 64px}
+body.c .sol{flex-direction:row;align-items:flex-start;gap:24px;padding:32px 0;border-top:1px solid #DCD6C8;border-radius:0}
+body.c .sol:hover h3{color:#143A93}
+body.c .sol .num{display:block;font-family:"Newsreader";font-size:20px;color:#A39C8C;min-width:30px;padding-top:2px}
+body.c .sol .ico{display:none}
+body.c .sol .body{display:flex;flex-direction:column;gap:12px}
+body.c .sol h3{font-size:22px;font-weight:600;letter-spacing:-.01em;transition:color .2s}
+body.c .sol p{color:#4C556E}
+body.c .sol .more{color:#143A93}
+@media (max-width:960px){body.c .sol-grid{grid-template-columns:1fr}}
+
+body.c .clients{padding:100px 0;background:#fff}
+body.c .logo-grid{grid-template-columns:repeat(8,1fr);gap:8px 20px}
+body.c .logo-grid .lg{padding:10px}
+body.c .logo-grid img{max-height:54px;filter:grayscale(1) contrast(1.05);opacity:.8;transition:all .25s}
+body.c .logo-grid img.white{filter:brightness(0);opacity:.55}
+body.c .logo-grid .lg:hover img{filter:none;opacity:1}
+body.c .logo-grid .lg:hover img.white{filter:brightness(0);opacity:.8}
+@media (max-width:960px){body.c .logo-grid{grid-template-columns:repeat(5,1fr)}}
+@media (max-width:640px){body.c .logo-grid{grid-template-columns:repeat(3,1fr)}}
+
+body.c .why{padding:110px 0;background:#0E1A3A;color:#D9DEEA}
+body.c .why .eyebrow{color:#9DB4F0}
+body.c .why h2{color:#fff}
+body.c .why .btn-primary{background:#F5F3EE;color:#0E1A3A}
+body.c .why .btn-primary:hover{background:#fff}
+body.c .why-stat{display:block;margin-top:44px}
+body.c .why-stat strong{display:block;font-family:"Newsreader";font-weight:500;font-size:120px;line-height:.9;color:#fff;letter-spacing:-.03em}
+body.c .why-stat span{display:block;margin-top:10px;color:#9AA6C2;font-size:15px}
+body.c .why-items{grid-template-columns:1fr;gap:0}
+body.c .why-item{display:grid;grid-template-columns:48px 1fr;column-gap:16px;padding:26px 0;border-top:1px solid rgba(255,255,255,.14)}
+body.c .why-item .num{grid-row:span 2;font-family:"Newsreader";font-size:22px;color:#7F8FB8}
+body.c .why-item h3{margin:0 0 8px;font-size:20px;font-weight:600;color:#fff}
+body.c .why-item p{color:#AEB8D0}
+
+body.c .work{padding:110px 0 120px}
+body.c .work-grid{grid-template-columns:repeat(12,1fr);gap:28px 20px}
+body.c .tile{grid-column:span 3;border-radius:18px}
+body.c .tile:nth-child(1),body.c .tile:nth-child(2){grid-column:span 6}
+body.c .tile .imgbox{border-radius:18px;overflow:hidden;aspect-ratio:4/3}
+body.c .tile:nth-child(1) .imgbox,body.c .tile:nth-child(2) .imgbox{aspect-ratio:16/10}
+body.c .tile figcaption{padding:14px 2px 0}
+body.c .tile .cat{display:block;color:#857E6E;font-size:11px}
+body.c .tile strong{display:block;margin-top:4px;font-family:"Newsreader";font-weight:500;font-size:21px;line-height:1.2}
+body.c .link{display:inline-flex;align-items:center;gap:8px;font-weight:600;color:#0E1A3A;border-bottom:1.5px solid #0E1A3A;padding-bottom:3px}
+body.c .link svg{width:18px;height:18px}
+@media (max-width:960px){body.c .work-grid{grid-template-columns:1fr 1fr}body.c .tile:nth-child(n){grid-column:span 1}}
+@media (max-width:640px){body.c .work-grid{grid-template-columns:1fr}}
+
+body.c footer{background:#E9E5DB;color:#3F4862}
+body.c footer .flogo img{filter:none}
+body.c footer .co{color:#0E1A3A}
+body.c footer h4{color:#857E6E}
+body.c footer .maplink{background:#0E1A3A;color:#fff;border-radius:999px}
+body.c footer .legal{border-top:1px solid #D6D0C2;color:#857E6E}
+
+/* ---------- direction switcher (mockup only) ---------- */
+.switcher{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);z-index:100;display:flex;align-items:center;gap:6px;padding:6px;background:#111827;border-radius:14px;box-shadow:0 14px 40px rgba(0,0,0,.35);font-family:"Inter",system-ui,sans-serif;max-width:calc(100vw - 24px)}
+.switcher button{border:0;background:none;color:#CBD2DF;font:500 13.5px/1 "Inter",sans-serif;padding:11px 14px;border-radius:9px;cursor:pointer;white-space:nowrap}
+.switcher button b{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:5px;background:rgba(255,255,255,.1);margin-right:8px;font-size:12px}
+.switcher button.on{background:#fff;color:#111827}
+.switcher button.on b{background:#143A93;color:#fff}
+.switcher .pick{background:#2F63E0;color:#fff;margin-left:4px}
+.switcher .pick.done{background:#16A34A}
+@media (max-width:760px){.switcher .lbl{display:none}.switcher button b{margin-right:0}}
+</style>
+</head>
+<body class="a">
+
+<!-- ================= NAV ================= -->
+<header class="nav">
+  <div class="wrap">
+    <a class="logo" href="#"><img src="/files/ican-logo.png" alt="ICAN — International Computing And Networking Co., Ltd."></a>
+    <ul class="menu">
+      <li><a href="#solutions">Solutions <i data-lucide="chevron-down"></i></a>
+        <ul class="drop">
+          <li><a href="#solutions"><i data-lucide="network"></i>Network &amp; IT Infrastructure</a></li>
+          <li><a href="#solutions"><i data-lucide="shield-check"></i>IT Security Assessment</a></li>
+          <li><a href="#solutions"><i data-lucide="server"></i>Server Room &amp; Cabling Solutions</a></li>
+          <li><a href="#solutions"><i data-lucide="wifi"></i>Enterprise Wi-Fi Solutions</a></li>
+          <li><a href="#solutions"><i data-lucide="code-xml"></i>Software &amp; Application Solutions</a></li>
+          <li><a href="#solutions"><i data-lucide="clipboard-check"></i>IT Consulting &amp; Assessment</a></li>
+        </ul>
+      </li>
+      <li><a href="#work">Portfolio <i data-lucide="chevron-down"></i></a>
+        <ul class="drop" style="min-width:250px">
+          <li><a href="#work"><i data-lucide="cable"></i>IT Infrastructure</a></li>
+          <li><a href="#work"><i data-lucide="app-window"></i>Software &amp; Application</a></li>
+        </ul>
+      </li>
+      <li><a href="#why">About Us</a></li>
+      <li class="cta"><a class="btn btn-primary" href="#contact">Contact Us</a></li>
+    </ul>
+    <button class="burger" aria-label="Menu" onclick="document.querySelector('.mobile-panel').classList.toggle('open')"><i data-lucide="menu"></i></button>
+  </div>
+  <div class="mobile-panel">
+    <a href="#solutions">Solutions</a>
+    <a class="sub" href="#solutions">Network &amp; IT Infrastructure</a>
+    <a class="sub" href="#solutions">IT Security Assessment</a>
+    <a class="sub" href="#solutions">Server Room &amp; Cabling Solutions</a>
+    <a class="sub" href="#solutions">Enterprise Wi-Fi Solutions</a>
+    <a class="sub" href="#solutions">Software &amp; Application Solutions</a>
+    <a class="sub" href="#solutions">IT Consulting &amp; Assessment</a>
+    <a href="#work">Portfolio</a>
+    <a class="sub" href="#work">IT Infrastructure</a>
+    <a class="sub" href="#work">Software &amp; Application</a>
+    <a href="#why">About Us</a>
+    <a class="btn btn-primary" href="#contact">Contact Us</a>
+  </div>
+</header>
+
+<!-- ================= HERO A ================= -->
+<section class="hero hero-a only-a">
+  <div class="wrap grid">
+    <div class="copy">
+      <span class="eyebrow">Established 1999 · Bangkok, Thailand</span>
+      <h1>Your Trusted Partner in <em>IT Solutions.</em></h1>
+      <p class="lead">ICAN helps businesses build, assess, and improve their IT systems through infrastructure solutions, network engineering, security assessments, software development, and professional IT consulting.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#solutions">Explore Solutions <i data-lucide="arrow-right"></i></a>
+        <a class="btn btn-ghost" href="#contact">Contact Us</a>
+      </div>
+    </div>
+    <div class="media">
+      <img src="/files/hero-room.jpg" alt="Server room installed by ICAN">
+      <div class="badge"><strong>27+</strong><span>years in Thailand's<br>IT services industry</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HERO B ================= -->
+<section class="hero hero-b only-b">
+  <div class="bg"></div><div class="gridlines"></div>
+  <div class="wrap">
+    <span class="eyebrow">// IT Solutions · Est. 1999 · Bangkok</span>
+    <h1>Your Trusted Partner in <span>IT Solutions.</span></h1>
+    <p class="lead">ICAN helps businesses build, assess, and improve their IT systems through infrastructure solutions, network engineering, security assessments, software development, and professional IT consulting.</p>
+    <div class="ctas">
+      <a class="btn btn-primary" href="#solutions">Explore Solutions <i data-lucide="arrow-right"></i></a>
+      <a class="btn btn-ghost" href="#contact">Contact Us</a>
+    </div>
+    <div class="ticker mono">
+      <div><b>01</b>Network</div><div><b>02</b>Security</div><div><b>03</b>Server Room</div>
+      <div><b>04</b>Wi-Fi</div><div><b>05</b>Software</div><div><b>06</b>Consulting</div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= HERO C ================= -->
+<section class="hero hero-c only-c">
+  <div class="wrap">
+    <span class="eyebrow">International Computing And Networking · Since 1999</span>
+    <h1>Your Trusted Partner in <em>IT Solutions.</em></h1>
+    <div class="sub">
+      <p class="lead">ICAN helps businesses build, assess, and improve their IT systems through infrastructure solutions, network engineering, security assessments, software development, and professional IT consulting.</p>
+      <div class="ctas">
+        <a class="btn btn-primary" href="#solutions">Explore Solutions <i data-lucide="arrow-right"></i></a>
+        <a class="btn btn-ghost" href="#contact">Contact Us</a>
+      </div>
+    </div>
+    <div class="photo">
+      <img src="/files/hero-cabling2.jpg" alt="Structured cabling installed by ICAN">
+      <span class="tag"><i data-lucide="map-pin"></i>Bangkok, Thailand</span>
+    </div>
+  </div>
+</section>
+
+<!-- ================= SOLUTIONS ================= -->
+<section id="solutions" class="solutions">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Solutions</span><h2>Our Solutions</h2></div>
+    <div class="sol-grid">
+      <a class="sol" href="#"><span class="num">01</span><span class="ico"><i data-lucide="network"></i></span><div class="body"><h3>Network &amp; IT Infrastructure</h3><p>Design and improve the networks that keep your business connected. From network architecture and IP planning to fiber optic redundancy and infrastructure optimization, ICAN helps organizations build more structured and resilient IT environments.</p><span class="more">Learn more <i data-lucide="arrow-right"></i></span></div></a>
+      <a class="sol" href="#"><span class="num">02</span><span class="ico"><i data-lucide="shield-check"></i></span><div class="body"><h3>IT Security Assessment</h3><p>Identify potential vulnerabilities and configuration weaknesses across your IT environment. Our assessment scope covers firewalls, network devices, servers, Wi-Fi, and system access configurations to support informed security improvements.</p><span class="more">Learn more <i data-lucide="arrow-right"></i></span></div></a>
+      <a class="sol" href="#"><span class="num">03</span><span class="ico"><i data-lucide="server"></i></span><div class="body"><h3>Server Room &amp; Cabling Solutions</h3><p>Plan and improve the physical infrastructure supporting your systems. Our capabilities include server room assessment, rack and cabling inspection, equipment surveys, and improvement design for electrical, cooling, and wiring arrangements.</p><span class="more">Learn more <i data-lucide="arrow-right"></i></span></div></a>
+      <a class="sol" href="#"><span class="num">04</span><span class="ico"><i data-lucide="wifi"></i></span><div class="body"><h3>Enterprise Wi-Fi Solutions</h3><p>Evaluate and design wireless network environments to support business connectivity. ICAN reviews access point placement, controller configurations, and existing Wi-Fi infrastructure to recommend suitable improvements.</p><span class="more">Learn more <i data-lucide="arrow-right"></i></span></div></a>
+      <a class="sol" href="#"><span class="num">05</span><span class="ico"><i data-lucide="code-xml"></i></span><div class="body"><h3>Software &amp; Application Solutions</h3><p>Support business operations through software services and customized application development. ICAN's documented expertise includes software consulting and development tailored to customer requirements.</p><span class="more">Learn more <i data-lucide="arrow-right"></i></span></div></a>
+      <a class="sol" href="#"><span class="num">06</span><span class="ico"><i data-lucide="clipboard-check"></i></span><div class="body"><h3>IT Consulting &amp; Assessment</h3><p>Understand your existing technology environment before making critical investment decisions. Our structured assessment process identifies issues, evaluates system conditions, and delivers recommendations and an improvement roadmap.</p><span class="more">Learn more <i data-lucide="arrow-right"></i></span></div></a>
+    </div>
+  </div>
+</section>
+
+<!-- ================= CLIENTS ================= -->
+<section id="clients" class="clients">
+  <div class="wrap">
+    <div class="sec-head"><span class="eyebrow">Clients</span><h2>Our Clients</h2></div>
+    <div class="logo-grid" id="logoGrid"></div>
+  </div>
+</section>
+
+<!-- ================= WHY ================= -->
+<section id="why" class="why">
+  <div class="wrap why-grid">
+    <div class="why-intro">
+      <span class="eyebrow">Why choose ICAN?</span>
+      <h2>Experience, Technical Expertise, and Practical Solutions</h2>
+      <a class="btn btn-primary" href="#contact">Contact Our Team <i data-lucide="arrow-right"></i></a>
+      <div class="why-stat"><strong>1999</strong><span>Established — more than 27 years<br>in Thailand's IT services industry</span></div>
+    </div>
+    <div class="why-items">
+      <div class="why-item"><span class="num">01</span><h3>Established in 1999</h3><p>With more than 27 years since its establishment, ICAN brings a long-standing presence in Thailand's IT services industry.</p></div>
+      <div class="why-item"><span class="num">02</span><h3>Comprehensive IT Capabilities</h3><p>Our services cover multiple layers of business technology, from physical infrastructure and networks to security assessments, software, and IT consulting.</p></div>
+      <div class="why-item"><span class="num">03</span><h3>Assessment-Driven Approach</h3><p>We begin by understanding existing systems and identifying potential issues before developing recommendations tailored to the client's environment.</p></div>
+      <div class="why-item"><span class="num">04</span><h3>Clear Recommendations and Roadmaps</h3><p>Our assessment methodology is designed to deliver structured findings, improvement recommendations, and a roadmap to guide future IT decisions.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ================= WORK ================= -->
+<section id="work" class="work">
+  <div class="wrap">
+    <div class="sec-head row">
+      <div><span class="eyebrow">Portfolio</span><h2>See projects in action</h2></div>
+      <a class="link" href="#">View full portfolio <i data-lucide="arrow-right"></i></a>
+    </div>
+    <div class="work-grid">
+      <figure class="tile"><div class="imgbox"><img src="/files/pf-datacenter.jpg" alt=""></div><figcaption><span class="cat">IT Infrastructure</span><strong>Data Center</strong></figcaption></figure>
+      <figure class="tile"><div class="imgbox"><img src="/files/pf-cabling.jpg" alt=""></div><figcaption><span class="cat">IT Infrastructure</span><strong>Structured Cabling</strong></figcaption></figure>
+      <figure class="tile"><div class="imgbox"><img src="/files/pf-rack.jpg" alt=""></div><figcaption><span class="cat">IT Infrastructure</span><strong>Server &amp; Storage Racks</strong></figcaption></figure>
+      <figure class="tile"><div class="imgbox"><img src="/files/pf-fiber.jpg" alt=""></div><figcaption><span class="cat">IT Infrastructure</span><strong>Fiber Optic Installation</strong></figcaption></figure>
+      <figure class="tile"><div class="imgbox"><img src="/files/pf-cctv.jpg" alt=""></div><figcaption><span class="cat">IT Infrastructure</span><strong>CCTV Control Room</strong></figcaption></figure>
+      <figure class="tile"><div class="imgbox"><img src="/files/pf-fire.jpg" alt=""></div><figcaption><span class="cat">IT Infrastructure</span><strong>Server Room Fire Suppression</strong></figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<!-- ================= FOOTER ================= -->
+<footer id="contact">
+  <div class="wrap">
+    <div>
+      <div class="flogo"><img src="/files/ican-logo.png" alt="ICAN"></div>
+      <p class="co">International Computing And Networking Co., Ltd.</p>
+    </div>
+    <div>
+      <h4>Address</h4>
+      <address>102 Soi Yasoob 1, Vibhavadi Rangsit Road,<br>Chom Phon Subdistrict, Chatuchak District,<br>Bangkok 10900</address>
+      <a class="maplink" target="_blank" rel="noopener" href="https://www.google.com/maps/search/?api=1&amp;query=102+Soi+Yasoob+1+Vibhavadi+Rangsit+Road+Chatuchak+Bangkok+10900"><i data-lucide="map-pin"></i>Open in Google Maps</a>
+    </div>
+    <div>
+      <h4>Phone</h4>
+      <a class="tel" href="tel:+6622723111"><i data-lucide="phone"></i><span>+66 2-272-3111 <small>(Automatic)</small></span></a>
+      <a class="tel" href="tel:+66846723111"><i data-lucide="smartphone"></i><span>+66 84-672-3111 <small>(Hotline)</small></span></a>
+    </div>
+    <div class="legal">© 2026 International Computing And Networking Co., Ltd. All rights reserved.</div>
+  </div>
+</footer>
+
+<!-- ================= SWITCHER (mockup only) ================= -->
+<div class="switcher" role="toolbar" aria-label="Design direction">
+  <button data-dir="a" class="on"><b>A</b><span class="lbl">Clean Corporate</span></button>
+  <button data-dir="b"><b>B</b><span class="lbl">Engineering Dark</span></button>
+  <button data-dir="c"><b>C</b><span class="lbl">Consultancy Editorial</span></button>
+  <button class="pick" id="pick">★ <span class="lbl">I like this one</span></button>
+</div>
+
+<script>
+  // client logos
+  const logos = [];
+  for (let i = 1; i <= 45; i++) logos.push({ f: 'logo-c' + String(i).padStart(3, '0') + '.png' });
+  logos.push({ f: 'logo-ubon.png' });
+  for (let i = 1; i <= 5; i++) logos.push({ f: 'logo-partner' + i + '.png', white: true });
+  document.getElementById('logoGrid').innerHTML = logos
+    .map(l => `<div class="lg"><img loading="lazy" src="/files/${l.f}" alt="" class="${l.white ? 'white' : ''}"></div>`).join('');
+
+  // direction switcher
+  const btns = document.querySelectorAll('.switcher [data-dir]');
+  const pick = document.getElementById('pick');
+  function setDir(d) {
+    document.body.className = d;
+    btns.forEach(b => b.classList.toggle('on', b.dataset.dir === d));
+    pick.classList.remove('done');
+    pick.innerHTML = '★ <span class="lbl">I like this one</span>';
+    history.replaceState(null, '', '#' + d);
+  }
+  btns.forEach(b => b.addEventListener('click', () => {
+    setDir(b.dataset.dir);
+    window.brainstorm && window.brainstorm.send({ type: 'view', choice: b.dataset.dir });
+  }));
+  pick.addEventListener('click', () => {
+    const d = document.body.className;
+    window.brainstorm && window.brainstorm.choice(d, { label: 'liked direction ' + d.toUpperCase() });
+    pick.classList.add('done');
+    pick.innerHTML = '✓ <span class="lbl">Picked ' + d.toUpperCase() + '</span>';
+  });
+  document.addEventListener('keydown', e => { if (['a', 'b', 'c'].includes(e.key) && !e.metaKey && !e.ctrlKey) setDir(e.key); });
+  const start = (location.hash || '#a').slice(1);
+  if (['a', 'b', 'c'].includes(start)) setDir(start);
+
+  lucide.createIcons();
+</script>
+</body>
+</html>

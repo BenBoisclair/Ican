@@ -1,0 +1,948 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props" Condition="Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" />
+  <Import Project="..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props" Condition="Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" />
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>
+    </ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{C8B1C965-24E6-4BFE-8A19-E1D720353E6E}</ProjectGuid>
+    <ProjectTypeGuids>{349c5851-65df-11da-9384-00065b846f21};{fae04ec0-301f-11d3-bf4b-00c04f79efbc}</ProjectTypeGuids>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>webican</RootNamespace>
+    <AssemblyName>webican</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <UseIISExpress>true</UseIISExpress>
+    <IISExpressSSLPort />
+    <IISExpressAnonymousAuthentication />
+    <IISExpressWindowsAuthentication />
+    <IISExpressUseClassicPipelineMode />
+    <UseGlobalApplicationHostFile />
+    <NuGetPackageImportStamp>
+    </NuGetPackageImportStamp>
+    <TargetFrameworkProfile />
+    <Use64BitIISExpress />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.AI.Agent.Intercept, Version=1.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Agent.Intercept.1.2.1\lib\net45\Microsoft.AI.Agent.Intercept.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.DependencyCollector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.DependencyCollector.2.0.0\lib\net45\Microsoft.AI.DependencyCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.PerfCounterCollector, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.PerfCounterCollector.2.0.0\lib\net45\Microsoft.AI.PerfCounterCollector.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.ServerTelemetryChannel, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.TelemetryChannel.2.0.0\lib\net45\Microsoft.AI.ServerTelemetryChannel.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.Web, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.Web.2.0.0\lib\net45\Microsoft.AI.Web.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AI.WindowsServer, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.WindowsServer.2.0.0\lib\net45\Microsoft.AI.WindowsServer.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.ApplicationInsights, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.ApplicationInsights.2.0.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Web.Extensions" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Web" />
+    <Reference Include="System.Xml" />
+    <Reference Include="System.Configuration" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.EnterpriseServices" />
+    <Reference Include="System.Web.DynamicData" />
+    <Reference Include="System.Web.Entity" />
+    <Reference Include="System.Web.ApplicationServices" />
+    <Reference Include="Microsoft.Web.Infrastructure, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.Web.Infrastructure.1.0.0.0\lib\net40\Microsoft.Web.Infrastructure.dll</HintPath>
+    </Reference>
+    <Reference Include="AspNet.ScriptManager.bootstrap">
+      <HintPath>..\packages\AspNet.ScriptManager.bootstrap.3.0.0\lib\net45\AspNet.ScriptManager.bootstrap.dll</HintPath>
+    </Reference>
+    <Reference Include="AspNet.ScriptManager.jQuery">
+      <HintPath>..\packages\AspNet.ScriptManager.jQuery.1.10.2\lib\net45\AspNet.ScriptManager.jQuery.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ScriptManager.MSAjax">
+      <HintPath>..\packages\Microsoft.AspNet.ScriptManager.MSAjax.5.0.0\lib\net45\Microsoft.ScriptManager.MSAjax.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.ScriptManager.WebForms">
+      <HintPath>..\packages\Microsoft.AspNet.ScriptManager.WebForms.5.0.0\lib\net45\Microsoft.ScriptManager.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Web.Optimization, Version=1.1.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35">
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.1.1.3\lib\net40\System.Web.Optimization.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="WebGrease">
+      <Private>True</Private>
+      <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
+    </Reference>
+    <Reference Include="Antlr3.Runtime">
+      <Private>True</Private>
+      <HintPath>..\packages\Antlr.3.4.1.9004\lib\Antlr3.Runtime.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json">
+      <Private>True</Private>
+      <HintPath>..\packages\Newtonsoft.Json.6.0.4\lib\net45\Newtonsoft.Json.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.Web.Optimization.WebForms">
+      <Private>True</Private>
+      <HintPath>..\packages\Microsoft.AspNet.Web.Optimization.WebForms.1.1.3\lib\net45\Microsoft.AspNet.Web.Optimization.WebForms.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.FriendlyUrls">
+      <HintPath>..\packages\Microsoft.AspNet.FriendlyUrls.Core.1.0.2\lib\net45\Microsoft.AspNet.FriendlyUrls.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="App_Data\" />
+    <Folder Include="Content\images\blog\" />
+    <Folder Include="Content\images\services\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="about.aspx" />
+    <Content Include="Contact.aspx" />
+    <Content Include="contact_us.aspx" />
+    <Content Include="Content\bootstrap.css" />
+    <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\css\animate.css" />
+    <Content Include="Content\css\animate.min.css" />
+    <Content Include="Content\css\bootstrap-theme.css" />
+    <Content Include="Content\css\bootstrap-theme.min.css" />
+    <Content Include="Content\css\bootstrap.css" />
+    <Content Include="Content\css\bootstrap.min.css" />
+    <Content Include="Content\css\font-awesome.css" />
+    <Content Include="Content\css\font-awesome.min.css" />
+    <Content Include="Content\css\prettyPhoto.css" />
+    <Content Include="Content\css\style.css" />
+    <Content Include="Content\fonts\fontawesome-webfont.svg" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Content\ican_company.png" />
+    <Content Include="Content\icon\icon_ican.ico" />
+    <Content Include="Content\images\a1.jpg" />
+    <Content Include="Content\images\a10.jpg" />
+    <Content Include="Content\images\a11.jpg" />
+    <Content Include="Content\images\a12.jpg" />
+    <Content Include="Content\images\a13.jpg" />
+    <Content Include="Content\images\a14.jpg" />
+    <Content Include="Content\images\a15.jpg" />
+    <Content Include="Content\images\a16.jpg" />
+    <Content Include="Content\images\a17.jpg" />
+    <Content Include="Content\images\a18.jpg" />
+    <Content Include="Content\images\a19.jpg" />
+    <Content Include="Content\images\a2.jpg" />
+    <Content Include="Content\images\a20.jpg" />
+    <Content Include="Content\images\a3.jpg" />
+    <Content Include="Content\images\a4.jpg" />
+    <Content Include="Content\images\a5.jpg" />
+    <Content Include="Content\images\a6.jpg" />
+    <Content Include="Content\images\a7.jpg" />
+    <Content Include="Content\images\a8.jpg" />
+    <Content Include="Content\images\a9.jpg" />
+    <Content Include="Content\images\about.jpg" />
+    <Content Include="Content\images\bg_ican.png" />
+    <Content Include="Content\images\BS-EN.jpg" />
+    <Content Include="Content\images\BS-TH.png" />
+    <Content Include="Content\images\Database.jpg" />
+    <Content Include="Content\images\design.jpg" />
+    <Content Include="Content\images\home_popup.jpg" />
+    <Content Include="Content\images\i1.jpg" />
+    <Content Include="Content\images\i10.jpg" />
+    <Content Include="Content\images\i11.jpg" />
+    <Content Include="Content\images\i2.jpg" />
+    <Content Include="Content\images\i3.jpg" />
+    <Content Include="Content\images\i4.jpg" />
+    <Content Include="Content\images\i5.jpg" />
+    <Content Include="Content\images\i6.jpg" />
+    <Content Include="Content\images\i7.jpg" />
+    <Content Include="Content\images\i8.jpg" />
+    <Content Include="Content\images\i9.jpg" />
+    <Content Include="Content\images\Ican_Alert.jpg" />
+    <Content Include="Content\images\ican_company.png" />
+    <Content Include="Content\images\icon\icon_ican.ico" />
+    <Content Include="Content\images\IT_INFRASTRUCTURE.png" />
+    <Content Include="Content\images\Logo\LOGO_ICAN.png" />
+    <Content Include="Content\images\Map-Eng 30-10-61.png" />
+    <Content Include="Content\images\Map-Eng.png" />
+    <Content Include="Content\images\Map-Thai 30-10-61.png" />
+    <Content Include="Content\images\Map-Thai.jpg" />
+    <Content Include="Content\images\Map-Thai.png" />
+    <Content Include="Content\images\out.png" />
+    <Content Include="Content\images\outsource.png" />
+    <Content Include="Content\images\partners\BG.jpg" />
+    <Content Include="Content\images\partners\BG_BLUE.jpg" />
+    <Content Include="Content\images\partners\C001.png" />
+    <Content Include="Content\images\partners\C002.png" />
+    <Content Include="Content\images\partners\C003.png" />
+    <Content Include="Content\images\partners\C004.png" />
+    <Content Include="Content\images\partners\C005.png" />
+    <Content Include="Content\images\partners\C006.png" />
+    <Content Include="Content\images\partners\C007.png" />
+    <Content Include="Content\images\partners\C008.png" />
+    <Content Include="Content\images\partners\C009.png" />
+    <Content Include="Content\images\partners\C010.png" />
+    <Content Include="Content\images\partners\C011.png" />
+    <Content Include="Content\images\partners\C012.png" />
+    <Content Include="Content\images\partners\C013.png" />
+    <Content Include="Content\images\partners\C014.png" />
+    <Content Include="Content\images\partners\C015.png" />
+    <Content Include="Content\images\partners\C016.png" />
+    <Content Include="Content\images\partners\C017.png" />
+    <Content Include="Content\images\partners\C018.png" />
+    <Content Include="Content\images\partners\C019.png" />
+    <Content Include="Content\images\partners\C020.png" />
+    <Content Include="Content\images\partners\C021.png" />
+    <Content Include="Content\images\partners\C022.png" />
+    <Content Include="Content\images\partners\C023.png" />
+    <Content Include="Content\images\partners\C024.png" />
+    <Content Include="Content\images\partners\C025.png" />
+    <Content Include="Content\images\partners\C026.png" />
+    <Content Include="Content\images\partners\C027.png" />
+    <Content Include="Content\images\partners\C028.png" />
+    <Content Include="Content\images\partners\C029.png" />
+    <Content Include="Content\images\partners\C030.png" />
+    <Content Include="Content\images\partners\C031.png" />
+    <Content Include="Content\images\partners\C032.png" />
+    <Content Include="Content\images\partners\C033.png" />
+    <Content Include="Content\images\partners\C034.png" />
+    <Content Include="Content\images\partners\C035.png" />
+    <Content Include="Content\images\partners\C036.png" />
+    <Content Include="Content\images\partners\C037.png" />
+    <Content Include="Content\images\partners\C038.png" />
+    <Content Include="Content\images\partners\C039.png" />
+    <Content Include="Content\images\partners\C040.png" />
+    <Content Include="Content\images\partners\C041.png" />
+    <Content Include="Content\images\partners\C042.png" />
+    <Content Include="Content\images\partners\C043.png" />
+    <Content Include="Content\images\partners\C044.png" />
+    <Content Include="Content\images\partners\C045.png" />
+    <Content Include="Content\images\partners\partner_bg2.png" />
+    <Content Include="Content\images\picture\ibusiness.JPG" />
+    <Content Include="Content\images\portfolio\access\1.jpg" />
+    <Content Include="Content\images\portfolio\access\10.jpg" />
+    <Content Include="Content\images\portfolio\access\11.jpg" />
+    <Content Include="Content\images\portfolio\access\12.jpg" />
+    <Content Include="Content\images\portfolio\access\13.jpg" />
+    <Content Include="Content\images\portfolio\access\14.jpg" />
+    <Content Include="Content\images\portfolio\access\15.jpg" />
+    <Content Include="Content\images\portfolio\access\16.jpg" />
+    <Content Include="Content\images\portfolio\access\17.jpg" />
+    <Content Include="Content\images\portfolio\access\18.jpg" />
+    <Content Include="Content\images\portfolio\access\19.jpg" />
+    <Content Include="Content\images\portfolio\access\2.jpg" />
+    <Content Include="Content\images\portfolio\access\3.jpg" />
+    <Content Include="Content\images\portfolio\access\4.jpg" />
+    <Content Include="Content\images\portfolio\access\5.jpg" />
+    <Content Include="Content\images\portfolio\access\6.jpg" />
+    <Content Include="Content\images\portfolio\access\7.jpg" />
+    <Content Include="Content\images\portfolio\access\8.jpg" />
+    <Content Include="Content\images\portfolio\access\9.jpg" />
+    <Content Include="Content\images\portfolio\cctv\1.jpg" />
+    <Content Include="Content\images\portfolio\cctv\10.jpg" />
+    <Content Include="Content\images\portfolio\cctv\11.jpg" />
+    <Content Include="Content\images\portfolio\cctv\12.jpg" />
+    <Content Include="Content\images\portfolio\cctv\13.jpg" />
+    <Content Include="Content\images\portfolio\cctv\14.jpg" />
+    <Content Include="Content\images\portfolio\cctv\15.jpg" />
+    <Content Include="Content\images\portfolio\cctv\16.jpg" />
+    <Content Include="Content\images\portfolio\cctv\17.jpg" />
+    <Content Include="Content\images\portfolio\cctv\18.jpg" />
+    <Content Include="Content\images\portfolio\cctv\19.jpg" />
+    <Content Include="Content\images\portfolio\cctv\2.jpg" />
+    <Content Include="Content\images\portfolio\cctv\20.jpg" />
+    <Content Include="Content\images\portfolio\cctv\21.jpg" />
+    <Content Include="Content\images\portfolio\cctv\22.jpg" />
+    <Content Include="Content\images\portfolio\cctv\23.jpg" />
+    <Content Include="Content\images\portfolio\cctv\24.jpg" />
+    <Content Include="Content\images\portfolio\cctv\25.jpg" />
+    <Content Include="Content\images\portfolio\cctv\26.jpg" />
+    <Content Include="Content\images\portfolio\cctv\27.jpg" />
+    <Content Include="Content\images\portfolio\cctv\28.jpg" />
+    <Content Include="Content\images\portfolio\cctv\29.jpg" />
+    <Content Include="Content\images\portfolio\cctv\3.jpg" />
+    <Content Include="Content\images\portfolio\cctv\30.jpg" />
+    <Content Include="Content\images\portfolio\cctv\4.jpg" />
+    <Content Include="Content\images\portfolio\cctv\5.jpg" />
+    <Content Include="Content\images\portfolio\cctv\6.jpg" />
+    <Content Include="Content\images\portfolio\cctv\7.jpg" />
+    <Content Include="Content\images\portfolio\cctv\8.jpg" />
+    <Content Include="Content\images\portfolio\cctv\9.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\1.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\10.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\11.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\12.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\13.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\14.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\15.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\16.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\17.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\18.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\19.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\2.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\20.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\21.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\22.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\23.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\3.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\4.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\5.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\6.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\7.gif" />
+    <Content Include="Content\images\portfolio\datacenter\8.jpg" />
+    <Content Include="Content\images\portfolio\datacenter\9.jpg" />
+    <Content Include="Content\images\portfolio\fire\1.jpg" />
+    <Content Include="Content\images\portfolio\fire\10.jpg" />
+    <Content Include="Content\images\portfolio\fire\11.jpg" />
+    <Content Include="Content\images\portfolio\fire\12.jpg" />
+    <Content Include="Content\images\portfolio\fire\13.jpg" />
+    <Content Include="Content\images\portfolio\fire\14.jpg" />
+    <Content Include="Content\images\portfolio\fire\15.jpg" />
+    <Content Include="Content\images\portfolio\fire\16.jpg" />
+    <Content Include="Content\images\portfolio\fire\17.jpg" />
+    <Content Include="Content\images\portfolio\fire\18.jpg" />
+    <Content Include="Content\images\portfolio\fire\2.jpg" />
+    <Content Include="Content\images\portfolio\fire\3.jpg" />
+    <Content Include="Content\images\portfolio\fire\4.jpg" />
+    <Content Include="Content\images\portfolio\fire\5.jpg" />
+    <Content Include="Content\images\portfolio\fire\6.jpg" />
+    <Content Include="Content\images\portfolio\fire\7.jpg" />
+    <Content Include="Content\images\portfolio\fire\8.jpg" />
+    <Content Include="Content\images\portfolio\fire\9.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\1.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\10.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\11.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\12.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\13.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\14.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\15.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\16.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\2.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\3.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\4.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\5.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\6.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\7.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\8.jpg" />
+    <Content Include="Content\images\portfolio\icanalert\9.jpg" />
+    <Content Include="Content\images\portfolio\ipphone\1.jpg" />
+    <Content Include="Content\images\portfolio\ipphone\10.jpg" />
+    <Content Include="Content\images\portfolio\ipphone\11.jpg" />
+    <Content Include="Content\images\portfolio\ipphone\12.jpg" />
+    <Content Include="Content\images\portfolio\ipphone\2.jpg" />
+    <Content Include="Content\images\portfolio\ipphone\3.jpg" />
+    <Content Include="Content\images\portfolio\ipphone\4.jpg" />
+    <Content Include="Content\images\portfolio\ipphone\5.jpg" />
+    <Content Include="Content\images\portfolio\ipphone\6.jpg" />
+    <Content Include="Content\images\portfolio\ipphone\7.jpg" />
+    <Content Include="Content\images\portfolio\ipphone\8.jpg" />
+    <Content Include="Content\images\portfolio\ipphone\9.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\1.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\10.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\11.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\12.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\13.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\14.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\15.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\16.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\17.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\18.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\2.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\3.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\4.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\5.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\6.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\7.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\8.jpg" />
+    <Content Include="Content\images\portfolio\networkequipment\9.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\1.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\10.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\11.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\12.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\13.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\14.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\15.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\16.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\17.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\18.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\19.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\2.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\20.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\21.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\22.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\23.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\24.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\25.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\26.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\27.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\28.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\29.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\3.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\30.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\31.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\32.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\33.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\34.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\35.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\36.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\37.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\38.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\39.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\4.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\40.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\41.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\42.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\43.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\44.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\45.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\46.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\47.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\48.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\49.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\5.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\50.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\51.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\52.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\53.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\54.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\55.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\56.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\57.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\58.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\59.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\6.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\60.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\61.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\62.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\63.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\7.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\8.jpg" />
+    <Content Include="Content\images\portfolio\networkinfrastructure\9.jpg" />
+    <Content Include="Content\images\portfolio\powersupply\1.jpg" />
+    <Content Include="Content\images\portfolio\powersupply\10.jpg" />
+    <Content Include="Content\images\portfolio\powersupply\2.jpg" />
+    <Content Include="Content\images\portfolio\powersupply\3.jpg" />
+    <Content Include="Content\images\portfolio\powersupply\4.gif" />
+    <Content Include="Content\images\portfolio\powersupply\5.jpg" />
+    <Content Include="Content\images\portfolio\powersupply\6.jpg" />
+    <Content Include="Content\images\portfolio\powersupply\7.jpg" />
+    <Content Include="Content\images\portfolio\powersupply\8.jpg" />
+    <Content Include="Content\images\portfolio\powersupply\9.jpg" />
+    <Content Include="Content\images\portfolio\serverandpc\1.jpg" />
+    <Content Include="Content\images\portfolio\serverandpc\10.jpg" />
+    <Content Include="Content\images\portfolio\serverandpc\11.jpg" />
+    <Content Include="Content\images\portfolio\serverandpc\12.jpg" />
+    <Content Include="Content\images\portfolio\serverandpc\13.jpg" />
+    <Content Include="Content\images\portfolio\serverandpc\14.jpg" />
+    <Content Include="Content\images\portfolio\serverandpc\15.jpg" />
+    <Content Include="Content\images\portfolio\serverandpc\2.gif" />
+    <Content Include="Content\images\portfolio\serverandpc\3.gif" />
+    <Content Include="Content\images\portfolio\serverandpc\4.jpg" />
+    <Content Include="Content\images\portfolio\serverandpc\5.jpg" />
+    <Content Include="Content\images\portfolio\serverandpc\6.jpg" />
+    <Content Include="Content\images\portfolio\serverandpc\7.jpg" />
+    <Content Include="Content\images\portfolio\serverandpc\8.jpg" />
+    <Content Include="Content\images\portfolio\serverandpc\9.jpg" />
+    <Content Include="Content\images\portfolio\video\1.jpg" />
+    <Content Include="Content\images\portfolio\video\2.jpg" />
+    <Content Include="Content\images\portfolio\video\3.jpg" />
+    <Content Include="Content\images\portfolio\video\4.jpg" />
+    <Content Include="Content\images\portfolio\video\5.jpg" />
+    <Content Include="Content\images\portfolio\video\6.jpg" />
+    <Content Include="Content\images\prettyPhoto\dark_rounded\btnNext.png" />
+    <Content Include="Content\images\prettyPhoto\dark_rounded\btnPrevious.png" />
+    <Content Include="Content\images\prettyPhoto\dark_rounded\contentPattern.png" />
+    <Content Include="Content\images\prettyPhoto\dark_rounded\default_thumbnail.gif" />
+    <Content Include="Content\images\prettyPhoto\dark_rounded\loader.gif" />
+    <Content Include="Content\images\prettyPhoto\dark_rounded\sprite.png" />
+    <Content Include="Content\images\prettyPhoto\dark_square\btnNext.png" />
+    <Content Include="Content\images\prettyPhoto\dark_square\btnPrevious.png" />
+    <Content Include="Content\images\prettyPhoto\dark_square\contentPattern.png" />
+    <Content Include="Content\images\prettyPhoto\dark_square\default_thumbnail.gif" />
+    <Content Include="Content\images\prettyPhoto\dark_square\loader.gif" />
+    <Content Include="Content\images\prettyPhoto\dark_square\sprite.png" />
+    <Content Include="Content\images\prettyPhoto\default\default_thumb.png" />
+    <Content Include="Content\images\prettyPhoto\default\loader.gif" />
+    <Content Include="Content\images\prettyPhoto\default\sprite.png" />
+    <Content Include="Content\images\prettyPhoto\default\sprite_next.png" />
+    <Content Include="Content\images\prettyPhoto\default\sprite_prev.png" />
+    <Content Include="Content\images\prettyPhoto\default\sprite_x.png" />
+    <Content Include="Content\images\prettyPhoto\default\sprite_y.png" />
+    <Content Include="Content\images\prettyPhoto\facebook\btnNext.png" />
+    <Content Include="Content\images\prettyPhoto\facebook\btnPrevious.png" />
+    <Content Include="Content\images\prettyPhoto\facebook\contentPatternBottom.png" />
+    <Content Include="Content\images\prettyPhoto\facebook\contentPatternLeft.png" />
+    <Content Include="Content\images\prettyPhoto\facebook\contentPatternRight.png" />
+    <Content Include="Content\images\prettyPhoto\facebook\contentPatternTop.png" />
+    <Content Include="Content\images\prettyPhoto\facebook\default_thumbnail.gif" />
+    <Content Include="Content\images\prettyPhoto\facebook\loader.gif" />
+    <Content Include="Content\images\prettyPhoto\facebook\sprite.png" />
+    <Content Include="Content\images\prettyPhoto\light_rounded\btnNext.png" />
+    <Content Include="Content\images\prettyPhoto\light_rounded\btnPrevious.png" />
+    <Content Include="Content\images\prettyPhoto\light_rounded\default_thumbnail.gif" />
+    <Content Include="Content\images\prettyPhoto\light_rounded\loader.gif" />
+    <Content Include="Content\images\prettyPhoto\light_rounded\sprite.png" />
+    <Content Include="Content\images\prettyPhoto\light_square\btnNext.png" />
+    <Content Include="Content\images\prettyPhoto\light_square\btnPrevious.png" />
+    <Content Include="Content\images\prettyPhoto\light_square\default_thumbnail.gif" />
+    <Content Include="Content\images\prettyPhoto\light_square\loader.gif" />
+    <Content Include="Content\images\prettyPhoto\light_square\sprite.png" />
+    <Content Include="Content\images\programing.jpg" />
+    <Content Include="Content\images\QR.jpg" />
+    <Content Include="Content\images\slider\thumbnail-slider.css" />
+    <Content Include="Content\images\slider\thumbnail-slider.js" />
+    <Content Include="Content\images\slider\thumbs2.css" />
+    <Content Include="Content\images\software\1.jpg" />
+    <Content Include="Content\images\software\10.jpg" />
+    <Content Include="Content\images\software\11.jpg" />
+    <Content Include="Content\images\software\12.jpg" />
+    <Content Include="Content\images\software\13.jpg" />
+    <Content Include="Content\images\software\14.jpg" />
+    <Content Include="Content\images\software\15.jpg" />
+    <Content Include="Content\images\software\16.jpg" />
+    <Content Include="Content\images\software\17.jpg" />
+    <Content Include="Content\images\software\18.jpg" />
+    <Content Include="Content\images\software\19.jpg" />
+    <Content Include="Content\images\software\2.jpg" />
+    <Content Include="Content\images\software\20.jpg" />
+    <Content Include="Content\images\software\21.jpg" />
+    <Content Include="Content\images\software\22.jpg" />
+    <Content Include="Content\images\software\3.jpg" />
+    <Content Include="Content\images\software\4.jpg" />
+    <Content Include="Content\images\software\5.jpg" />
+    <Content Include="Content\images\software\6.jpg" />
+    <Content Include="Content\images\software\7.jpg" />
+    <Content Include="Content\images\software\8.jpg" />
+    <Content Include="Content\images\software\9.jpg" />
+    <Content Include="Content\images\softwhere.png" />
+    <Content Include="Content\js\bootstrap.js" />
+    <Content Include="Content\js\bootstrap.min.js" />
+    <Content Include="Content\js\functions.js" />
+    <Content Include="Content\js\html5shiv.js" />
+    <Content Include="Content\js\jquery-1.11.3.min.js" />
+    <Content Include="Content\js\jquery-2.1.1.min.js" />
+    <Content Include="Content\js\jquery.isotope.min.js" />
+    <Content Include="Content\js\jquery.js" />
+    <Content Include="Content\js\jquery.prettyPhoto.js" />
+    <Content Include="Content\js\jssor.slider-27.5.0.min.js" />
+    <Content Include="Content\js\wow.min.js" />
+    <Content Include="Content\Logo\LOGO_ICAN.png" />
+    <Content Include="Content\Picture\dist\css\lightbox.css" />
+    <Content Include="Content\Picture\dist\css\lightbox.min.css" />
+    <Content Include="Content\Picture\dist\images\close.png" />
+    <Content Include="Content\Picture\dist\images\loading.gif" />
+    <Content Include="Content\Picture\dist\images\next.png" />
+    <Content Include="Content\Picture\dist\images\prev.png" />
+    <Content Include="Content\Picture\dist\js\lightbox-plus-jquery.js" />
+    <Content Include="Content\Picture\dist\js\lightbox-plus-jquery.min.js" />
+    <Content Include="Content\Picture\dist\js\lightbox.js" />
+    <Content Include="Content\Picture\dist\js\lightbox.min.js" />
+    <Content Include="Content\Site.css" />
+    <Content Include="Content\slider\thumbnail-slider.css" />
+    <Content Include="Content\slider\thumbnail-slider.js" />
+    <Content Include="Content\slider\thumbs2.css" />
+    <Content Include="Content\x.png" />
+    <Content Include="fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="ApplicationInsights.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Content\fonts\fontawesome-webfont.eot" />
+    <Content Include="Content\fonts\fontawesome-webfont.ttf" />
+    <Content Include="Content\fonts\fontawesome-webfont.woff" />
+    <Content Include="Content\fonts\FontAwesome.otf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.eot" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.ttf" />
+    <Content Include="Content\fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="Content\Font\cschatthaiui-webfont.woff" />
+    <Content Include="Content\Font\cschatthaiui-webfont.woff2" />
+    <Content Include="Content\Picture\dist\js\lightbox-plus-jquery.min.map" />
+    <Content Include="Content\Picture\dist\js\lightbox.min.map" />
+    <Content Include="PDF\ican_alert_en.pdf" />
+    <Content Include="PDF\ican_alert_th.pdf" />
+    <None Include="Properties\PublishProfiles\Ican.pubxml" />
+    <None Include="Properties\PublishProfiles\icanweb.pubxml" />
+    <None Include="Properties\PublishProfiles\WebSite.pubxml" />
+    <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="home.aspx" />
+    <Content Include="it_infrastructure.aspx" />
+    <Content Include="join_us.aspx" />
+    <Content Include="outsources.aspx" />
+    <Content Include="portal.aspx" />
+    <Content Include="portfolio_accesscontrol.aspx" />
+    <Content Include="portfolio_cctvsystem.aspx" />
+    <Content Include="portfolio_extinguishersystem.aspx" />
+    <Content Include="portfolio_icanalert.aspx" />
+    <Content Include="portfolio_datacenter.aspx" />
+    <Content Include="portfolio_ipphonesystem.aspx" />
+    <Content Include="portfolio_networkinfrastructure.aspx" />
+    <Content Include="portfolio_networkequipment.aspx" />
+    <Content Include="portfolio_powersupply.aspx" />
+    <Content Include="portfolio_serverandpc.aspx" />
+    <Content Include="portfolio_software.aspx" />
+    <Content Include="portfolio_videoconferencesystem.aspx" />
+    <Content Include="Scripts\ai.0.22.9-build00167.js" />
+    <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
+    <Content Include="Scripts\bootstrap.bundle.min.js" />
+    <Content Include="Scripts\bootstrap.js" />
+    <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\jquery-1.10.2.js" />
+    <Content Include="Scripts\jquery-1.10.2.min.js" />
+    <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\modernizr-2.6.2.js" />
+    <Content Include="Scripts\owl.carousel.min.js" />
+    <Content Include="Scripts\respond.js" />
+    <Content Include="Scripts\respond.min.js" />
+    <Content Include="Scripts\script.js" />
+    <Content Include="Scripts\WebForms\DetailsView.js" />
+    <Content Include="Scripts\WebForms\Focus.js" />
+    <Content Include="Scripts\WebForms\GridView.js" />
+    <Content Include="Scripts\WebForms\Menu.js" />
+    <Content Include="Scripts\WebForms\MenuStandards.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjax.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxApplicationServices.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxComponentModel.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxCore.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxGlobalization.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxHistory.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxNetwork.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxSerialization.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxTimer.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxWebForms.js" />
+    <Content Include="Scripts\WebForms\MSAjax\MicrosoftAjaxWebServices.js" />
+    <Content Include="Scripts\WebForms\SmartNav.js" />
+    <Content Include="Scripts\WebForms\TreeView.js" />
+    <Content Include="Scripts\WebForms\WebForms.js" />
+    <Content Include="Scripts\WebForms\WebParts.js" />
+    <Content Include="Scripts\WebForms\WebUIValidation.js" />
+    <Content Include="Scripts\_references.js" />
+    <Content Include="Default.aspx" />
+    <Content Include="favicon.ico" />
+    <Content Include="Global.asax" />
+    <Content Include="service_product.aspx" />
+    <Content Include="Site.Master" />
+    <Content Include="software_application.aspx" />
+    <Content Include="testslide.aspx" />
+    <Content Include="ViewSwitcher.ascx" />
+    <Content Include="Web.config" />
+    <Content Include="Bundle.config" />
+    <Content Include="packages.config" />
+    <None Include="Project_Readme.html" />
+    <Content Include="Scripts\jquery-1.10.2.min.map" />
+    <Content Include="Site.Mobile.Master" />
+    <Content Include="SiteMenu.Master" />
+    <None Include="Web.Debug.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+    <None Include="Web.Release.config">
+      <DependentUpon>Web.config</DependentUpon>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="about.aspx.cs">
+      <DependentUpon>about.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="about.aspx.designer.cs">
+      <DependentUpon>about.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Resource.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_GlobalResources\Resource.en-us.designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource.en-us.resx</DependentUpon>
+    </Compile>
+    <Compile Include="App_Start\BundleConfig.cs" />
+    <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="BasePage.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contact.aspx.cs">
+      <DependentUpon>Contact.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Contact.aspx.designer.cs">
+      <DependentUpon>Contact.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="contact_us.aspx.cs">
+      <DependentUpon>contact_us.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="contact_us.aspx.designer.cs">
+      <DependentUpon>contact_us.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Global.asax.cs">
+      <DependentUpon>Global.asax</DependentUpon>
+    </Compile>
+    <Compile Include="home.aspx.cs">
+      <DependentUpon>home.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="home.aspx.designer.cs">
+      <DependentUpon>home.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="it_infrastructure.aspx.cs">
+      <DependentUpon>it_infrastructure.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="it_infrastructure.aspx.designer.cs">
+      <DependentUpon>it_infrastructure.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="join_us.aspx.cs">
+      <DependentUpon>join_us.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="join_us.aspx.designer.cs">
+      <DependentUpon>join_us.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="outsources.aspx.cs">
+      <DependentUpon>outsources.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="outsources.aspx.designer.cs">
+      <DependentUpon>outsources.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="portfolio_accesscontrol.aspx.cs">
+      <DependentUpon>portfolio_accesscontrol.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="portfolio_accesscontrol.aspx.designer.cs">
+      <DependentUpon>portfolio_accesscontrol.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="portfolio_cctvsystem.aspx.cs">
+      <DependentUpon>portfolio_cctvsystem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="portfolio_cctvsystem.aspx.designer.cs">
+      <DependentUpon>portfolio_cctvsystem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="portfolio_extinguishersystem.aspx.cs">
+      <DependentUpon>portfolio_extinguishersystem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="portfolio_extinguishersystem.aspx.designer.cs">
+      <DependentUpon>portfolio_extinguishersystem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="portfolio_icanalert.aspx.cs">
+      <DependentUpon>portfolio_icanalert.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="portfolio_icanalert.aspx.designer.cs">
+      <DependentUpon>portfolio_icanalert.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="portfolio_datacenter.aspx.cs">
+      <DependentUpon>portfolio_datacenter.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="portfolio_datacenter.aspx.designer.cs">
+      <DependentUpon>portfolio_datacenter.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="portfolio_ipphonesystem.aspx.cs">
+      <DependentUpon>portfolio_ipphonesystem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="portfolio_ipphonesystem.aspx.designer.cs">
+      <DependentUpon>portfolio_ipphonesystem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="portfolio_networkinfrastructure.aspx.cs">
+      <DependentUpon>portfolio_networkinfrastructure.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="portfolio_networkinfrastructure.aspx.designer.cs">
+      <DependentUpon>portfolio_networkinfrastructure.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="portfolio_networkequipment.aspx.cs">
+      <DependentUpon>portfolio_networkequipment.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="portfolio_networkequipment.aspx.designer.cs">
+      <DependentUpon>portfolio_networkequipment.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="portfolio_powersupply.aspx.cs">
+      <DependentUpon>portfolio_powersupply.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="portfolio_powersupply.aspx.designer.cs">
+      <DependentUpon>portfolio_powersupply.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="portfolio_serverandpc.aspx.cs">
+      <DependentUpon>portfolio_serverandpc.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="portfolio_serverandpc.aspx.designer.cs">
+      <DependentUpon>portfolio_serverandpc.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="portfolio_software.aspx.cs">
+      <DependentUpon>portfolio_software.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="portfolio_software.aspx.designer.cs">
+      <DependentUpon>portfolio_software.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="portfolio_videoconferencesystem.aspx.cs">
+      <DependentUpon>portfolio_videoconferencesystem.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="portfolio_videoconferencesystem.aspx.designer.cs">
+      <DependentUpon>portfolio_videoconferencesystem.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="portal.aspx.cs">
+      <DependentUpon>portal.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="portal.aspx.designer.cs">
+      <DependentUpon>portal.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="service_product.aspx.cs">
+      <DependentUpon>service_product.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="service_product.aspx.designer.cs">
+      <DependentUpon>service_product.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Site.Master.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.Master.designer.cs">
+      <DependentUpon>Site.Master</DependentUpon>
+    </Compile>
+    <Compile Include="Site.Mobile.Master.cs">
+      <DependentUpon>Site.Mobile.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Site.Mobile.Master.designer.cs">
+      <DependentUpon>Site.Mobile.Master</DependentUpon>
+    </Compile>
+    <Compile Include="SiteMenu.Master.cs">
+      <DependentUpon>SiteMenu.Master</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="SiteMenu.Master.designer.cs">
+      <DependentUpon>SiteMenu.Master</DependentUpon>
+    </Compile>
+    <Compile Include="software_application.aspx.cs">
+      <DependentUpon>software_application.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="software_application.aspx.designer.cs">
+      <DependentUpon>software_application.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="testslide.aspx.cs">
+      <DependentUpon>testslide.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="testslide.aspx.designer.cs">
+      <DependentUpon>testslide.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="ViewSwitcher.ascx.cs">
+      <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="ViewSwitcher.ascx.designer.cs">
+      <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Resource.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Resource.Designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_GlobalResources\Resource.en-us.resx">
+      <Generator>GlobalResourceProxyGenerator</Generator>
+      <LastGenOutput>Resource.en-us.designer.cs</LastGenOutput>
+    </Content>
+  </ItemGroup>
+  <PropertyGroup>
+    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
+    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
+  </PropertyGroup>
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(VSToolsPath)\WebApplications\Microsoft.WebApplication.targets" Condition="'$(VSToolsPath)' != ''" />
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" Condition="false" />
+  <ProjectExtensions>
+    <VisualStudio>
+      <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
+        <WebProjectProperties>
+          <UseIIS>True</UseIIS>
+          <AutoAssignPort>True</AutoAssignPort>
+          <DevelopmentServerPort>13831</DevelopmentServerPort>
+          <DevelopmentServerVPath>/</DevelopmentServerVPath>
+          <IISUrl>http://localhost:13831/</IISUrl>
+          <NTLMAuthentication>False</NTLMAuthentication>
+          <UseCustomServer>False</UseCustomServer>
+          <CustomServerUrl>
+          </CustomServerUrl>
+          <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
+        </WebProjectProperties>
+      </FlavorProperties>
+    </VisualStudio>
+  </ProjectExtensions>
+  <Target Name="EnsureNuGetPackageBuildImports" BeforeTargets="PrepareForBuild">
+    <PropertyGroup>
+      <ErrorText>This project references NuGet package(s) that are missing on this computer. Use NuGet Package Restore to download them.  For more information, see http://go.microsoft.com/fwlink/?LinkID=322105. The missing file is {0}.</ErrorText>
+    </PropertyGroup>
+    <Error Condition="!Exists('..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.Net.Compilers.1.0.0\build\Microsoft.Net.Compilers.props'))" />
+    <Error Condition="!Exists('..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\build\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.props'))" />
+  </Target>
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
