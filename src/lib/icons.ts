@@ -1,6 +1,17 @@
-export type IconName =
-  | 'network' | 'shield-check' | 'server' | 'wifi' | 'code-xml' | 'clipboard-check'
-  | 'wrench' | 'cable' | 'app-window' | 'history' | 'scan-search' | 'file-check'
-  | 'users' | 'badge-check' | 'check' | 'plug-zap' | 'hammer' | 'truck'
-  | 'calendar-check' | 'phone' | 'smartphone' | 'map-pin' | 'arrow-right'
-  | 'arrow-up-right' | 'chevron-down' | 'menu' | 'x' | 'message-circle';
+import {
+  AppWindow, ArrowRight, ArrowUpRight, BadgeCheck, Cable, CalendarCheck, Check, ChevronDown,
+  ClipboardCheck, CodeXml, FileCheck, Hammer, History, MapPin, Menu, MessageCircle, Network,
+  Phone, PlugZap, ScanSearch, Server, ShieldCheck, Smartphone, Truck, Users, Wifi, Wrench, X,
+} from '@lucide/vue';
+
+export const icons = {
+  'network': Network, 'shield-check': ShieldCheck, 'server': Server, 'wifi': Wifi, 'code-xml': CodeXml,
+  'clipboard-check': ClipboardCheck, 'wrench': Wrench, 'cable': Cable, 'app-window': AppWindow,
+  'history': History, 'scan-search': ScanSearch, 'file-check': FileCheck, 'users': Users,
+  'badge-check': BadgeCheck, 'check': Check, 'plug-zap': PlugZap, 'hammer': Hammer, 'truck': Truck,
+  'calendar-check': CalendarCheck, 'phone': Phone, 'smartphone': Smartphone, 'map-pin': MapPin,
+  'arrow-right': ArrowRight, 'arrow-up-right': ArrowUpRight, 'chevron-down': ChevronDown,
+  'menu': Menu, 'x': X, 'message-circle': MessageCircle,
+} as const;
+
+export type IconName = keyof typeof icons;

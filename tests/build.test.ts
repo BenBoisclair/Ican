@@ -41,3 +41,38 @@ describe('page shell', () => {
     expect(/\.js \.rv\{/.test(readDist())).toBe(true);
   });
 });
+
+/** Inner HTML of the first element with this id (good enough for our flat sections). */
+function section(id: string): string {
+  const page = html();
+  const start = page.indexOf(`id="${id}"`);
+  expect(start, `#${id} exists`).toBeGreaterThan(-1);
+  const tag = page.lastIndexOf('<', start);
+  const name = page.slice(tag + 1).match(/^[a-z0-9]+/)![0];
+  const end = page.indexOf(`</${name}>`, start);
+  return page.slice(tag, end);
+}
+const text = (s: string) => s.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/\s+/g, ' ');
+
+describe('header and footer', () => {
+  test('desktop navigation lists every solution, Chang ICAN after a separator, and portfolio', () => {
+    const nav = section('site-nav');
+    const t = text(nav);
+    for (const label of [
+      'Network & IT Infrastructure', 'IT Security Assessment', 'Server Room & Cabling Solutions',
+      'Enterprise Wi-Fi Solutions', 'Software & Application Solutions', 'IT Consulting & Assessment',
+      'Chang ICAN — Home & Office Technicians', 'IT Infrastructure', 'Software & Application', 'About Us', 'Contact Us',
+    ]) expect(t, label).toContain(label);
+    expect(nav).toMatch(/class="sep"[^>]*>\s*<\/li>\s*<li[^>]*>\s*<a[^>]*href="#chang"/);
+  });
+
+  test('footer has company, phones, maps and Facebook', () => {
+    const footer = section('contact');
+    const t = text(footer);
+    expect(t).toContain('International Computing And Networking Co., Ltd.');
+    expect(footer).toContain('href="tel:+6622723111"');
+    expect(footer).toContain('href="tel:+66846723111"');
+    expect(footer).toMatch(/<a[^>]*href="https:\/\/www\.facebook\.com\/ICAN\.Admin\/"[^>]*target="_blank"[^>]*rel="noopener"/);
+    expect(t).toContain('© 2026');
+  });
+});
