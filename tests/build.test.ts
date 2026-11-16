@@ -204,6 +204,12 @@ describe('links across the page', () => {
   });
 });
 
+describe('phone menu sizing', () => {
+  test('menu height uses the dynamic viewport so iPhone toolbars never cover "Contact Us"', () => {
+    expect(cssRules(/mobile-panel/).join('\n')).toContain('100dvh');
+  });
+});
+
 describe('header and footer', () => {
   test('desktop navigation lists every solution, Chang ICAN after a separator, and portfolio', () => {
     const nav = section('site-nav');

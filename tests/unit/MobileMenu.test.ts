@@ -1,12 +1,12 @@
 import { mount } from '@vue/test-utils';
-import { afterEach, describe, expect, test } from 'vitest';
+import { afterEach, describe, expect, test, vi } from 'vitest';
 import MobileMenu from '../../src/components/islands/MobileMenu.vue';
 import { site } from '../../src/data/site';
 
 const mountMenu = () => mount(MobileMenu, { props: { nav: site.nav, contact: site.contact }, attachTo: document.body });
 
 describe('MobileMenu', () => {
-  afterEach(() => { document.body.innerHTML = ''; });
+  afterEach(() => { document.body.innerHTML = ''; vi.unstubAllGlobals(); });
 
   test('starts closed, with the toggle wired to the panel', () => {
     const w = mountMenu();
@@ -44,5 +44,41 @@ describe('MobileMenu', () => {
     const labels = w.findAll('.mobile-panel a').map((a) => a.text());
     const expected = site.nav.flatMap((i) => [i.label, ...(i.children ?? []).map((c) => c.label)]);
     expect(labels).toEqual([...expected, site.contact.label]);
+  });
+
+  test('closes when the screen grows past the phone breakpoint (e.g. iPad rotated)', async () => {
+    let onChange: ((e: { matches: boolean }) => void) | undefined;
+    vi.stubGlobal('matchMedia', (q: string) => ({
+      matches: true, media: q,
+      addEventListener: (_: string, cb: (e: { matches: boolean }) => void) => { onChange = cb; },
+      removeEventListener() {},
+    }));
+    const w = mountMenu();
+    await w.get('button.burger').trigger('click');
+    expect(onChange).toBeTypeOf('function');
+    onChange!({ matches: false });
+    await w.vm.$nextTick();
+    expect(w.get('button.burger').attributes('aria-expanded')).toBe('false');
+    expect(w.get('.mobile-panel').isVisible()).toBe(false);
+  });
+
+  test('Escape returns keyboard focus to the menu button', async () => {
+    const w = mountMenu();
+    const toggle = w.get('button.burger');
+    await toggle.trigger('click');
+    (w.get('.mobile-panel a').element as HTMLElement).focus();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    await w.vm.$nextTick();
+    expect(document.activeElement).toBe(toggle.element);
+  });
+
+  test('Escape leaves focus alone when the menu is already closed', async () => {
+    const w = mountMenu();
+    const other = document.createElement('button');
+    document.body.appendChild(other);
+    other.focus();
+    document.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape' }));
+    await w.vm.$nextTick();
+    expect(document.activeElement).toBe(other);
   });
 });

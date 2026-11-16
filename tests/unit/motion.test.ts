@@ -42,4 +42,10 @@ describe('initMotion', () => {
     window.dispatchEvent(new Event('scroll'));
     expect(nav.classList.contains('scrolled')).toBe(false);
   });
+
+  test('marks the page as motion-ready so the no-JS fallback stays off', () => {
+    delete document.documentElement.dataset.motion;
+    initMotion();
+    expect(document.documentElement.dataset.motion).toBe('ready');
+  });
 });

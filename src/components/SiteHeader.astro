@@ -43,7 +43,7 @@ import { img } from '../lib/assets';
   .menu > li > a :global(svg) { transition: transform .2s; }
   .menu > li:hover > a :global(svg), .menu > li:focus-within > a :global(svg) { transform: rotate(180deg); }
   .drop { position: absolute; top: 100%; left: 0; min-width: 310px; padding: 8px; margin: 0; list-style: none; border-radius: 12px; background: #fff; border: 1px solid var(--line); box-shadow: 0 16px 40px rgba(15, 27, 51, .12); opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity .18s, transform .18s, visibility .18s; }
-  .menu > li:hover .drop, .menu > li:focus-within .drop { opacity: 1; visibility: visible; transform: none; }
+  .menu > li:hover .drop, .menu > li:focus-within .drop { opacity: 1; visibility: visible; transform: none; transition: opacity .18s, transform .18s, visibility 0s; }
   .drop a { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; font-size: 14.5px; font-weight: 500; }
   .drop a:hover { background: #F1F5FC; color: var(--blue); }
   .drop a :global(svg) { flex: none; color: var(--blue); }

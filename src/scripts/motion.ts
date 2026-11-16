@@ -19,6 +19,8 @@ export function initMotion(): void {
   } else {
     revealables.forEach((el) => el.classList.add('in'));
   }
+  // Tells the inline fallback in BaseLayout that reveal is wired up, so it keeps html.js.
+  document.documentElement.dataset.motion = 'ready';
 
   const nav = document.querySelector('.nav');
   const photos = Array.from(document.querySelectorAll<HTMLImageElement>('.tile img'));

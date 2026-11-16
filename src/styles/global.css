@@ -71,6 +71,9 @@ h2 { font-size: clamp(28px, 3.4vw, 40px); line-height: 1.15; font-weight: 700; l
   .js .rv { opacity: 0; transform: translateY(22px); transition: opacity .75s var(--ease), transform .75s var(--ease); transition-delay: var(--d, 0ms); }
   .js .rv.in { opacity: 1; transform: none; }
 }
+@media print {
+  .js .rv { opacity: 1 !important; transform: none !important; transition: none !important; }
+}
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }

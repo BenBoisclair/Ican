@@ -6,16 +6,32 @@ import type { NavItem } from '../../data/site';
 defineProps<{ nav: NavItem[]; contact: { label: string; href: string } }>();
 
 const open = ref(false);
+const toggle = ref<HTMLButtonElement | null>(null);
 const panelId = 'mobile-panel';
 const close = () => { open.value = false; };
-const onKey = (e: KeyboardEvent) => { if (e.key === 'Escape') close(); };
 
-onMounted(() => document.addEventListener('keydown', onKey));
-onBeforeUnmount(() => document.removeEventListener('keydown', onKey));
+const onKey = (e: KeyboardEvent) => {
+  if (e.key !== 'Escape' || !open.value) return;
+  close();
+  toggle.value?.focus();
+};
+// The menu only exists on phone widths: close it if the screen grows past them (e.g. a tablet rotates).
+const phone = typeof window !== 'undefined' ? window.matchMedia?.('(max-width: 960px)') : undefined;
+const onBreakpoint = (e: { matches: boolean }) => { if (!e.matches) close(); };
+
+onMounted(() => {
+  document.addEventListener('keydown', onKey);
+  phone?.addEventListener?.('change', onBreakpoint);
+});
+onBeforeUnmount(() => {
+  document.removeEventListener('keydown', onKey);
+  phone?.removeEventListener?.('change', onBreakpoint);
+});
 </script>
 
 <template>
   <button
+    ref="toggle"
     class="burger"
     type="button"
     :aria-expanded="open ? 'true' : 'false'"
@@ -40,7 +56,7 @@ onBeforeUnmount(() => document.removeEventListener('keydown', onKey));
 .mobile-panel {
   position: absolute; left: 0; right: 0; top: 100%;
   padding: 8px 16px 20px; background: #fff; border-bottom: 1px solid #E6EAF2;
-  box-shadow: 0 16px 30px rgba(15, 27, 51, .08); max-height: calc(100vh - 76px); overflow-y: auto;
+  box-shadow: 0 16px 30px rgba(15, 27, 51, .08); max-height: calc(100vh - 76px); max-height: calc(100dvh - 76px); overflow-y: auto;
 }
 .mobile-panel a { display: block; padding: 12px 4px; font-weight: 500; border-bottom: 1px solid #EEF1F6; }
 .mobile-panel a.sub { padding-left: 16px; font-weight: 400; font-size: 15px; }

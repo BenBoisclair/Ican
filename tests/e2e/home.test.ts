@@ -89,16 +89,15 @@ describe.skipIf(!hasChrome)('homepage in a real browser', { timeout: 60000 }, ()
     await page.close();
   });
 
-  test('keyboard: tabbing to "Solutions" opens its menu', async () => {
+  test('keyboard: Tab goes from "Solutions" straight into its menu, even when held down', async () => {
     const page = await open(1440, 900);
     for (let i = 0; i < 6; i++) {
       await page.keyboard.press('Tab');
       if (await page.evaluate(() => document.activeElement?.textContent?.trim() === 'Solutions')) break;
     }
     expect(await page.evaluate(() => document.activeElement?.textContent?.trim())).toBe('Solutions');
-    await new Promise((r) => setTimeout(r, 300));
-    const visibility = await page.evaluate(() => getComputedStyle(document.querySelector('.drop')!).visibility);
-    expect(visibility).toBe('visible');
+    await page.keyboard.press('Tab'); // immediately, like a held-down key
+    expect(await page.evaluate(() => !!document.activeElement?.closest('.drop'))).toBe(true);
     await page.close();
   });
 
@@ -125,6 +124,41 @@ describe.skipIf(!hasChrome)('homepage in a real browser', { timeout: 60000 }, ()
     await page.keyboard.press('Escape');
     await page.waitForFunction(() => getComputedStyle(document.getElementById('mobile-panel')!).display === 'none');
     expect(await page.$eval('button.burger', (el) => el.getAttribute('aria-expanded'))).toBe('false');
+    await page.close();
+  });
+
+  test('phone menu closes when the window widens past 960px (e.g. tablet rotation)', async () => {
+    const page = await open(375, 800);
+    await page.waitForSelector('astro-island[component-url*="MobileMenu"]:not([ssr])');
+    await page.click('button.burger');
+    await page.setViewport({ width: 1024, height: 768 });
+    await page.waitForFunction(() => getComputedStyle(document.getElementById('mobile-panel')!).display === 'none');
+    expect(await page.$eval('button.burger', (el) => el.getAttribute('aria-expanded'))).toBe('false');
+    await page.close();
+  });
+
+  test('printing the page shows every section', async () => {
+    const page = await open(1440, 900);
+    await page.emulateMediaType('print');
+    const hidden = await page.evaluate(() => [...document.querySelectorAll('.rv')].filter((el) => getComputedStyle(el).opacity !== '1').length);
+    expect(hidden).toBe(0);
+    await page.close();
+  });
+
+  test('if the animation script fails, content still appears within a few seconds', async () => {
+    const page = await browser.newPage();
+    await page.setViewport({ width: 1440, height: 900 });
+    await page.setRequestInterception(true);
+    page.on('request', (req) => {
+      if (req.resourceType() !== 'document') { req.continue(); return; }
+      const broken = readFileSync(join(process.cwd(), 'dist', 'index.html'), 'utf8')
+        .replace(/<script type="module">[\s\S]*?<\/script>/, '<script type="module">throw new Error("simulated motion failure")</script>');
+      req.respond({ status: 200, contentType: 'text/html; charset=utf-8', body: broken });
+    });
+    await page.goto(URL, { waitUntil: 'networkidle0' });
+    await new Promise((r) => setTimeout(r, 3500));
+    const hidden = await page.evaluate(() => [...document.querySelectorAll('.rv')].filter((el) => getComputedStyle(el).opacity !== '1').length);
+    expect(hidden).toBe(0);
     await page.close();
   });
 });
