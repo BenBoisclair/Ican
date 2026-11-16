@@ -176,6 +176,34 @@ describe('Trusted by, Why ICAN, projects', () => {
   });
 });
 
+describe('Area54 directory', () => {
+  test('heading, six businesses and directions', () => {
+    const s = section('area54');
+    const t = text(s);
+    expect(t).toContain('Visit Area54');
+    for (const name of ['Tidnuad Thai Massage', 'ICAN Group', "Chef's Place", 'Rice & Curry', 'Carfé Area54 Specialty Coffee', 'Chang ICAN']) {
+      expect(t, name).toContain(name);
+    }
+    expect(s).toContain('href="https://www.google.com/maps/search/?api=1&amp;query=Area54+Vibhavadi"');
+  });
+});
+
+describe('links across the page', () => {
+  test('every in-page anchor has a target', () => {
+    const page = html();
+    const ids = new Set([...page.matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
+    const anchors = [...new Set([...page.matchAll(/href="#([^"]+)"/g)].map((m) => m[1]))];
+    expect(anchors.length).toBeGreaterThan(0);
+    expect(anchors.filter((a) => !ids.has(a))).toEqual([]);
+  });
+
+  test('every new-tab link uses rel="noopener"', () => {
+    const tags = [...html().matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)].map((m) => m[0]);
+    expect(tags.length).toBeGreaterThan(0);
+    expect(tags.filter((t) => !/rel="[^"]*noopener/.test(t))).toEqual([]);
+  });
+});
+
 describe('header and footer', () => {
   test('desktop navigation lists every solution, Chang ICAN after a separator, and portfolio', () => {
     const nav = section('site-nav');

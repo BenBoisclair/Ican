@@ -1,0 +1,36 @@
+---
+import { getImage } from 'astro:assets';
+import Icon from '../Icon.astro';
+import Area54Directory from '../islands/Area54Directory.vue';
+import { area54 } from '../../data/home';
+import { img } from '../../lib/assets';
+
+const photo = img(area54.image);
+const small = await getImage({ src: photo, width: 1100 });
+const large = await getImage({ src: photo, width: 2200 });
+---
+<section id="area54" class="area">
+  <div class="wrap">
+    <div class="sec-head row rv">
+      <div>
+        <span class="eyebrow">{area54.eyebrow}</span>
+        <h2>{area54.heading}</h2>
+        <p class="sub">{area54.sub}</p>
+      </div>
+      <a class="link" href={area54.directionsUrl} target="_blank" rel="noopener">{area54.directionsLabel} <Icon name="arrow-up-right" /></a>
+    </div>
+    <div class="rv">
+      <Area54Directory
+        client:visible
+        spots={area54.spots}
+        imageSrc={large.src}
+        imageSrcset={`${small.src} 1100w, ${large.src} 2200w`}
+        imageAlt={area54.imageAlt}
+      />
+    </div>
+  </div>
+</section>
+
+<style>
+  .area { padding: 96px 0; background: linear-gradient(180deg, #fff 0%, var(--tint) 100%); }
+</style>
