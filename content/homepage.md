@@ -9,12 +9,12 @@ v5 = the v3 layout (full cards, full logo grid, Why with certifications panel, 6
 - Right: Solutions (drop-down: the six solutions + Chang ICAN), Portfolio (drop-down: IT Infrastructure, Software & Application), About Us, Contact Us (main CTA button)
 
 ## 1. Hero
-- Pill: Established 1999 · Bangkok, Thailand
+- (No eyebrow/pill above the headline: removed at client request.)
 - **Your Trusted Partner in IT Solutions.** ("IT Solutions." in blue with a drawn underline)
 - ICAN helps businesses build, assess, and improve their IT systems.
 - CTAs: Explore Solutions, Contact Us
 - Trusted by **50+ organizations**, including: SCG · PTT · 7-Eleven · L'Oréal · Synnex (grey logo row)
-- Photo collage: blue patch-panel cabling (main) + server room (overlapping)
+- Photo collage: blue patch-panel cabling (main, static) + server room (overlapping)
 - Floating cards: **27+** Years in IT services · **CCIE · CCNP · CCNA** Cisco-certified experts · ✓ Assessment first
 
 ## 2. Our Solutions (each links to its own page)
