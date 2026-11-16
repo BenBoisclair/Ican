@@ -17,7 +17,7 @@ v5 = the v3 layout (full cards, full logo grid, Why with certifications panel, 6
 - Photo collage: blue patch-panel cabling (main, static) + server room (overlapping)
 - Floating cards: **27+** Years in IT services · **CCIE · CCNP · CCNA** Cisco-certified experts · ✓ Assessment first
 
-## 2. Our Solutions (each links to its own page)
+## 2. Our Solutions (heading only, no eyebrow; each card links to its own page; hover = border tint only, no shadow)
 - Network & IT Infrastructure: Resilient networks, from IP planning to fiber redundancy.
 - IT Security Assessment: Find weak spots across firewalls, servers, and Wi-Fi.
 - Server Room & Cabling Solutions: Racks, cabling, power, and cooling, assessed and improved.
@@ -31,7 +31,7 @@ v5 = the v3 layout (full cards, full logo grid, Why with certifications panel, 6
 - Actions: Call 081-613-5243 · LINE https://lin.ee/zk70Gu8 (QR shows on hover) · All services →
 - Photos: team photo (main), fiber-termination photo from the flyer (secondary)
 
-## 3. Our Clients
+## 3. Trusted by (heading; small "Clients" eyebrow above)
 - All 52 logos (incl. Synnex) in a grid, last row centered
 
 ## 4. Why choose ICAN?
@@ -43,7 +43,7 @@ Certified expertise panel: Networking — Cisco CCIE, CCNP, CCNA · Cabling — 
 - Approved Design: You sign off a To-be Design before we build.
 - One Team, One Contact: In-house specialists, fair pricing, one point of contact.
 
-## 5. See projects in action
+## 5. See projects in action (photos do not zoom on hover)
 Data Center · Structured Cabling · Server & Storage Racks · Fiber Optic Installation · CCTV Control Room · Server Room Fire Suppression → View full portfolio
 
 ## 6. Visit Area54 (Vibhavadi Soi 5, Yaek 4) — last section

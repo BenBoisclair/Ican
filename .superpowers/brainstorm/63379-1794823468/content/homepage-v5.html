@@ -110,7 +110,7 @@ h2{font-size:clamp(28px,3.4vw,40px);line-height:1.15;font-weight:700;letter-spac
 .solutions{padding:96px 0}
 .sol-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
 .sol{display:flex;flex-direction:column;gap:14px;padding:28px;background:#fff;border:1px solid var(--line);border-radius:16px;transition:border-color .2s,box-shadow .2s,transform .2s}
-.sol:hover{border-color:#B9C8EA;box-shadow:0 18px 40px rgba(20,58,147,.10);transform:translateY(-3px)}
+.sol:hover{border-color:#B9C8EA}
 .sol .ico{display:grid;place-items:center;width:48px;height:48px;border-radius:12px;background:var(--tint-2);color:var(--blue);transition:background .25s,color .25s,transform .35s var(--ease)}
 .sol:hover .ico{background:var(--blue);color:#fff;transform:rotate(-8deg) scale(1.08)}
 .sol .ico svg{width:24px;height:24px}
@@ -178,7 +178,6 @@ h2{font-size:clamp(28px,3.4vw,40px);line-height:1.15;font-weight:700;letter-spac
 .tile{margin:0}
 .tile .imgbox{border-radius:16px;overflow:hidden;aspect-ratio:4/3;background:var(--tint)}
 .tile img{width:100%;height:100%;object-fit:cover;--py:0px;--s:1.14;transform:translateY(var(--py)) scale(var(--s));transition:transform .2s linear}
-.tile:hover img{--s:1.18}
 .tile figcaption{padding:16px 4px 4px}
 .tile .cat{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--blue-500)}
 .tile strong{display:block;margin-top:4px;font-size:17px}
@@ -322,7 +321,7 @@ footer .legal{grid-column:1/-1;padding-top:24px;margin-top:8px;font-size:13px;bo
 <!-- ================= SOLUTIONS ================= -->
 <section id="solutions" class="solutions">
   <div class="wrap">
-    <div class="sec-head rv"><span class="eyebrow">Solutions</span><h2>Our Solutions</h2></div>
+    <div class="sec-head rv"><h2>Our Solutions</h2></div>
     <div class="sol-grid">
       <a class="sol rv" href="#"><span class="ico"><i data-lucide="network"></i></span><h3>Network &amp; IT Infrastructure</h3><p>Resilient networks, from IP planning to fiber redundancy.</p><span class="more">Learn more <i data-lucide="arrow-right"></i></span></a>
       <a class="sol rv" style="--d:90ms" href="#"><span class="ico"><i data-lucide="shield-check"></i></span><h3>IT Security Assessment</h3><p>Find weak spots across firewalls, servers, and Wi-Fi.</p><span class="more">Learn more <i data-lucide="arrow-right"></i></span></a>
@@ -364,7 +363,7 @@ footer .legal{grid-column:1/-1;padding-top:24px;margin-top:8px;font-size:13px;bo
 <!-- ================= CLIENTS ================= -->
 <section id="clients" class="clients">
   <div class="wrap">
-    <div class="sec-head rv"><span class="eyebrow">Clients</span><h2>Our Clients</h2></div>
+    <div class="sec-head rv"><span class="eyebrow">Clients</span><h2>Trusted by</h2></div>
     <div class="logo-grid" id="logoGrid"></div>
   </div>
 </section>
