@@ -54,6 +54,38 @@ function section(id: string): string {
 }
 const text = (s: string) => s.replace(/<[^>]+>/g, ' ').replace(/&amp;/g, '&').replace(/&#39;/g, "'").replace(/\s+/g, ' ');
 
+describe('hero', () => {
+  test('shows the headline, lead and trusted-by logos', () => {
+    const hero = section('hero');
+    const t = text(hero);
+    expect(t).toContain('Your Trusted Partner in');
+    expect(t).toContain('IT Solutions.');
+    expect(t).toContain('ICAN helps businesses build, assess, and improve their IT systems.');
+    expect(t).toContain('Trusted by');
+    expect(t).toContain('50+ organizations');
+    for (const alt of ['SCG', 'PTT', '7-Eleven', "L'Oréal Thailand", 'Synnex']) {
+      expect(hero, alt).toContain(`alt="${alt}"`);
+    }
+    expect(t).toContain('27+');
+    expect(t).toContain('CCIE · CCNP · CCNA');
+  });
+
+  test('keeps the space between "in" and the highlighted "IT Solutions."', () => {
+    expect(section('hero')).toMatch(/Partner in\s+<span class="hl"/);
+  });
+
+  test('keeps the client fixes: no pill above the headline, no zoom on the main photo', () => {
+    expect(text(html())).not.toContain('Established 1999 · Bangkok');
+    expect(readDist()).not.toContain('@keyframes kb');
+  });
+
+  test('serves resized WebP photos instead of the original JPGs', () => {
+    const hero = section('hero');
+    expect(hero).toMatch(/<img[^>]*src="[^"]*hero-cabling[^"]*\.webp"/);
+    expect(hero).not.toMatch(/src="[^"]*\.jpg"/);
+  });
+});
+
 describe('header and footer', () => {
   test('desktop navigation lists every solution, Chang ICAN after a separator, and portfolio', () => {
     const nav = section('site-nav');
