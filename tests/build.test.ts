@@ -146,6 +146,36 @@ describe('Start easy (Chang ICAN)', () => {
   });
 });
 
+describe('Trusted by, Why ICAN, projects', () => {
+  test('"Trusted by" shows all 52 client logos, each with alt text', () => {
+    const s = section('clients');
+    expect(s).toMatch(/<h2[^>]*>Trusted by<\/h2>/);
+    const imgs = [...s.matchAll(/<img[^>]*>/g)].map((m) => m[0]);
+    expect(imgs).toHaveLength(52);
+    for (const tag of imgs) expect(tag).toMatch(/alt="[^"]+"/);
+  });
+
+  test('Why ICAN: heading, CTA, certifications and four points', () => {
+    const t = text(section('why'));
+    for (const s of [
+      'Experience, Technical Expertise, and Practical Solutions', 'Contact Our Team',
+      'Cisco CCIE', 'CCNP', 'CCNA', 'Systimax', 'Panduit', 'TQS / ISO 15504', 'Management level', 'Working level',
+      'Established in 1999', 'Assessment First', 'Approved Design', 'One Team, One Contact',
+    ]) expect(t, s).toContain(s);
+  });
+
+  test('projects: six captioned photos and a portfolio link', () => {
+    const t = text(section('work'));
+    for (const s of ['Data Center', 'Structured Cabling', 'Server & Storage Racks', 'Fiber Optic Installation', 'CCTV Control Room', 'Server Room Fire Suppression', 'View full portfolio']) {
+      expect(t, s).toContain(s);
+    }
+  });
+
+  test('project photos do not zoom on hover', () => {
+    for (const rule of cssRules(/\.tile[^,{]*:hover/)) expect(rule).not.toMatch(/--s|scale/);
+  });
+});
+
 describe('header and footer', () => {
   test('desktop navigation lists every solution, Chang ICAN after a separator, and portfolio', () => {
     const nav = section('site-nav');
