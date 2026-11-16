@@ -1,0 +1,77 @@
+/* ICAN design tokens and shared building blocks. Section styles live in their components. */
+:root {
+  --blue: #143A93;
+  --blue-600: #0F2E78;
+  --blue-800: #0A2160;
+  --blue-500: #2453C4;
+  --accent: #2F63E0;
+  --tint: #F5F8FD;
+  --tint-2: #EEF3FC;
+  --ink: #0F1B33;
+  --muted: #55617A;
+  --line: #E3E8F2;
+  --ease: cubic-bezier(.2, .7, .2, 1);
+  --focus: 3px solid #8DB0FF;
+}
+
+*, *::before, *::after { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  margin: 0;
+  font-family: "IBM Plex Sans", "IBM Plex Sans Thai", system-ui, sans-serif;
+  color: var(--ink);
+  background: #fff;
+  -webkit-font-smoothing: antialiased;
+}
+img { display: block; max-width: 100%; height: auto; }
+a { color: inherit; text-decoration: none; }
+h1, h2, h3, h4, p { margin: 0; }
+:focus-visible { outline: var(--focus); outline-offset: 3px; }
+.th { font-family: "IBM Plex Sans Thai", "IBM Plex Sans", sans-serif; }
+
+.wrap { max-width: 1200px; margin: 0 auto; padding: 0 24px; }
+@media (max-width: 640px) { .wrap { padding: 0 16px; } }
+
+/* ---------- buttons: "Recommended mix" ---------- */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+  padding: 13px 22px; border: 0; border-radius: 8px; cursor: pointer;
+  font-family: inherit; font-size: 15px; font-weight: 600; line-height: 1.15; white-space: nowrap;
+  transition: transform .2s var(--ease), background-color .2s, box-shadow .25s var(--ease), color .2s;
+}
+.btn svg { width: 18px; height: 18px; flex: none; transition: transform .25s var(--ease); }
+.btn-lg { padding: 15px 26px; font-size: 16px; }
+.btn-primary { background: var(--blue); color: #fff; }
+.btn-primary:hover { background: var(--blue-600); transform: translateY(-2px); box-shadow: 0 12px 24px -8px rgba(20, 58, 147, .5); }
+.btn-primary:hover svg { transform: translateX(4px); }
+.btn-ghost { background: #fff; color: var(--blue); box-shadow: inset 0 0 0 1.5px #C9D4EA; }
+.btn-ghost:hover { background: var(--tint-2); box-shadow: inset 0 0 0 1.5px var(--blue); }
+.btn:active { transform: translateY(0) scale(.98); }
+
+/* ---------- text links: "Underline draw" ---------- */
+.link {
+  display: inline-flex; align-items: center; gap: 6px; padding-bottom: 3px;
+  font-weight: 600; color: var(--blue);
+  background: linear-gradient(currentColor, currentColor) 0 100% / 0 2px no-repeat;
+  transition: background-size .35s var(--ease);
+}
+.link:hover { background-size: 100% 2px; }
+.link svg { width: 18px; height: 18px; }
+
+/* ---------- headings ---------- */
+.eyebrow { display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--blue-500); }
+h2 { font-size: clamp(28px, 3.4vw, 40px); line-height: 1.15; font-weight: 700; letter-spacing: -.01em; }
+.sec-head { margin-bottom: 44px; max-width: 720px; }
+.sec-head .eyebrow + h2 { margin-top: 10px; }
+.sec-head .sub { margin-top: 10px; color: var(--muted); font-size: 16.5px; }
+.sec-head.row { display: flex; justify-content: space-between; align-items: flex-end; max-width: none; gap: 24px; flex-wrap: wrap; }
+
+/* ---------- scroll reveal (only when JavaScript runs) ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  .js .rv { opacity: 0; transform: translateY(22px); transition: opacity .75s var(--ease), transform .75s var(--ease); transition-delay: var(--d, 0ms); }
+  .js .rv.in { opacity: 1; transform: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after { animation: none !important; transition: none !important; }
+}
