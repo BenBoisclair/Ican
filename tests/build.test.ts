@@ -144,11 +144,11 @@ describe('Start easy (Chang ICAN)', () => {
     expect(s).toMatch(/<a[^>]*href="https:\/\/lin\.ee\/zk70Gu8"[^>]*target="_blank"[^>]*rel="noopener"/);
   });
 
-  test('rating: 4.5 of 5 stars from 22 reviews, readable by screen readers', () => {
+  test('rating: 4.5 of 5 stars from 22 Google reviews, readable by screen readers', () => {
     const s = section('chang');
-    expect(s).toMatch(/role="img"[^>]*aria-label="Rated 4\.5 out of 5 from 22 reviews"/);
+    expect(s).toMatch(/role="img"[^>]*aria-label="Rated 4\.5 out of 5 from 22 Google reviews"/);
     expect(s).toContain('--fill:90%');
-    expect(text(s)).toContain('(22 reviews)');
+    expect(text(s)).toContain('(22 Google reviews)');
   });
 
   test('"All services" sits with the service chips and opens the full list, not with the contact buttons', () => {

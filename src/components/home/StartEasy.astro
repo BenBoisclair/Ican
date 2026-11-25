@@ -5,7 +5,7 @@ import { startEasy as s } from '../../data/home';
 import { img } from '../../lib/assets';
 
 const stars = [1, 2, 3, 4, 5];
-const ratingLabel = `Rated ${s.rating.value} out of 5 from ${s.rating.count} reviews`;
+const ratingLabel = `Rated ${s.rating.value} out of 5 from ${s.rating.count} ${s.rating.source} reviews`;
 ---
 <div class="easy rv" id="chang">
   <div class="easy-media">
@@ -22,7 +22,7 @@ const ratingLabel = `Rated ${s.rating.value} out of 5 from ${s.rating.count} rev
           <span class="on">{stars.map(() => <Icon name="star" size={17} />)}</span>
         </span>
         <b>{s.rating.value.toFixed(1)}</b>
-        <span class="count">({s.rating.count} reviews)</span>
+        <span class="count">({s.rating.count} {s.rating.source} reviews)</span>
       </span>
     </div>
     <p>{s.text}</p>

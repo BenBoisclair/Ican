@@ -32,9 +32,10 @@ describe('homepage data', () => {
     expect(site.facebookUrl).toBe('https://www.facebook.com/ICAN.Admin/');
   });
 
-  test('Chang ICAN: line without a head count, 4.5 stars from 22 reviews, every chip has its full service list', () => {
+  test('Chang ICAN: line without a head count, 4.5 stars from 22 Google reviews, every chip has its full service list', () => {
     expect(startEasy.text).toBe('ICAN technicians for everyday home and office jobs. Book by the job or by the day.');
-    expect(startEasy.rating).toEqual({ value: 4.5, count: 22 });
+    expect(startEasy.rating).toEqual({ value: 4.5, count: 22, source: 'Google' });
+    expect(area54.spots.find((s) => s.id === 6)?.tag).toBe('Technicians · ★ 4.5 Google');
     expect(startEasy.services.map((s) => s.label)).toEqual(['Electrical & network', 'Handyman', 'Moving', 'Event setup']);
     for (const s of startEasy.services) expect(s.items.length, s.label).toBeGreaterThanOrEqual(3);
   });

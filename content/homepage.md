@@ -28,7 +28,7 @@ Compact two-column list (2026-11-24): icon, title, one-line blurb, arrow. No "Le
 
 ### Start easy: Chang ICAN (ช่างไอแคน)
 - ICAN technicians for everyday home and office jobs. Book by the job or by the day.
-- Rating next to the title: ★★★★½ 4.5 (22 reviews). Source not shown yet (confirm whether it is Google).
+- Rating next to the title: ★★★★½ 4.5 (22 Google reviews). Source: Google, confirmed 2026-11-25.
 - Chips: Electrical & network · Handyman · Moving · Event setup · **All services ⌄** (opens the full list from `content/chang-ican/chang-ican.md` under the chips)
 - Actions: Call 081-613-5243 · LINE https://lin.ee/zk70Gu8 (QR shows on hover)
 - Photos: team photo (main), fiber-termination photo from the flyer (secondary)
@@ -57,7 +57,7 @@ Data Center · Structured Cabling · Server & Storage Racks · Fiber Optic Insta
 3. **Chef's Place** (top right) · Restaurant · ★ 5.0 (110 reviews): Chef-made Western comfort food: pasta, steak, and a 5-course tasting menu by reservation. Link: https://share.google/YkK6HwHjR3dihpZi0
 4. **Rice & Curry / ร้านข้าวแกง** (bottom left): Home-style Thai rice and curry, quick and affordable.
 5. **Carfé Area54 Specialty Coffee** (middle bottom) · Café · ★ 4.9 (60 reviews): Vintage coffee shop filled with classic cars. Pickup and delivery available. Link: https://share.google/eFkmi0EJoEdeAjz2U
-6. **Chang ICAN / ช่างไอแคน** (bottom right): On-site technicians for home and office jobs. Call 081-613-5243.
+6. **Chang ICAN / ช่างไอแคน** (bottom right) · Technicians · ★ 4.5 (22 reviews): On-site technicians for home and office jobs. Call 081-613-5243.
 
 ## Footer
 International Computing And Networking Co., Ltd.

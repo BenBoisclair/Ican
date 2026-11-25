@@ -68,7 +68,7 @@ export const startEasy = {
   thaiName: 'ช่างไอแคน',
   title: 'Start easy',
   text: 'ICAN technicians for everyday home and office jobs. Book by the job or by the day.',
-  rating: { value: 4.5, count: 22 },
+  rating: { value: 4.5, count: 22, source: 'Google' },
   /** Chips show the labels; "All services" opens the full list. Source: content/chang-ican/chang-ican.md. */
   services: [
     { icon: 'plug-zap', label: 'Electrical & network', items: ['Wiring', 'LAN & fiber cabling, tested', 'CCTV & Wi-Fi installation', 'Pick-to-Light / Put-to-Light'] },
@@ -191,7 +191,7 @@ export const area54 = {
       link: { label: 'Open in Maps', href: 'https://share.google/eFkmi0EJoEdeAjz2U', external: true },
     },
     {
-      id: 6, name: 'Chang ICAN', thaiName: 'ช่างไอแคน', tag: 'Technicians',
+      id: 6, name: 'Chang ICAN', thaiName: 'ช่างไอแคน', tag: 'Technicians · ★ 4.5 Google',
       text: 'On-site technicians for home and office jobs. Call 081-613-5243.',
       pin: { left: 84, top: 67 },
       link: { label: 'Start easy', href: '#chang', external: false },
