@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { solutions, solutionHref } from '../data/solutions';
+---
+<BaseLayout title="Page not found | ICAN Group" description="This page has moved or no longer exists. Find ICAN's IT solutions, portfolio and contact details from here." noindex>
+  <main class="nf">
+    <div class="wrap">
+      <span class="eyebrow">Error 404</span>
+      <h1>Page not found</h1>
+      <p class="lead">This page has moved or no longer exists. These will take you back on track:</p>
+      <div class="ctas">
+        <a class="btn btn-primary btn-lg" href="/">Go to the homepage <Icon name="arrow-right" /></a>
+        <a class="btn btn-ghost btn-lg" href="/contact">Contact us</a>
+      </div>
+      <h2>Our solutions</h2>
+      <ul role="list">
+        {solutions.map((s) => <li><a href={solutionHref(s)}><Icon name={s.icon} size={17} />{s.title}</a></li>)}
+      </ul>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  .nf { padding: 72px 0 96px; background: linear-gradient(180deg, var(--tint) 0%, #fff 60%); }
+  .eyebrow + h1 { margin-top: 10px; }
+  h1 { font-size: clamp(32px, 4.2vw, 48px); line-height: 1.1; letter-spacing: -.02em; }
+  .lead { max-width: 620px; margin-top: 14px; font-size: 18px; line-height: 1.55; color: #3F4B66; }
+  .ctas { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+  h2 { margin-top: 48px; font-size: 20px; }
+  ul { display: flex; flex-wrap: wrap; gap: 8px; margin: 14px 0 0; padding: 0; list-style: none; }
+  ul a { display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; background: #fff; border: 1px solid #DCE4F3; font-size: 14.5px; font-weight: 500; transition: border-color .2s, color .2s; }
+  ul a:hover { border-color: var(--blue-500); color: var(--blue); }
+  ul :global(svg) { color: var(--blue); }
+</style>

@@ -6,12 +6,12 @@ import Gallery from '../../components/page/Gallery.astro';
 import Lightbox from '../../components/page/Lightbox.astro';
 import CtaBand from '../../components/page/CtaBand.astro';
 import Icon from '../../components/Icon.astro';
-import { photos, portfolioHero, portfolioPages } from '../../data/portfolio';
+import { bestFirst, photos, portfolioHero, portfolioPages } from '../../data/portfolio';
 
 const page = portfolioPages.software;
 const shots = photos('software');
 ---
-<BaseLayout title={`${page.metaTitle} | ICAN Group`} description={page.description}>
+<BaseLayout title={`${page.metaTitle} | ICAN Group`} description={page.description} image={bestFirst('software')[0]} imageAlt="A system built by ICAN">
   <main>
     <PageHero crumbs={[{ label: 'Home', href: '/' }, { label: 'Portfolio' }, { label: page.title }]} title={portfolioHero.title} lead={portfolioHero.lead} transitionName="portfolio-hero">
       <PortfolioTabs current="software" />

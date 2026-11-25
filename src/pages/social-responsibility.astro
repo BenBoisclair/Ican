@@ -22,7 +22,7 @@ const prepare = (list: Activity[]) => Promise.all(list.map(async (a) => ({
 })));
 const groups = await Promise.all(csr.groups.map(async (g) => ({ ...g, items: await prepare(csr.activities.filter((a) => a.category === g.key)) })));
 ---
-<BaseLayout title={`${csr.metaTitle} | ICAN Group`} description={csr.description}>
+<BaseLayout title={`${csr.metaTitle} | ICAN Group`} description={csr.description} image={img(csr.activities[0].photos[0])} imageAlt={csr.activities[0].title}>
   <main>
     <PageHero
       crumbs={[{ label: 'Home', href: '/' }, { label: 'About Us', href: '/about' }, { label: csr.metaTitle }]}

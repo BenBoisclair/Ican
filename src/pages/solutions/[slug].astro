@@ -9,6 +9,7 @@ import CtaBand from '../../components/page/CtaBand.astro';
 import Icon from '../../components/Icon.astro';
 import { solutions, solutionHref, type Solution, type SolutionPage } from '../../data/solutions';
 import { bestFirst, galleries, galleryHref, photos } from '../../data/portfolio';
+import { img } from '../../lib/assets';
 
 export function getStaticPaths() {
   return solutions.filter((s) => s.page).map((s) => ({ params: { slug: s.slug }, props: { solution: s } }));
@@ -24,8 +25,10 @@ const cards = keys.length > 1 ? keys.map((k) => {
   return { title: g.title, href: galleryHref(k), cover: bestFirst(k)[0], count: photos(k).length };
 }) : [];
 const others = solutions.filter((s) => s.slug !== solution.slug);
+// Shared with the page photo, or the best photo of its first gallery.
+const sharePhoto = page.image ? img(page.image) : keys[0] ? bestFirst(keys[0])[0] : undefined;
 ---
-<BaseLayout title={`${page.metaTitle} | ICAN Group`} description={page.description}>
+<BaseLayout title={`${page.metaTitle} | ICAN Group`} description={page.description} image={sharePhoto} imageAlt={page.imageAlt ?? solution.title}>
   <main>
     <PageHero
       crumbs={[{ label: 'Home', href: '/' }, { label: 'Solutions', href: '/#solutions' }, { label: solution.title }]}

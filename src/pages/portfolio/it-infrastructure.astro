@@ -11,7 +11,7 @@ const page = portfolioPages['it-infrastructure'];
 const cats = galleries.filter((g) => g.page === 'it-infrastructure').map((g) => ({ ...g, photos: bestFirst(g.key) }));
 const total = cats.reduce((n, c) => n + c.photos.length, 0);
 ---
-<BaseLayout title={`${page.metaTitle} | ICAN Group`} description={page.description}>
+<BaseLayout title={`${page.metaTitle} | ICAN Group`} description={page.description} image={bestFirst('datacenter')[0]} imageAlt="Server room built by ICAN">
   <main>
     <PageHero crumbs={[{ label: 'Home', href: '/' }, { label: 'Portfolio' }, { label: page.title }]} title={portfolioHero.title} lead={portfolioHero.lead} transitionName="portfolio-hero">
       <PortfolioTabs current="it-infrastructure" />

@@ -14,7 +14,8 @@
     "test:unit": "vitest run tests/unit",
     "test:build": "astro build && vitest run tests/build.test.ts",
     "test:e2e": "astro build && vitest run tests/e2e",
-    "test": "npm run test:unit && npm run test:build"
+    "test": "npm run test:unit && npm run test:build",
+    "og": "node scripts/og-default.mjs"
   },
   "dependencies": {
     "@astrojs/vue": "^7.1.6",

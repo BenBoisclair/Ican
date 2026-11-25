@@ -9,7 +9,7 @@ import Icon from '../components/Icon.astro';
 import { about } from '../data/about';
 import { img } from '../lib/assets';
 ---
-<BaseLayout title={`${about.metaTitle} | ICAN Group`} description={about.description}>
+<BaseLayout title={`${about.metaTitle} | ICAN Group`} description={about.description} image={img(about.image)} imageAlt={about.imageAlt}>
   <main>
     <PageHero
       crumbs={[{ label: 'Home', href: '/' }, { label: 'About Us' }]}

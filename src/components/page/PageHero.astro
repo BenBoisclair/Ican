@@ -3,6 +3,7 @@
 import { Image } from 'astro:assets';
 import Icon from '../Icon.astro';
 import { img } from '../../lib/assets';
+import { breadcrumbLd, ld } from '../../lib/seo';
 
 interface Props {
   crumbs: { label: string; href?: string }[];
@@ -17,6 +18,7 @@ interface Props {
 }
 const { crumbs, eyebrow, title, lead, facts = [], image, imageAlt = '', transitionName } = Astro.props;
 ---
+<script type="application/ld+json" set:html={ld(breadcrumbLd(crumbs, Astro.url.pathname, Astro.site))} />
 <header class="page-hero" class:list={{ 'has-img': !!image }} style={transitionName ? `view-transition-name:${transitionName}` : undefined}>
   <div class="wrap">
     <div class="text">

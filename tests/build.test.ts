@@ -1,7 +1,8 @@
 // @vitest-environment node
-import { readFileSync, readdirSync, statSync } from 'node:fs';
+import { existsSync, readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
+import sharp from 'sharp';
 import { analytics } from '../src/data/analytics';
 
 const DIST = 'dist';
@@ -22,6 +23,7 @@ function readDist(): string {
 }
 
 const html = () => readFileSync(join(DIST, 'index.html'), 'utf8');
+const html_ = html;
 
 describe('page shell', () => {
   test('has language, title, description and the no-JS gate', () => {
@@ -491,6 +493,102 @@ describe('analytics', () => {
     } else {
       expect(page).not.toContain('id="consent"');
       expect(page).not.toContain('data-consent-open');
+    }
+  });
+});
+
+// ---------- search and sharing ----------
+
+const SITE = 'https://www.ican.co.th';
+/** Built pages people and search engines should see (not the 404 page or the /portfolio redirect). */
+const indexable = () => pages().filter((f) => !f.endsWith('404.html'));
+const pathOf = (f: string) => {
+  const rel = f.slice(DIST.length).replace(/\\/g, '/').replace(/index\.html$/, '').replace(/\/$/, '');
+  return rel === '' ? '/' : rel;
+};
+const meta = (html: string, key: string) => html.match(new RegExp(`<meta (?:property|name)="${key}" content="([^"]*)"`))?.[1];
+
+describe('search and sharing', () => {
+  test('every page has a canonical address and sharing tags for Facebook, LINE, LinkedIn and X', () => {
+    for (const f of indexable()) {
+      const html = readFileSync(f, 'utf8');
+      const url = `${SITE}${pathOf(f)}`;
+      expect(html, f).toContain(`<link rel="canonical" href="${url}">`);
+      expect(meta(html, 'og:url'), f).toBe(url);
+      expect(meta(html, 'og:title'), f).toBe(html.match(/<title>([^<]+)<\/title>/)![1]);
+      expect(meta(html, 'og:description'), f).toBe(meta(html, 'description'));
+      expect(meta(html, 'og:type'), f).toBe('website');
+      expect(meta(html, 'og:image'), f).toMatch(/^https:\/\/www\.ican\.co\.th\/.+\.jpg$/);
+      expect(meta(html, 'og:image:alt'), f).toBeTruthy();
+      expect(meta(html, 'twitter:card'), f).toBe('summary_large_image');
+      expect(meta(html, 'twitter:image'), f).toBe(meta(html, 'og:image'));
+    }
+  });
+
+  test('titles fit in search results and descriptions are a useful length', () => {
+    for (const f of pages()) {
+      const html = readFileSync(f, 'utf8');
+      const title = html.match(/<title>([^<]+)<\/title>/)![1].replace(/&amp;/g, '&');
+      const description = meta(html, 'description')!.replace(/&amp;/g, '&').replace(/&#39;/g, "'");
+      expect(title.length, `${f}: ${title}`).toBeLessThanOrEqual(65);
+      expect(description.length, `${f}: ${description}`).toBeGreaterThanOrEqual(70);
+      expect(description.length, `${f}: ${description}`).toBeLessThanOrEqual(160);
+    }
+  });
+
+  test('every share image exists at the size the page declares, in the 1.91:1 shape', async () => {
+    for (const f of indexable()) {
+      const html = readFileSync(f, 'utf8');
+      const file = join(DIST, meta(html, 'og:image')!.replace(SITE, ''));
+      const m = await sharp(file).metadata();
+      expect(`${m.width}x${m.height}`, f).toBe(`${meta(html, 'og:image:width')}x${meta(html, 'og:image:height')}`);
+      expect(Math.abs(m.width! / m.height! - 1200 / 630), f).toBeLessThan(0.01);
+      expect(m.width!, f).toBeGreaterThanOrEqual(600);
+    }
+  });
+
+  test('the 404 page stays out of search results', () => {
+    const html = readFileSync(join(DIST, '404.html'), 'utf8');
+    expect(html).toContain('<meta name="robots" content="noindex">');
+    expect(html).not.toContain('rel="canonical"');
+    expect(text(html)).toContain('Page not found');
+  });
+
+  test('favicon, home-screen icons and the web manifest are in place', async () => {
+    const html = html_();
+    for (const tag of ['<link rel="icon" href="/favicon.ico"', '<link rel="icon" href="/favicon-32.png"', '<link rel="apple-touch-icon" href="/apple-touch-icon.png"', '<link rel="manifest" href="/site.webmanifest"', '<meta name="theme-color" content="#143A93"']) {
+      expect(html, tag).toContain(tag);
+    }
+    expect(readFileSync(join(DIST, 'favicon.ico')).readUInt16LE(2)).toBe(1); // an icon file
+    expect((await sharp(join(DIST, 'apple-touch-icon.png')).metadata()).width).toBe(180);
+    const manifest = JSON.parse(readFileSync(join(DIST, 'site.webmanifest'), 'utf8'));
+    for (const icon of manifest.icons) {
+      const m = await sharp(join(DIST, icon.src)).metadata();
+      expect(`${m.width}x${m.height}`, icon.src).toBe(icon.sizes);
+    }
+  });
+
+  test('the sitemap lists every public page, and robots.txt points to it', () => {
+    const xml = readFileSync(join(DIST, 'sitemap.xml'), 'utf8');
+    const listed = [...xml.matchAll(/<loc>([^<]+)<\/loc>/g)].map((m) => m[1]).sort();
+    expect(listed).toEqual(indexable().map((f) => `${SITE}${pathOf(f)}`).sort());
+    expect(readFileSync(join(DIST, 'robots.txt'), 'utf8')).toContain(`Sitemap: ${SITE}/sitemap.xml`);
+  });
+
+  test('Google structured data: the company on the homepage, breadcrumbs on inner pages', () => {
+    const blocks = (html: string) => [...html.matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)].map((m) => JSON.parse(m[1])).flat();
+    const home = blocks(html_());
+    const org = home.find((b) => b['@type'] === 'ProfessionalService');
+    expect(org).toMatchObject({ name: 'ICAN Group', foundingDate: '1999', telephone: '+6622723111', address: { postalCode: '10900', addressCountry: 'TH' } });
+    expect(org.sameAs).toContain('https://www.facebook.com/ican.co.th');
+    expect(existsSync(join(DIST, 'ican-logo.png'))).toBe(true);
+    for (const f of indexable().filter((x) => x !== join(DIST, 'index.html'))) {
+      const crumbs = blocks(readFileSync(f, 'utf8')).find((b) => b['@type'] === 'BreadcrumbList');
+      expect(crumbs, f).toBeTruthy();
+      const items = crumbs.itemListElement;
+      expect(items[0].item, f).toBe(`${SITE}/`);
+      expect(items.at(-1).item, f).toBe(`${SITE}${pathOf(f)}`);
+      expect(new Set(items.map((i: { item: string }) => i.item)).size, f).toBe(items.length);
     }
   });
 });
