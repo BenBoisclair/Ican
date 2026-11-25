@@ -1,0 +1,19 @@
+---
+// Switches between the two portfolio pages.
+import { portfolioPages } from '../../data/portfolio';
+
+interface Props { current: keyof typeof portfolioPages }
+const { current } = Astro.props;
+---
+<nav class="tabs" aria-label="Portfolio">
+  {Object.entries(portfolioPages).map(([key, p]) => (
+    <a href={p.href} aria-current={key === current ? 'page' : undefined}>{p.title}</a>
+  ))}
+</nav>
+
+<style>
+  .tabs { display: inline-flex; gap: 4px; margin-top: 24px; padding: 4px; border-radius: 12px; background: #fff; border: 1px solid #DCE4F3; }
+  a { padding: 9px 16px; border-radius: 9px; font-size: 14.5px; font-weight: 600; color: var(--muted); transition: background .2s, color .2s; }
+  a:hover { color: var(--blue); }
+  a[aria-current="page"] { background: var(--blue); color: #fff; }
+</style>

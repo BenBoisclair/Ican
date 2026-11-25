@@ -106,16 +106,30 @@ describe('solutions', () => {
     expect(s.slice(0, s.indexOf('Our Solutions'))).not.toContain('eyebrow');
   });
 
-  test('six cards with the approved titles and blurbs', () => {
-    const t = text(section('solutions'));
-    for (const [title, blurb] of [
-      ['Network & IT Infrastructure', 'Resilient networks, from IP planning to fiber redundancy.'],
-      ['IT Security Assessment', 'Find weak spots across firewalls, servers, and Wi-Fi.'],
-      ['Server Room & Cabling Solutions', 'Racks, cabling, power, and cooling, assessed and improved.'],
-      ['Enterprise Wi-Fi Solutions', 'Access point and controller design for business Wi-Fi.'],
-      ['Software & Application Solutions', 'Custom applications built around your business.'],
-      ['IT Consulting & Assessment', 'Clear findings and a roadmap before you invest.'],
-    ]) { expect(t, title).toContain(title); expect(t, blurb).toContain(blurb); }
+  test('eight cards with their titles and blurbs, each linking to its page or the contact form', () => {
+    const sec = section('solutions');
+    const t = text(sec);
+    for (const [title, blurb, href] of [
+      ['IT Security Assessment', 'Find weak spots across firewalls, servers, and Wi-Fi.', '/contact?topic=quote&amp;solution=it-security-assessment'],
+      ['Network & IT Infrastructure', 'Resilient networks, from IP planning to fiber redundancy.', '/solutions/network-it-infrastructure'],
+      ['Server Room & Cabling', 'Racks, cabling, power, and cooling, assessed and improved.', '/solutions/server-room-cabling'],
+      ['Enterprise Wi-Fi', 'Access point and controller design for business Wi-Fi.', '/contact?topic=quote&amp;solution=enterprise-wifi'],
+      ['Software & Applications', 'Custom applications built around your business.', '/solutions/software-applications'],
+      ['IT Consulting & Assessment', 'Clear findings and a roadmap before you invest.', '/contact?topic=quote&amp;solution=it-consulting-assessment'],
+      ['IT Outsourcing', 'IT support, service desk, SAP and programmers, on site or remote.', '/solutions/it-outsourcing'],
+      ['ICAN Alert', 'Our own alarm for smoke, heat, power cuts and break-ins.', '/solutions/ican-alert'],
+    ]) {
+      expect(t, title).toContain(title);
+      expect(t, blurb).toContain(blurb);
+      expect(sec, href).toContain(`href="${href}"`);
+    }
+  });
+
+  test('IT Security Assessment and Network & IT Infrastructure lead as the recommended cards', () => {
+    const featured = section('solutions').match(/<div class="sol-grid featured[\s\S]*?<div class="sol-grid more/)?.[0] ?? '';
+    const titles = [...featured.matchAll(/<h3[^>]*>([^<]+)<\/h3>/g)].map((m) => m[1].replace(/&amp;/g, '&'));
+    expect(titles).toEqual(['IT Security Assessment', 'Network & IT Infrastructure']);
+    expect([...featured.matchAll(/class="badge[^"]*"[^>]*>Recommended</g)]).toHaveLength(2);
   });
 
   test('compact cards: no repeated "Learn more" label', () => {
@@ -193,11 +207,15 @@ describe('Trusted by, Why ICAN, projects', () => {
     ]) expect(t, s).toContain(s);
   });
 
-  test('projects: six captioned photos and a portfolio link', () => {
-    const t = text(section('work'));
+  test('projects: six captioned photos, each opening its portfolio gallery, and a portfolio link', () => {
+    const w = section('work');
+    const t = text(w);
     for (const s of ['Data Center', 'Structured Cabling', 'Server & Storage Racks', 'Fiber Optic Installation', 'CCTV Control Room', 'Server Room Fire Suppression', 'View full portfolio']) {
       expect(t, s).toContain(s);
     }
+    const tiles = [...w.matchAll(/<a class="tile[^"]*"[^>]*href="([^"]+)"/g)].map((m) => m[1]);
+    expect(tiles).toEqual(['datacenter', 'cabling', 'servers', 'cabling', 'cctv', 'fire'].map((k) => `/portfolio/it-infrastructure#${k}`));
+    expect(w).toContain('href="/portfolio/it-infrastructure"');
   });
 
   test('project photos do not zoom on hover', () => {
@@ -214,6 +232,10 @@ describe('Area54 directory', () => {
       expect(t, name).toContain(name);
     }
     expect(s).toContain('href="https://www.google.com/maps/search/?api=1&amp;query=Area54+Vibhavadi"');
+  });
+
+  test('"Get directions" starts with a map symbol', () => {
+    expect(section('area54')).toMatch(/<a class="link"[^>]*Area54\+Vibhavadi[^>]*>\s*<svg[^>]*class="lucide lucide-map"[^>]*>[\s\S]*?<\/svg>\s*Get directions/);
   });
 });
 
@@ -240,15 +262,31 @@ describe('phone menu sizing', () => {
 });
 
 describe('header and footer', () => {
-  test('desktop navigation lists every solution, Chang ICAN after a separator, and portfolio', () => {
+  test('desktop navigation lists every solution, Chang ICAN after a separator, portfolio and About', () => {
     const nav = section('site-nav');
     const t = text(nav);
     for (const label of [
-      'Network & IT Infrastructure', 'IT Security Assessment', 'Server Room & Cabling Solutions',
-      'Enterprise Wi-Fi Solutions', 'Software & Application Solutions', 'IT Consulting & Assessment',
-      'Chang ICAN — Home & Office Technicians', 'IT Infrastructure', 'Software & Application', 'About Us', 'Contact Us',
+      'IT Security Assessment', 'Network & IT Infrastructure', 'Server Room & Cabling', 'Enterprise Wi-Fi',
+      'Software & Applications', 'IT Consulting & Assessment', 'IT Outsourcing', 'ICAN Alert',
+      'Chang ICAN — Home & Office Technicians', 'IT Infrastructure', 'Software & Application',
+      'About Us', 'About ICAN', 'Social Responsibility', 'Location', 'Contact Us',
     ]) expect(t, label).toContain(label);
-    expect(nav).toMatch(/class="sep"[^>]*>\s*<\/li>\s*<li[^>]*>\s*<a[^>]*href="#chang"/);
+    expect(nav).toMatch(/class="sep"[^>]*>\s*<\/li>\s*<li[^>]*>\s*<a[^>]*href="\/#chang"/);
+    expect(nav).toContain('href="/contact"');
+  });
+
+  test('a Location button with a pin sits between About Us and Contact Us and goes to the Area54 directory', () => {
+    const nav = section('site-nav');
+    const menu = nav.slice(nav.indexOf('class="menu'));
+    const location = menu.match(/<a[^>]*href="\/#area54"[^>]*>[\s\S]*?<\/a>/)?.[0] ?? '';
+    expect(location).toContain('lucide-map-pin');
+    expect(text(location).trim()).toBe('Location');
+    const about = menu.indexOf('>About Us');
+    const loc = menu.indexOf('href="/#area54"');
+    const contact = menu.indexOf('href="/contact"', loc);
+    expect(about).toBeGreaterThan(-1);
+    expect(loc).toBeGreaterThan(about);
+    expect(contact).toBeGreaterThan(loc);
   });
 
   test('footer has company, phones, maps and Facebook', () => {
@@ -257,7 +295,116 @@ describe('header and footer', () => {
     expect(t).toContain('International Computing And Networking Co., Ltd.');
     expect(footer).toContain('href="tel:+6622723111"');
     expect(footer).toContain('href="tel:+66846723111"');
-    expect(footer).toMatch(/<a[^>]*href="https:\/\/www\.facebook\.com\/ICAN\.Admin\/"[^>]*target="_blank"[^>]*rel="noopener"/);
+    expect(footer).toMatch(/<a[^>]*href="https:\/\/www\.facebook\.com\/ican\.co\.th"[^>]*target="_blank"[^>]*rel="noopener"/);
     expect(t).toContain('© 2026');
+  });
+});
+
+// ---------- every page ----------
+
+const pages = () => walk(DIST).filter((f) => f.endsWith('.html') && !f.startsWith(join(DIST, 'portfolio', 'index.html')));
+const pageFor = (href: string): string | undefined => {
+  const path = href.split(/[?#]/)[0];
+  const candidates = path.endsWith('/') ? [join(DIST, path, 'index.html')] : [join(DIST, path, 'index.html'), join(DIST, path)];
+  return candidates.find((c) => { try { return statSync(c).isFile(); } catch { return false; } });
+};
+
+describe('inner pages', () => {
+  test('all pages are built, and solutions without content have no page yet', () => {
+    for (const p of ['about', 'contact', 'social-responsibility', 'portfolio/it-infrastructure', 'portfolio/software',
+      ...['network-it-infrastructure', 'server-room-cabling', 'software-applications', 'it-outsourcing', 'ican-alert'].map((s) => `solutions/${s}`)]) {
+      expect(pageFor(`/${p}`), p).toBeDefined();
+    }
+    for (const s of ['it-security-assessment', 'enterprise-wifi', 'it-consulting-assessment']) expect(pageFor(`/solutions/${s}`), s).toBeUndefined();
+  });
+
+  test('every page has its own title, a description, one h1, the shared header and footer', () => {
+    const titles = new Set<string>();
+    for (const f of pages()) {
+      const html = readFileSync(f, 'utf8');
+      const title = html.match(/<title>([^<]+)<\/title>/)?.[1];
+      expect(title, f).toBeTruthy();
+      expect(titles.has(title!), `duplicate title ${title}`).toBe(false);
+      titles.add(title!);
+      expect(html, f).toMatch(/<meta name="description" content="[^"]{40,}"/);
+      expect([...html.matchAll(/<h1[\s>]/g)], f).toHaveLength(1);
+      expect(html, f).toContain('id="site-nav"');
+      expect(html, f).toContain('<footer id="contact"');
+    }
+  });
+
+  test('every internal link on every page leads to a built page, and every #anchor to an element there', () => {
+    const broken: string[] = [];
+    for (const f of pages()) {
+      const html = readFileSync(f, 'utf8');
+      for (const [, raw] of html.matchAll(/<a\b[^>]*href="([^"]+)"/g)) {
+        const href = raw.replace(/&amp;/g, '&');
+        if (/^(https?:|mailto:|tel:|\/\/)/.test(href)) continue;
+        if (href.startsWith('/_astro/')) continue;
+        const target = href.startsWith('#') ? f : pageFor(href);
+        if (!target) { broken.push(`${f}: ${href}`); continue; }
+        const hash = href.split('#')[1];
+        if (hash && hash !== 'all' && !readFileSync(target, 'utf8').includes(`id="${hash}"`)) broken.push(`${f}: ${href} (no #${hash})`);
+      }
+    }
+    expect(broken).toEqual([]);
+  });
+
+  test('every new-tab link on every page uses rel="noopener"', () => {
+    for (const f of pages()) {
+      const tags = [...readFileSync(f, 'utf8').matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)].map((m) => m[0]);
+      expect(tags.filter((t) => !/rel="[^"]*noopener/.test(t)), f).toEqual([]);
+    }
+  });
+
+  test('solution pages: breadcrumb, a quote button with the solution picked, and links to the other solutions', () => {
+    const html = readFileSync(join(DIST, 'solutions', 'server-room-cabling', 'index.html'), 'utf8');
+    expect(html).toMatch(/<nav class="crumbs"[^>]*aria-label="Breadcrumb"/);
+    expect(html).toContain('href="/contact?topic=quote&amp;solution=server-room-cabling"');
+    expect(text(html)).toContain('How we work');
+    expect(html).toContain('href="/portfolio/it-infrastructure#datacenter"');
+    expect(html).toContain('href="/solutions/ican-alert"');
+    expect(html).toContain('href="/contact?topic=quote&amp;solution=enterprise-wifi"');
+  });
+
+  test('ICAN Alert offers the brochure, small enough to download on a phone', () => {
+    const html = readFileSync(join(DIST, 'solutions', 'ican-alert', 'index.html'), 'utf8');
+    expect(html).toMatch(/<a[^>]*href="\/downloads\/ican-alert-brochure\.pdf"[^>]*download/);
+    expect(statSync(join(DIST, 'downloads', 'ican-alert-brochure.pdf')).size).toBeLessThan(2_000_000);
+  });
+
+  test('portfolio: every category is a section the filter links to, with its photos', () => {
+    const html = readFileSync(join(DIST, 'portfolio', 'it-infrastructure', 'index.html'), 'utf8');
+    for (const key of ['cabling', 'datacenter', 'servers', 'power', 'fire', 'network', 'cctv', 'access', 'ipphone', 'video', 'alert']) {
+      expect(html, key).toContain(`href="#${key}"`);
+      const sec = html.slice(html.indexOf(`id="${key}"`));
+      expect(sec.slice(0, sec.indexOf('</section>')), key).toMatch(/<a href="[^"]+\.webp" data-lb/);
+    }
+    expect(html).toContain('id="lightbox"');
+  });
+
+  test('Social Responsibility: both groups, every activity with a date, a title and a photo that opens full size', () => {
+    const html = readFileSync(join(DIST, 'social-responsibility', 'index.html'), 'utf8');
+    const t = text(html);
+    for (const s of ['Community and charity', 'Life at ICAN', 'Computers for Kids: Ban Thung Kham School', 'New Year Party 2023']) expect(t, s).toContain(s);
+    const acts = [...html.matchAll(/<li class="act[\s\S]*?<\/li>/g)].map((m) => m[0]);
+    expect(acts.length).toBeGreaterThanOrEqual(10);
+    for (const a of acts) {
+      expect(a).toMatch(/<time datetime="\d{4}-\d{2}/);
+      expect(a).toMatch(/<a class="main" href="[^"]+\.webp" data-lb/);
+    }
+    expect(html).toMatch(/<a[^>]*href="https:\/\/www\.facebook\.com\/ican\.co\.th"[^>]*target="_blank"[^>]*rel="noopener"/);
+  });
+
+  test('contact form: topic, solution list, the fields, and a fallback that still sends without JavaScript', () => {
+    const html = readFileSync(join(DIST, 'contact', 'index.html'), 'utf8');
+    const form = html.match(/<form[\s\S]*?<\/form>/)?.[0] ?? '';
+    expect(form).toMatch(/action="(mailto:websupport@ican\.co\.th|https:\/\/api\.web3forms\.com\/submit)"/);
+    for (const name of ['topic', 'solution', 'name', 'company', 'email', 'phone', 'message']) expect(form, name).toContain(`name="${name}"`);
+    for (const label of ['Get a quote', 'Ask about a solution', 'Book a consultation', 'Get technical help', 'Something else', 'Enterprise Wi-Fi', 'ICAN Alert', 'Other']) {
+      expect(text(form), label).toContain(label);
+    }
+    expect(form).toMatch(/name="email"[^>]*type="email"[^>]*required|type="email"[^>]*required/);
+    expect(form).toContain('data-ask-solution="quote solution"');
   });
 });

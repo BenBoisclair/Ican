@@ -1,0 +1,41 @@
+---
+// Closing call to action on inner pages: the contact form (optionally with a topic picked) and the phones.
+import Icon from '../Icon.astro';
+import { site } from '../../data/site';
+
+interface Props { heading?: string; text?: string; href?: string; label?: string }
+const {
+  heading = 'Talk to our team',
+  text = 'Tell us what you need. We will reply by email or phone.',
+  href = site.contact.href,
+  label = 'Contact us',
+} = Astro.props;
+const [main, hotline] = site.phones;
+---
+<section class="cta-band">
+  <div class="wrap">
+    <div>
+      <h2>{heading}</h2>
+      <p>{text}</p>
+    </div>
+    <div class="actions">
+      <a class="btn btn-light btn-lg" href={href}>{label} <Icon name="arrow-right" /></a>
+      <a class="tel" href={main.tel}><Icon name="phone" size={17} />{main.display}</a>
+      <a class="tel" href={hotline.tel}><Icon name="smartphone" size={17} />{hotline.display} <small>{hotline.note}</small></a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cta-band { padding: 64px 0; background: linear-gradient(120deg, var(--blue-800) 0%, var(--blue) 100%); color: #fff; }
+  .wrap { display: flex; align-items: center; justify-content: space-between; gap: 32px; flex-wrap: wrap; }
+  h2 { font-size: clamp(26px, 3vw, 34px); }
+  p { margin-top: 8px; color: #C9D6F2; font-size: 16.5px; }
+  .actions { display: flex; align-items: center; gap: 10px 22px; flex-wrap: wrap; }
+  .btn-light { background: #fff; color: var(--blue); }
+  .btn-light:hover { background: var(--tint-2); transform: translateY(-2px); }
+  .btn-light:hover :global(svg) { transform: translateX(4px); }
+  .tel { display: inline-flex; align-items: center; gap: 8px; font-weight: 600; color: #fff; }
+  .tel small { font-weight: 400; opacity: .7; }
+  .tel:hover { text-decoration: underline; text-underline-offset: 3px; }
+</style>

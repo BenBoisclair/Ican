@@ -1,0 +1,225 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/page/PageHero.astro';
+import Icon from '../components/Icon.astro';
+import { contact } from '../data/contact';
+import { site } from '../data/site';
+import { startEasy } from '../data/home';
+
+const f = contact.form;
+const viaService = f.web3formsKey.length > 0;
+const askSolution = f.topics.filter((t) => t.askSolution).map((t) => t.value).join(' ');
+---
+<BaseLayout title={`${contact.metaTitle} | ICAN Group`} description={contact.description}>
+  <main>
+    <PageHero crumbs={[{ label: 'Home', href: '/' }, { label: 'Contact Us' }]} title={contact.title} lead={contact.lead} />
+
+    <section class="contact">
+      <div class="wrap">
+        <!-- Without JavaScript the form still posts: to Web3Forms, or as an email from the visitor's mail app. -->
+        <form
+          id="contact-form"
+          class="card"
+          method="post"
+          action={viaService ? 'https://api.web3forms.com/submit' : `mailto:${f.to}`}
+          enctype={viaService ? undefined : 'text/plain'}
+          data-to={f.to}
+          data-service={viaService ? '' : undefined}
+          data-ask-solution={askSolution}
+          data-sent={f.sent}
+          data-mail-opened={f.mailOpened}
+          data-failed={f.failed}
+        >
+          <h2>{f.heading}</h2>
+          {viaService && <input type="hidden" name="access_key" value={f.web3formsKey} />}
+          {viaService && <input type="hidden" name="subject" value="New message from ican.co.th" />}
+          <input class="hp" type="checkbox" name="botcheck" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+          <div class="row two">
+            <label>
+              <span>{f.topicLabel}</span>
+              <select name="topic" id="topic" required>
+                <option value="" disabled selected>Choose one</option>
+                {f.topics.map((t) => <option value={t.value}>{t.label}</option>)}
+              </select>
+            </label>
+            <label id="solution-field">
+              <span>{f.solutionLabel}</span>
+              <select name="solution" id="solution">
+                <option value="" disabled selected>Choose a solution</option>
+                {f.solutions.map((s) => <option value={s.value}>{s.label}</option>)}
+              </select>
+            </label>
+          </div>
+          <div class="row two">
+            <label><span>Name</span><input name="name" autocomplete="name" required /></label>
+            <label><span>Company <small>(optional)</small></span><input name="company" autocomplete="organization" /></label>
+          </div>
+          <div class="row two">
+            <label><span>Email</span><input name="email" type="email" autocomplete="email" required /></label>
+            <label><span>Phone <small>(optional)</small></span><input name="phone" type="tel" autocomplete="tel" /></label>
+          </div>
+          <label class="row"><span>Message</span><textarea name="message" rows="6" required></textarea></label>
+
+          <div class="send">
+            <button class="btn btn-primary btn-lg" type="submit"><Icon name="send" />{f.submit}</button>
+            <p class="privacy">{f.privacy}</p>
+          </div>
+          <p class="status" role="status" aria-live="polite" hidden></p>
+        </form>
+
+        <aside class="details">
+          <div class="card">
+            <h2>Reach us directly</h2>
+            {site.phones.map((p) => (
+              <a class="line" href={p.tel}><Icon name={p.icon} size={18} /><span>{p.display} <small>{p.note}</small></span></a>
+            ))}
+            <a class="line" href={`mailto:${site.email}`}><Icon name="mail" size={18} /><span>{site.email}</span></a>
+            <div class="addr">
+              <Icon name="map-pin" size={18} />
+              <address>{site.legalName}<br />{site.address.map((l, i) => <>{l}{i < site.address.length - 1 && <br />}</>)}</address>
+            </div>
+            <div class="links">
+              <a class="link" href={site.mapsUrl} target="_blank" rel="noopener"><Icon name="map" />{site.mapsLabel}</a>
+              <a class="link" href="/#area54">See Area54 <Icon name="arrow-right" /></a>
+            </div>
+          </div>
+          <div class="card chang">
+            <h3>{contact.chang.title}</h3>
+            <p>{contact.chang.text}</p>
+            <div class="links">
+              <a class="link" href={startEasy.phone.tel}><Icon name="phone" />{startEasy.phone.display}</a>
+              <a class="link" href={startEasy.lineUrl} target="_blank" rel="noopener"><Icon name="message-circle" />LINE</a>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </section>
+  </main>
+</BaseLayout>
+
+<script>
+  const form = document.getElementById('contact-form') as HTMLFormElement | null;
+  if (form) {
+    const topic = form.querySelector<HTMLSelectElement>('#topic')!;
+    const solution = form.querySelector<HTMLSelectElement>('#solution')!;
+    const field = form.querySelector<HTMLElement>('#solution-field')!;
+    const status = form.querySelector<HTMLElement>('.status')!;
+    const askSolution = (form.dataset.askSolution ?? '').split(' ');
+    const to = form.dataset.to!;
+
+    // The solution list only applies to quotes and solution questions.
+    const sync = () => {
+      const show = askSolution.includes(topic.value);
+      field.hidden = !show;
+      solution.required = show;
+      solution.disabled = !show;
+    };
+
+    // Links like /contact?topic=quote&solution=enterprise-wifi arrive with both picked.
+    const params = new URLSearchParams(location.search);
+    const pick = (select: HTMLSelectElement, value: string | null) => {
+      if (value && Array.from(select.options).some((o) => o.value === value && !o.disabled)) select.value = value;
+    };
+    pick(topic, params.get('topic'));
+    pick(solution, params.get('solution'));
+    topic.addEventListener('change', sync);
+    sync();
+
+    const say = (text: string, kind: 'ok' | 'error', email = false) => {
+      status.hidden = false;
+      status.dataset.kind = kind;
+      status.textContent = email ? `${text} ` : text;
+      if (email) {
+        const a = document.createElement('a');
+        a.href = `mailto:${to}`;
+        a.textContent = to;
+        status.append(a, '.');
+      }
+    };
+
+    const label = (select: HTMLSelectElement) => select.selectedOptions[0]?.textContent?.trim() ?? '';
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      if (!form.reportValidity()) return;
+      const data = new FormData(form);
+      const subject = `${label(topic)}${solution.disabled ? '' : ` — ${label(solution)}`} (from ${data.get('name')})`;
+      const body = [
+        `Topic: ${label(topic)}`,
+        solution.disabled ? '' : `Solution: ${label(solution)}`,
+        `Name: ${data.get('name')}`,
+        data.get('company') ? `Company: ${data.get('company')}` : '',
+        `Email: ${data.get('email')}`,
+        data.get('phone') ? `Phone: ${data.get('phone')}` : '',
+        '',
+        String(data.get('message') ?? ''),
+      ].filter((l, i, all) => l !== '' || all[i - 1] !== '').join('\n');
+
+      if (form.dataset.service === undefined) {
+        location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+        say(form.dataset.mailOpened!, 'ok', true);
+        return;
+      }
+      const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
+      button.disabled = true;
+      try {
+        data.set('subject', subject);
+        data.set('topic', label(topic));
+        if (!solution.disabled) data.set('solution', label(solution));
+        const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
+        if (!res.ok) throw new Error(String(res.status));
+        form.reset();
+        sync();
+        say(form.dataset.sent!, 'ok');
+      } catch {
+        say(form.dataset.failed!, 'error', true);
+      } finally {
+        button.disabled = false;
+      }
+    });
+  }
+</script>
+
+<style>
+  .contact { padding: 40px 0 80px; }
+  .wrap { display: grid; grid-template-columns: 1fr 380px; gap: 28px; align-items: start; }
+  .card { padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: 0 18px 40px -28px rgba(15, 27, 51, .25); }
+  h2 { font-size: 22px; margin-bottom: 18px; }
+  .row { display: grid; gap: 14px; margin-bottom: 14px; }
+  .row.two { grid-template-columns: 1fr 1fr; }
+  label { display: grid; gap: 6px; }
+  label > span { font-size: 14px; font-weight: 600; }
+  label small { font-weight: 400; color: var(--muted); }
+  label[hidden] { display: none; }
+  input, select, textarea { width: 100%; padding: 11px 13px; border: 1px solid #CBD5E6; border-radius: 10px; background: #fff; font: inherit; font-size: 15px; color: var(--ink); transition: border-color .2s, box-shadow .2s; }
+  textarea { resize: vertical; min-height: 140px; }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue-500); box-shadow: 0 0 0 3px rgba(36, 83, 196, .18); }
+  input:user-invalid, select:user-invalid, textarea:user-invalid { border-color: #C2410C; }
+  .hp { position: absolute; left: -9999px; }
+  .send { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
+  .privacy { font-size: 13px; color: var(--muted); }
+  .status { margin-top: 16px; padding: 12px 14px; border-radius: 10px; font-size: 14.5px; line-height: 1.5; }
+  .status[data-kind="ok"] { background: #ECFDF3; color: #05603A; }
+  .status[data-kind="error"] { background: #FEF3F2; color: #B42318; }
+  .status :global(a) { font-weight: 600; text-decoration: underline; }
+
+  .details { display: grid; gap: 16px; }
+  .line { display: flex; align-items: center; gap: 12px; padding: 10px 0; border-top: 1px solid #EEF1F6; font-size: 15px; }
+  .line:first-of-type { border-top: 0; padding-top: 0; }
+  .line small { color: var(--muted); }
+  .line :global(svg), .addr :global(svg) { flex: none; color: var(--blue); }
+  a.line:hover span { color: var(--blue); }
+  .addr { display: flex; gap: 12px; padding: 12px 0 0; border-top: 1px solid #EEF1F6; }
+  address { font-style: normal; font-size: 14.5px; line-height: 1.6; }
+  .links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 14px; font-size: 14.5px; }
+  .chang { background: linear-gradient(120deg, #EAF1FF 0%, #F6F9FF 60%); border-color: #DCE6FA; box-shadow: none; }
+  .chang h3 { font-size: 17px; }
+  .chang p { margin-top: 6px; font-size: 14.5px; line-height: 1.5; color: #3F4B66; }
+
+  @media (max-width: 960px) { .wrap { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) {
+    .row.two { grid-template-columns: 1fr; }
+    .card { padding: 20px; }
+  }
+</style>

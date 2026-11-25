@@ -16,6 +16,8 @@
 
 *, *::before, *::after { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
+/* Anchor jumps (Location, gallery filters) land below the sticky header. */
+[id] { scroll-margin-top: 72px; }
 body {
   margin: 0;
   font-family: "IBM Plex Sans", "IBM Plex Sans Thai", system-ui, sans-serif;

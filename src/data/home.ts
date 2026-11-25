@@ -1,4 +1,6 @@
 import type { IconName } from '../lib/icons';
+import { solutionHref, solutions as allSolutions } from './solutions';
+import { galleryHref, portfolioPages } from './portfolio';
 
 export interface Cta { label: string; href: string; variant: 'primary' | 'ghost'; arrow?: boolean }
 export interface Logo {
@@ -9,7 +11,7 @@ export interface Logo {
   /** Shrinks or grows a logo in the client grid; solid colour tiles look larger than line logos. */
   scale?: number;
 }
-export interface Solution { title: string; blurb: string; icon: IconName; href: string }
+export interface Solution { title: string; blurb: string; icon: IconName; href: string; recommended?: boolean }
 export interface Spot {
   id: number;
   name: string;
@@ -26,7 +28,7 @@ export const hero = {
   lead: 'ICAN helps businesses build, assess, and improve their IT systems and cybersecurity.',
   ctas: [
     { label: 'Explore Solutions', href: '#solutions', variant: 'primary', arrow: true },
-    { label: 'Contact Us', href: '#contact', variant: 'ghost' },
+    { label: 'Contact Us', href: '/contact', variant: 'ghost' },
   ] as Cta[],
   trustedText: 'Trusted by',
   trustedCount: '50+ organizations',
@@ -53,14 +55,11 @@ export const hero = {
 
 export const solutions = {
   heading: 'Our Solutions',
-  items: [
-    { title: 'Network & IT Infrastructure', blurb: 'Resilient networks, from IP planning to fiber redundancy.', icon: 'network', href: '#solutions' },
-    { title: 'IT Security Assessment', blurb: 'Find weak spots across firewalls, servers, and Wi-Fi.', icon: 'shield-check', href: '#solutions' },
-    { title: 'Server Room & Cabling Solutions', blurb: 'Racks, cabling, power, and cooling, assessed and improved.', icon: 'server', href: '#solutions' },
-    { title: 'Enterprise Wi-Fi Solutions', blurb: 'Access point and controller design for business Wi-Fi.', icon: 'wifi', href: '#solutions' },
-    { title: 'Software & Application Solutions', blurb: 'Custom applications built around your business.', icon: 'code-xml', href: '#solutions' },
-    { title: 'IT Consulting & Assessment', blurb: 'Clear findings and a roadmap before you invest.', icon: 'clipboard-check', href: '#solutions' },
-  ] as Solution[],
+  /** Recommended cards come first; the list itself lives in solutions.ts. */
+  items: allSolutions.map((x): Solution => ({
+    title: x.title, blurb: x.blurb, icon: x.icon, href: solutionHref(x), ...(x.recommended ? { recommended: true } : {}),
+  })),
+  recommendedLabel: 'Recommended',
 };
 
 export const startEasy = {
@@ -121,7 +120,7 @@ export const clients = {
 export const why = {
   eyebrow: 'Why choose ICAN?',
   heading: 'Experience, Technical Expertise, and Practical Solutions',
-  cta: { label: 'Contact Our Team', href: '#contact', variant: 'primary', arrow: true } as Cta,
+  cta: { label: 'Contact Our Team', href: '/contact', variant: 'primary', arrow: true } as Cta,
   certsTitle: 'Certified expertise',
   certs: [
     { key: 'Networking', chips: ['Cisco CCIE', 'CCNP', 'CCNA'] },
@@ -141,14 +140,15 @@ export const projects = {
   eyebrow: 'Portfolio',
   heading: 'See projects in action',
   allLabel: 'View full portfolio',
-  allHref: '#work',
+  allHref: portfolioPages['it-infrastructure'].href,
+  /** Each photo opens its gallery in the portfolio. */
   items: [
-    { image: 'images/pf-datacenter.jpg', category: 'IT Infrastructure', title: 'Data Center' },
-    { image: 'images/pf-cabling.jpg', category: 'IT Infrastructure', title: 'Structured Cabling' },
-    { image: 'images/pf-rack.jpg', category: 'IT Infrastructure', title: 'Server & Storage Racks' },
-    { image: 'images/pf-fiber.jpg', category: 'IT Infrastructure', title: 'Fiber Optic Installation' },
-    { image: 'images/pf-cctv.jpg', category: 'IT Infrastructure', title: 'CCTV Control Room' },
-    { image: 'images/pf-fire.jpg', category: 'IT Infrastructure', title: 'Server Room Fire Suppression' },
+    { image: 'images/pf-datacenter.jpg', category: 'IT Infrastructure', title: 'Data Center', href: galleryHref('datacenter') },
+    { image: 'images/pf-cabling.jpg', category: 'IT Infrastructure', title: 'Structured Cabling', href: galleryHref('cabling') },
+    { image: 'images/pf-rack.jpg', category: 'IT Infrastructure', title: 'Server & Storage Racks', href: galleryHref('servers') },
+    { image: 'images/pf-fiber.jpg', category: 'IT Infrastructure', title: 'Fiber Optic Installation', href: galleryHref('cabling') },
+    { image: 'images/pf-cctv.jpg', category: 'IT Infrastructure', title: 'CCTV Control Room', href: galleryHref('cctv') },
+    { image: 'images/pf-fire.jpg', category: 'IT Infrastructure', title: 'Server Room Fire Suppression', href: galleryHref('fire') },
   ],
 };
 

@@ -1,0 +1,67 @@
+---
+// The header band every inner page opens with: breadcrumb, title, lead, key facts and an optional photo.
+import { Image } from 'astro:assets';
+import Icon from '../Icon.astro';
+import { img } from '../../lib/assets';
+
+interface Props {
+  crumbs: { label: string; href?: string }[];
+  eyebrow?: string;
+  title: string;
+  lead: string;
+  facts?: string[];
+  image?: string;
+  imageAlt?: string;
+}
+const { crumbs, eyebrow, title, lead, facts = [], image, imageAlt = '' } = Astro.props;
+---
+<header class="page-hero" class:list={{ 'has-img': !!image }}>
+  <div class="wrap">
+    <div class="text">
+      <nav class="crumbs" aria-label="Breadcrumb">
+        <ol>
+          {crumbs.map((c, i) => (
+            <li>{c.href ? <a href={c.href}>{c.label}</a> : <span aria-current="page">{c.label}</span>}{i < crumbs.length - 1 && <Icon name="chevron-right" size={14} />}</li>
+          ))}
+        </ol>
+      </nav>
+      {eyebrow && <span class="eyebrow">{eyebrow}</span>}
+      <h1>{title}</h1>
+      <p class="lead">{lead}</p>
+      {facts.length > 0 && (
+        <ul class="facts" role="list">{facts.map((f) => <li><Icon name="circle-check" size={16} />{f}</li>)}</ul>
+      )}
+      <slot />
+    </div>
+    {image && (
+      <div class="photo">
+        <Image src={img(image)} alt={imageAlt} widths={[560, 1000]} sizes="(max-width: 960px) 92vw, 500px" loading="eager" />
+      </div>
+    )}
+  </div>
+</header>
+
+<style>
+  .page-hero { padding: 36px 0 56px; background: linear-gradient(180deg, var(--tint) 0%, #fff 100%); border-bottom: 1px solid #EEF1F6; }
+  .wrap { display: grid; gap: 48px; align-items: center; }
+  .has-img .wrap { grid-template-columns: 1fr 460px; }
+  .crumbs ol { display: flex; flex-wrap: wrap; align-items: center; gap: 4px; margin: 0 0 22px; padding: 0; list-style: none; font-size: 13.5px; color: var(--muted); }
+  .crumbs li { display: inline-flex; align-items: center; gap: 4px; }
+  .crumbs a:hover { color: var(--blue); text-decoration: underline; text-underline-offset: 3px; }
+  .crumbs :global(svg) { color: #A6B2C9; }
+  .eyebrow + h1 { margin-top: 10px; }
+  h1 { max-width: 760px; font-size: clamp(32px, 4.2vw, 48px); line-height: 1.1; font-weight: 700; letter-spacing: -.02em; }
+  .lead { max-width: 680px; margin-top: 16px; font-size: 18px; line-height: 1.55; color: #3F4B66; }
+  .facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
+  .facts li { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: #fff; border: 1px solid #DCE4F3; font-size: 13.5px; font-weight: 500; }
+  .facts :global(svg) { color: var(--blue); }
+  .photo :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 18px; box-shadow: 0 24px 50px rgba(15, 27, 51, .18); }
+  @media (max-width: 960px) {
+    .has-img .wrap { grid-template-columns: 1fr; gap: 28px; }
+    .photo { max-width: 520px; }
+  }
+  @media (max-width: 640px) {
+    .page-hero { padding: 24px 0 40px; }
+    .lead { font-size: 16.5px; }
+  }
+</style>

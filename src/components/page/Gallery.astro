@@ -1,0 +1,33 @@
+---
+// A grid of photo thumbnails. Each opens the full image in the page's Lightbox (or as a plain link without JavaScript).
+import type { ImageMetadata } from 'astro';
+import { getImage, Image } from 'astro:assets';
+
+interface Props { photos: ImageMetadata[]; label: string; limit?: number; size?: 'sm' | 'md' }
+const { photos, label, limit, size = 'md' } = Astro.props;
+const shown = limit ? photos.slice(0, limit) : photos;
+const items = await Promise.all(shown.map(async (src, i) => ({
+  src,
+  full: (await getImage({ src, width: Math.min(src.width, 1600), format: 'webp' })).src,
+  alt: `${label}: ICAN project photo ${i + 1}`,
+})));
+---
+<ul class:list={['gallery', size]} role="list" data-lb-group>
+  {items.map((p) => (
+    <li>
+      <a href={p.full} data-lb data-caption={p.alt}>
+        <Image src={p.src} alt={p.alt} widths={[300, 600]} sizes={size === 'sm' ? '200px' : '(max-width: 640px) 46vw, 280px'} />
+      </a>
+    </li>
+  ))}
+</ul>
+
+<style>
+  .gallery { display: grid; gap: 10px; margin: 0; padding: 0; list-style: none; }
+  .md { grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); }
+  .sm { grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); }
+  a { display: block; overflow: hidden; border-radius: 10px; background: var(--tint); border: 1px solid #E6EBF3; }
+  a :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; transition: opacity .2s; }
+  a:hover :global(img) { opacity: .85; }
+  @media (max-width: 640px) { .md, .sm { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
+</style>

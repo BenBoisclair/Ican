@@ -1,0 +1,99 @@
+---
+import { Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/page/PageHero.astro';
+import CtaBand from '../components/page/CtaBand.astro';
+import WhyIcan from '../components/home/WhyIcan.astro';
+import Clients from '../components/home/Clients.astro';
+import Icon from '../components/Icon.astro';
+import { about } from '../data/about';
+import { img } from '../lib/assets';
+---
+<BaseLayout title={`${about.metaTitle} | ICAN Group`} description={about.description}>
+  <main>
+    <PageHero
+      crumbs={[{ label: 'Home', href: '/' }, { label: 'About Us' }]}
+      eyebrow={about.eyebrow}
+      title={about.title}
+      lead={about.lead}
+      facts={about.facts}
+      image={about.image}
+      imageAlt={about.imageAlt}
+    />
+
+    <section class="stats">
+      <div class="wrap">
+        <ul role="list">
+          {about.stats.map((s, i) => <li class="rv" style={`--d:${i * 60}ms`}><strong>{s.value}</strong><span>{s.label}</span></li>)}
+        </ul>
+      </div>
+    </section>
+
+    <section class="what">
+      <div class="wrap">
+        <div class="rv">
+          <h2>{about.what.heading}</h2>
+          <ul class="points" role="list">
+            {about.what.points.map((p) => (
+              <li><span class="ico"><Icon name={p.icon} size={20} /></span><span><h3>{p.title}</h3><p>{p.text}</p></span></li>
+            ))}
+          </ul>
+          <p class="principle">{about.what.principle}</p>
+        </div>
+        <Image class="rv" src={img(about.what.image)} alt={about.what.imageAlt} widths={[520, 1000]} sizes="(max-width: 960px) 92vw, 480px" />
+      </div>
+    </section>
+
+    <WhyIcan />
+    <Clients />
+
+    <section class="more">
+      <div class="wrap">
+        <ul role="list">
+          {about.more.map((m) => (
+            <li class="rv"><a href={m.href}><span class="ico"><Icon name={m.icon} size={22} /></span><span><strong>{m.title}</strong><small>{m.text}</small></span><Icon name="arrow-right" /></a></li>
+          ))}
+        </ul>
+      </div>
+    </section>
+
+    <CtaBand />
+  </main>
+</BaseLayout>
+
+<style>
+  .stats { padding: 40px 0; border-bottom: 1px solid #EEF1F6; }
+  .stats ul { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 0; padding: 0; list-style: none; }
+  .stats li { padding-left: 16px; border-left: 3px solid var(--blue); }
+  .stats strong { display: block; font-size: 34px; line-height: 1.1; color: var(--blue); }
+  .stats span { display: block; margin-top: 4px; font-size: 14px; color: var(--muted); }
+
+  .what { padding: 72px 0; }
+  .what .wrap { display: grid; grid-template-columns: 1fr 460px; gap: 56px; align-items: center; }
+  .what h2 { font-size: clamp(26px, 3vw, 34px); }
+  .points { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px 24px; margin: 24px 0 0; padding: 0; list-style: none; }
+  .points li { display: grid; grid-template-columns: 40px 1fr; gap: 12px; }
+  .ico { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; background: var(--tint-2); color: var(--blue); }
+  .points h3 { font-size: 16px; }
+  .points p { margin-top: 3px; font-size: 14.5px; line-height: 1.5; color: var(--muted); }
+  .principle { margin-top: 24px; padding: 14px 18px; border-left: 3px solid var(--blue); background: var(--tint); border-radius: 0 10px 10px 0; font-size: 15.5px; line-height: 1.55; }
+  .what :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 18px; box-shadow: 0 24px 50px rgba(15, 27, 51, .16); }
+
+  .more { padding: 56px 0; }
+  .more ul { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 0; padding: 0; list-style: none; }
+  .more a { display: grid; grid-template-columns: 44px 1fr 18px; gap: 14px; align-items: center; padding: 18px 20px; border: 1px solid var(--line); border-radius: 14px; background: #fff; transition: border-color .2s; }
+  .more a:hover { border-color: #B9C8EA; }
+  .more .ico { width: 44px; height: 44px; }
+  .more strong { display: block; font-size: 16.5px; }
+  .more small { font-size: 14px; color: var(--muted); }
+  .more a > :global(svg) { color: var(--blue); }
+
+  @media (max-width: 960px) {
+    .stats ul { grid-template-columns: repeat(2, 1fr); }
+    .what .wrap { grid-template-columns: 1fr; gap: 32px; }
+  }
+  @media (max-width: 640px) {
+    .points, .more ul { grid-template-columns: 1fr; }
+    .what { padding: 48px 0; }
+  }
+</style>

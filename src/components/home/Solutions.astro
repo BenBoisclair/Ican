@@ -2,16 +2,34 @@
 import Icon from '../Icon.astro';
 import StartEasy from './StartEasy.astro';
 import { solutions } from '../../data/home';
+
+// The two recommended solutions lead on their own row; the other six follow in a tighter grid.
+const featured = solutions.items.filter((s) => s.recommended);
+const rest = solutions.items.filter((s) => !s.recommended);
+// Narrow phone tiles would otherwise break "Wi-Fi" at its hyphen.
+const parts = (title: string) => title.split(/(Wi-Fi)/).filter(Boolean);
 ---
 <section id="solutions" class="solutions">
   <div class="wrap">
     <div class="sec-head rv"><h2>{solutions.heading}</h2></div>
-    <div class="sol-grid">
-      {solutions.items.map((s, i) => (
-        <a class="sol rv" style={`--d:${(i % 2) * 70}ms`} href={s.href}>
+    <div class="sol-grid featured">
+      {featured.map((s, i) => (
+        <a class="sol rec rv" style={`--d:${i * 70}ms`} href={s.href}>
+          <span class="ico"><Icon name={s.icon} size={22} /></span>
+          <span class="txt">
+            <span class="row"><h3>{s.title}</h3><span class="badge">{solutions.recommendedLabel}</span></span>
+            <p>{s.blurb}</p>
+          </span>
+          <span class="go"><Icon name="arrow-right" size={18} /></span>
+        </a>
+      ))}
+    </div>
+    <div class="sol-grid more">
+      {rest.map((s, i) => (
+        <a class="sol rv" style={`--d:${(i % 3) * 70}ms`} href={s.href}>
           <span class="ico"><Icon name={s.icon} size={20} /></span>
           <span class="txt">
-            <h3>{s.title}</h3>
+            <h3>{parts(s.title).map((p) => (p === 'Wi-Fi' ? <span class="nw">{p}</span> : p))}</h3>
             <p>{s.blurb}</p>
           </span>
           <span class="go"><Icon name="arrow-right" size={18} /></span>
@@ -25,19 +43,37 @@ import { solutions } from '../../data/home';
 <style>
   .solutions { padding: 72px 0 80px; }
   .solutions .sec-head { margin-bottom: 24px; }
-  .sol-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px 14px; }
-  /* Icon | title over a one-line blurb | arrow: two short lines per card, titles lined up, so the list reads in one glance. */
-  .sol { display: grid; grid-template-columns: 40px 1fr 18px; gap: 14px; align-items: center; padding: 16px 18px; background: #fff; border: 1px solid var(--line); border-radius: 14px; transition: border-color .2s; }
+  .sol-grid { display: grid; gap: 12px 14px; }
+  .featured { grid-template-columns: repeat(2, 1fr); margin-bottom: 12px; }
+  .more { grid-template-columns: repeat(3, 1fr); }
+  /* Icon | title over a short blurb | arrow, titles lined up, so the list reads in one glance. */
+  .sol { display: grid; grid-template-columns: 40px 1fr 18px; gap: 14px; align-items: center; padding: 15px 18px; background: #fff; border: 1px solid var(--line); border-radius: 14px; transition: border-color .2s; }
   .sol:hover { border-color: #B9C8EA; }
+  .rec { grid-template-columns: 44px 1fr 18px; padding: 16px 20px; background: linear-gradient(120deg, #EEF4FF 0%, #F8FAFF 100%); border-color: #CBD8F2; }
+  .rec:hover { border-color: var(--blue-500); }
   .ico { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 10px; background: var(--tint-2); color: var(--blue); transition: background .25s, color .25s, transform .35s var(--ease); }
+  .rec .ico { width: 44px; height: 44px; background: var(--blue); color: #fff; }
   .sol:hover .ico { background: var(--blue); color: #fff; transform: rotate(-8deg) scale(1.08); }
+  .txt { display: block; min-width: 0; }
+  .row { display: flex; align-items: center; flex-wrap: wrap; gap: 4px 10px; }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; background: var(--blue); color: #fff; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; }
   h3 { font-size: 16.5px; line-height: 1.3; }
-  p { margin-top: 4px; font-size: 14px; line-height: 1.45; color: var(--muted); }
+  .nw { white-space: nowrap; }
+  .rec h3 { font-size: 17.5px; }
+  p { margin-top: 3px; font-size: 14px; line-height: 1.45; color: var(--muted); }
   .go { display: flex; color: #A6B2C9; transition: color .2s, transform .2s; }
+  .rec .go { color: var(--blue-500); }
   .sol:hover .go { color: var(--blue); transform: translateX(3px); }
+  @media (max-width: 1080px) { .more { grid-template-columns: repeat(2, 1fr); } }
   @media (max-width: 640px) {
     .solutions { padding: 56px 0 64px; }
-    .sol-grid { grid-template-columns: 1fr; gap: 10px; }
-    .sol { padding: 14px 16px; align-items: start; }
+    .featured { grid-template-columns: 1fr; gap: 10px; margin-bottom: 10px; }
+    .sol { padding: 13px 16px; align-items: start; }
+    /* Phones: the six others become two columns of icon + title, so all eight fit about one screen. */
+    .more { grid-template-columns: repeat(2, 1fr); gap: 8px; }
+    .more .sol { grid-template-columns: 32px 1fr; gap: 10px; padding: 12px; align-items: center; }
+    .more .ico { width: 32px; height: 32px; border-radius: 8px; }
+    .more h3 { font-size: 14.5px; }
+    .more p, .more .go { display: none; }
   }
 </style>

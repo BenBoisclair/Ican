@@ -1,0 +1,97 @@
+---
+import { getImage, Image } from 'astro:assets';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/page/PageHero.astro';
+import Lightbox from '../components/page/Lightbox.astro';
+import Icon from '../components/Icon.astro';
+import { csr, type Activity } from '../data/csr';
+import { site } from '../data/site';
+import { img } from '../lib/assets';
+
+const month = (date: string) => new Date(`${date.length === 7 ? `${date}-01` : date}T00:00:00Z`)
+  .toLocaleDateString('en-GB', { month: 'long', year: 'numeric', timeZone: 'UTC' });
+
+const prepare = (list: Activity[]) => Promise.all(list.map(async (a) => ({
+  ...a,
+  when: month(a.date),
+  shots: await Promise.all(a.photos.map(async (p, i) => ({
+    src: img(p),
+    full: (await getImage({ src: img(p), width: Math.min(img(p).width, 1600), format: 'webp' })).src,
+    alt: `${a.title}: photo ${i + 1}`,
+  }))),
+})));
+const groups = await Promise.all(csr.groups.map(async (g) => ({ ...g, items: await prepare(csr.activities.filter((a) => a.category === g.key)) })));
+---
+<BaseLayout title={`${csr.metaTitle} | ICAN Group`} description={csr.description}>
+  <main>
+    <PageHero
+      crumbs={[{ label: 'Home', href: '/' }, { label: 'About Us', href: '/about' }, { label: csr.metaTitle }]}
+      eyebrow={csr.eyebrow}
+      title={csr.title}
+      lead={csr.lead}
+    />
+
+    {groups.filter((g) => g.items.length > 0).map((g, n) => (
+      <section class:list={['group', { alt: n % 2 === 1 }]} id={g.key}>
+        <div class="wrap">
+          <div class="head rv">
+            <span class="ico"><Icon name={g.icon} size={22} /></span>
+            <div><h2>{g.heading}</h2><p>{g.intro}</p></div>
+          </div>
+          <ul class="acts" role="list">
+            {g.items.map((a, i) => (
+              <li class="act rv" style={`--d:${(i % 3) * 70}ms`} data-lb-group data-lb-all>
+                <a class="main" href={a.shots[0].full} data-lb data-caption={a.shots[0].alt}>
+                  <Image src={a.shots[0].src} alt={a.shots[0].alt} widths={[400, 800]} sizes="(max-width: 640px) 92vw, 380px" />
+                  {a.shots.length > 1 && <span class="more">+{a.shots.length - 1} {a.shots.length > 2 ? 'photos' : 'photo'}</span>}
+                </a>
+                {a.shots.slice(1).map((s) => <a href={s.full} data-lb data-caption={s.alt} hidden>{s.alt}</a>)}
+                <div class="body">
+                  <time datetime={a.date}>{a.when}</time>
+                  <h3>{a.title}</h3>
+                  <p>{a.summary}</p>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+    ))}
+
+    <section class="fb">
+      <div class="wrap">
+        <div>
+          <h2>{csr.facebook.heading}</h2>
+          <p>{csr.facebook.text}</p>
+        </div>
+        <a class="btn btn-primary btn-lg" href={site.facebookUrl} target="_blank" rel="noopener">{csr.facebook.label} <Icon name="arrow-up-right" /></a>
+      </div>
+    </section>
+    <Lightbox />
+  </main>
+</BaseLayout>
+
+<style>
+  .group { padding: 56px 0; }
+  .alt { background: var(--tint); }
+  .head { display: flex; gap: 16px; align-items: flex-start; margin-bottom: 26px; max-width: 760px; }
+  .ico { flex: none; display: grid; place-items: center; width: 46px; height: 46px; border-radius: 12px; background: var(--blue); color: #fff; }
+  .head h2 { font-size: clamp(24px, 2.6vw, 30px); }
+  .head p { margin-top: 6px; font-size: 16px; line-height: 1.55; color: var(--muted); }
+  .acts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin: 0; padding: 0; list-style: none; }
+  .act { display: flex; flex-direction: column; overflow: hidden; border: 1px solid var(--line); border-radius: 16px; background: #fff; }
+  .main { position: relative; display: block; }
+  .main :global(img) { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+  .main:hover :global(img) { opacity: .9; }
+  .more { position: absolute; right: 10px; bottom: 10px; padding: 4px 10px; border-radius: 999px; background: rgba(11, 26, 63, .78); color: #fff; font-size: 12.5px; font-weight: 600; }
+  .body { padding: 14px 18px 18px; }
+  time { font-size: 12.5px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--blue-500); }
+  .body h3 { margin-top: 4px; font-size: 17px; line-height: 1.3; }
+  .body p { margin-top: 6px; font-size: 14.5px; line-height: 1.55; color: var(--muted); }
+  .fb { padding: 48px 0 64px; }
+  .fb .wrap { display: flex; align-items: center; justify-content: space-between; gap: 24px; flex-wrap: wrap; padding-top: 36px; border-top: 1px solid var(--line); }
+  .fb h2 { font-size: 24px; }
+  .fb p { margin-top: 6px; color: var(--muted); }
+  @media (max-width: 960px) { .acts { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 640px) { .acts { grid-template-columns: 1fr; } .group { padding: 40px 0; } }
+</style>
