@@ -3,19 +3,47 @@ import { Image } from 'astro:assets';
 import Icon from '../Icon.astro';
 import { startEasy as s } from '../../data/home';
 import { img } from '../../lib/assets';
+
+const stars = [1, 2, 3, 4, 5];
+const ratingLabel = `Rated ${s.rating.value} out of 5 from ${s.rating.count} reviews`;
 ---
 <div class="easy rv" id="chang">
   <div class="easy-media">
-    <Image class="main" src={img(s.images.main)} alt={s.images.mainAlt} widths={[460, 920]} sizes="(max-width: 960px) 90vw, 380px" />
-    <Image class="second" src={img(s.images.second)} alt={s.images.secondAlt} widths={[160, 320]} sizes="120px" />
+    <Image class="main" src={img(s.images.main)} alt={s.images.mainAlt} widths={[340, 680]} sizes="(max-width: 960px) 90vw, 300px" />
+    <Image class="second" src={img(s.images.second)} alt={s.images.secondAlt} widths={[120, 240]} sizes="90px" />
   </div>
   <div class="easy-body">
     <span class="eyebrow">{s.eyebrow} <span class="th">{s.thaiName}</span></span>
-    <h3>{s.title}</h3>
-    <p>{s.text}</p>
-    <div class="chips">
-      {s.chips.map((c) => <b><Icon name={c.icon} size={15} />{c.label}</b>)}
+    <div class="title">
+      <h3>{s.title}</h3>
+      <span class="rating" role="img" aria-label={ratingLabel}>
+        <span class="stars" style={`--fill:${(s.rating.value / 5) * 100}%`}>
+          <span class="base">{stars.map(() => <Icon name="star" size={17} />)}</span>
+          <span class="on">{stars.map(() => <Icon name="star" size={17} />)}</span>
+        </span>
+        <b>{s.rating.value.toFixed(1)}</b>
+        <span class="count">({s.rating.count} reviews)</span>
+      </span>
     </div>
+    <p>{s.text}</p>
+
+    <!-- What they do: the chips open the full service list (works without JavaScript). -->
+    <details class="svc">
+      <summary>
+        {s.services.map((c) => <span class="chip"><Icon name={c.icon} size={15} />{c.label}</span>)}
+        <span class="all">{s.allServicesLabel} <Icon name="chevron-down" size={16} /></span>
+      </summary>
+      <div class="svc-list">
+        {s.services.map((c) => (
+          <div>
+            <h4><Icon name={c.icon} size={15} />{c.label}</h4>
+            <ul>{c.items.map((item) => <li>{item}</li>)}</ul>
+          </div>
+        ))}
+      </div>
+    </details>
+
+    <!-- How to reach them. -->
     <div class="ctas">
       <a class="btn btn-primary" href={s.phone.tel}><Icon name="phone" />{s.callLabel} {s.phone.display}</a>
       <span class="lineq">
@@ -25,29 +53,52 @@ import { img } from '../../lib/assets';
           {s.lineQrCaption}
         </span>
       </span>
-      <a class="link" href={s.allServicesHref}>{s.allServicesLabel} <Icon name="arrow-right" /></a>
     </div>
   </div>
 </div>
 
 <style>
-  .easy { margin-top: 24px; display: grid; grid-template-columns: 400px 1fr; gap: 36px; align-items: center; padding: 20px 32px 20px 20px; border-radius: 18px; background: linear-gradient(120deg, #EAF1FF 0%, #F6F9FF 60%); border: 1px solid #DCE6FA; }
+  .easy { margin-top: 20px; display: grid; grid-template-columns: 300px 1fr; gap: 32px; align-items: center; padding: 18px 28px 18px 18px; border-radius: 18px; background: linear-gradient(120deg, #EAF1FF 0%, #F6F9FF 60%); border: 1px solid #DCE6FA; }
   /* The secondary photo sits top-right, over the curtain area only: every face in the team photo is below ~35% of its height. */
   .easy-media { position: relative; padding: 8% 4% 0 0; }
   .easy-media :global(.main) { border-radius: 12px; aspect-ratio: 4 / 3; object-fit: cover; width: 100%; box-shadow: 0 14px 30px rgba(15, 27, 51, .16); }
-  .easy-media :global(.second) { position: absolute; right: 0; top: 0; width: 28%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; border: 4px solid #fff; box-shadow: 0 10px 24px rgba(15, 27, 51, .2); }
+  .easy-media :global(.second) { position: absolute; right: 0; top: 0; width: 28%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; border: 3px solid #fff; box-shadow: 0 10px 24px rgba(15, 27, 51, .2); }
   .eyebrow .th { letter-spacing: 0; text-transform: none; font-weight: 500; color: #7B869C; margin-left: 4px; }
-  h3 { font-size: 34px; line-height: 1.1; letter-spacing: -.015em; margin: 8px 0 10px; }
-  p { font-size: 16px; line-height: 1.55; color: #3F4B66; max-width: 560px; }
-  .chips { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 16px; }
-  .chips b { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: #fff; color: var(--ink); border: 1px solid #DCE4F3; }
-  .chips :global(svg) { color: var(--blue); }
-  .ctas { display: flex; align-items: center; gap: 12px; margin-top: 22px; flex-wrap: wrap; }
+
+  .title { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 16px; margin: 6px 0 8px; }
+  h3 { font-size: 28px; line-height: 1.15; letter-spacing: -.015em; }
+  .rating { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; color: var(--muted); }
+  .rating b { color: var(--ink); font-weight: 600; }
+  .stars { position: relative; display: inline-flex; }
+  .stars span { display: inline-flex; }
+  .stars :global(svg) { flex: none; fill: currentColor; stroke: none; }
+  .base { color: #D5DCEA; }
+  .on { position: absolute; inset: 0 auto 0 0; width: var(--fill); overflow: hidden; color: #F5A524; }
+  p { font-size: 15.5px; line-height: 1.55; color: #3F4B66; max-width: 660px; }
+
+  .svc { margin-top: 14px; }
+  summary { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; list-style: none; cursor: pointer; }
+  summary::-webkit-details-marker { display: none; }
+  .chip { display: inline-flex; align-items: center; gap: 6px; font-size: 13.5px; font-weight: 500; padding: 6px 12px; border-radius: 999px; background: #fff; color: var(--ink); border: 1px solid #DCE4F3; transition: border-color .2s; }
+  .chip :global(svg) { color: var(--blue); }
+  summary:hover .chip { border-color: #B9C8EA; }
+  .all { display: inline-flex; align-items: center; gap: 4px; margin-left: 4px; font-size: 14px; font-weight: 600; color: var(--blue); }
+  .all :global(svg) { transition: transform .2s; }
+  .svc[open] .all :global(svg) { transform: rotate(180deg); }
+  summary:hover .all { text-decoration: underline; text-underline-offset: 3px; }
+  .svc-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 16px; margin-top: 12px; padding: 14px 16px; border-radius: 12px; background: #fff; border: 1px solid #DCE4F3; }
+  h4 { display: flex; align-items: center; gap: 6px; font-size: 14px; }
+  h4 :global(svg) { color: var(--blue); }
+  ul { margin: 6px 0 0; padding: 0; list-style: none; font-size: 13px; line-height: 1.6; color: var(--muted); }
+
+  .ctas { display: flex; align-items: center; gap: 12px; margin-top: 18px; flex-wrap: wrap; }
   .lineq { position: relative; }
   .pop { position: absolute; left: 50%; bottom: calc(100% + 10px); width: 160px; padding: 10px; border-radius: 12px; background: #fff; box-shadow: 0 16px 40px rgba(15, 27, 51, .2); text-align: center; font-size: 12.5px; color: var(--muted); opacity: 0; visibility: hidden; transform: translateX(-50%) translateY(6px); transition: opacity .18s, transform .18s, visibility .18s; }
   .pop :global(img) { width: 140px; height: 140px; margin: 0 auto 6px; }
   .lineq:hover .pop, .lineq:focus-within .pop { opacity: 1; visibility: visible; transform: translateX(-50%); }
   .btn-line { background: #06C755; color: #fff; }
   .btn-line:hover { background: #05B34C; }
-  @media (max-width: 960px) { .easy { grid-template-columns: 1fr; padding: 20px; } .easy-media { max-width: 460px; } }
+  @media (max-width: 1180px) { .svc-list { grid-template-columns: repeat(2, 1fr); } }
+  @media (max-width: 960px) { .easy { grid-template-columns: 1fr; gap: 24px; padding: 18px; } .easy-media { max-width: 420px; } }
+  @media (max-width: 520px) { .svc-list { grid-template-columns: 1fr; } }
 </style>

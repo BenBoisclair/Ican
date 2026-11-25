@@ -1,7 +1,7 @@
 import {
   AppWindow, ArrowRight, ArrowUpRight, BadgeCheck, Cable, CalendarCheck, Check, ChevronDown,
   ClipboardCheck, CodeXml, FileCheck, Hammer, History, MapPin, Menu, MessageCircle, Network,
-  Phone, PlugZap, ScanSearch, Server, ShieldCheck, Smartphone, Truck, Users, Wifi, Wrench, X,
+  Phone, PlugZap, ScanSearch, Server, ShieldCheck, Smartphone, Star, Truck, Users, Wifi, Wrench, X,
 } from '@lucide/vue';
 
 export const icons = {
@@ -11,7 +11,7 @@ export const icons = {
   'badge-check': BadgeCheck, 'check': Check, 'plug-zap': PlugZap, 'hammer': Hammer, 'truck': Truck,
   'calendar-check': CalendarCheck, 'phone': Phone, 'smartphone': Smartphone, 'map-pin': MapPin,
   'arrow-right': ArrowRight, 'arrow-up-right': ArrowUpRight, 'chevron-down': ChevronDown,
-  'menu': Menu, 'x': X, 'message-circle': MessageCircle,
+  'menu': Menu, 'x': X, 'message-circle': MessageCircle, 'star': Star,
 } as const;
 
 export type IconName = keyof typeof icons;

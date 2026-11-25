@@ -74,6 +74,63 @@ describe.skipIf(!hasChrome)('homepage in a real browser', { timeout: 60000 }, ()
     });
   }
 
+  // Laptop 1366x768 minus ~110px of browser toolbars; iPhone 14 with Safari's bars showing.
+  for (const [w, h] of [[1366, 658], [390, 664]] as const) {
+    test(`all client logos fit on one screen below the sticky header at ${w}x${h}`, async () => {
+      const page = await open(w, h);
+      const fit = await page.evaluate(() => {
+        const header = document.querySelector('.nav')!.getBoundingClientRect().height;
+        const head = document.querySelector('#clients .sec-head')!.getBoundingClientRect();
+        const card = document.querySelector('#clients .logo-card')!.getBoundingClientRect();
+        return { needed: card.bottom - head.top, available: window.innerHeight - Math.min(header, 64) };
+      });
+      expect(fit.needed).toBeLessThanOrEqual(fit.available);
+      await page.close();
+    });
+  }
+
+  // Reduced motion keeps scrolling instant and skips the reveal slide, so pins stay put while the mouse moves.
+  const still = (p: Page) => p.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
+
+  test('Area54 on desktop: hovering a pin opens its card on the photo, one at a time', async () => {
+    const page = await open(1440, 900, still);
+    await page.$eval('#area54', (el) => el.scrollIntoView());
+    await page.waitForSelector('astro-island[component-url*="Area54"]:not([ssr])');
+    for (const id of [1, 2, 3, 4, 5, 6]) {
+      await page.hover(`.pin[data-spot="${id}"]`);
+      const r = await page.evaluate((id) => {
+        const photo = document.querySelector('.directory .photo')!.getBoundingClientRect();
+        const card = document.getElementById(`spot-${id}`)!.getBoundingClientRect();
+        const visible = [...document.querySelectorAll('.spot')].filter((el) => getComputedStyle(el).display !== 'none').length;
+        return { visible, inside: card.left >= photo.left && card.right <= photo.right && card.top >= photo.top && card.bottom <= photo.bottom };
+      }, id);
+      expect(r, `spot ${id}`).toEqual({ visible: 1, inside: true });
+    }
+    await page.close();
+  });
+
+  test('Area54 on phones: only the picked card shows, under the photo', async () => {
+    const page = await open(375, 800, still);
+    await page.$eval('#area54', (el) => el.scrollIntoView());
+    await page.waitForSelector('astro-island[component-url*="Area54"]:not([ssr])');
+    await page.tap('.pin[data-spot="3"]');
+    const r = await page.evaluate(() => {
+      const photo = document.querySelector('.directory .photo')!.getBoundingClientRect();
+      const visible = [...document.querySelectorAll<HTMLElement>('.spot')].filter((el) => getComputedStyle(el).display !== 'none');
+      return { ids: visible.map((el) => el.dataset.spot), below: visible[0].getBoundingClientRect().top >= photo.bottom };
+    });
+    expect(r).toEqual({ ids: ['3'], below: true });
+    await page.close();
+  });
+
+  test('"All services" opens the full Chang ICAN service list', async () => {
+    const page = await open(1440, 900, still);
+    expect(await page.$eval('#chang .svc-list', (el) => el.checkVisibility())).toBe(false);
+    await page.click('#chang summary .all');
+    expect(await page.$eval('#chang .svc-list', (el) => el.checkVisibility())).toBe(true);
+    await page.close();
+  });
+
   test('every image on the page loads after scrolling through it', async () => {
     const page = await open(1440, 900);
     await page.evaluate(async () => {

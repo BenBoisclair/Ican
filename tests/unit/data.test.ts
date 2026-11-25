@@ -32,6 +32,17 @@ describe('homepage data', () => {
     expect(site.facebookUrl).toBe('https://www.facebook.com/ICAN.Admin/');
   });
 
+  test('Chang ICAN: line without a head count, 4.5 stars from 22 reviews, every chip has its full service list', () => {
+    expect(startEasy.text).toBe('ICAN technicians for everyday home and office jobs. Book by the job or by the day.');
+    expect(startEasy.rating).toEqual({ value: 4.5, count: 22 });
+    expect(startEasy.services.map((s) => s.label)).toEqual(['Electrical & network', 'Handyman', 'Moving', 'Event setup']);
+    for (const s of startEasy.services) expect(s.items.length, s.label).toBeGreaterThanOrEqual(3);
+  });
+
+  test('hero lead mentions cybersecurity', () => {
+    expect(hero.lead).toContain('cybersecurity');
+  });
+
   test('Area54 directory: six spots, Maps links on 1, 3 and 5', () => {
     expect(area54.spots.map((s) => s.id)).toEqual([1, 2, 3, 4, 5, 6]);
     expect(area54.spots.filter((s) => s.link?.external).map((s) => s.id)).toEqual([1, 3, 5]);

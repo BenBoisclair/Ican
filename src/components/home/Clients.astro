@@ -2,26 +2,49 @@
 import { Image } from 'astro:assets';
 import { clients } from '../../data/home';
 import { img } from '../../lib/assets';
+
+/*
+ * All logos sit in one white card, sized so each covers about the same area: a square logo and a
+ * long word-mark then read as equally big. The logo files are trimmed to their visible edges.
+ * Widths are for desktop; phones scale them with --s.
+ */
+const AREA = 2000;
+const MAX_W = 104;
+const MAX_H = 40;
+const logos = clients.logos.map((l) => {
+  const src = img(l.file);
+  const ratio = src.width / src.height;
+  const h = Math.min(Math.sqrt((AREA * (l.scale ?? 1)) / ratio), MAX_H);
+  const w = Math.min(h * ratio, MAX_W);
+  return { ...l, src, w: Math.round(w) };
+});
 ---
 <section id="clients" class="clients">
   <div class="wrap">
     <div class="sec-head rv"><span class="eyebrow">{clients.eyebrow}</span><h2>{clients.heading}</h2></div>
-    <div class="logo-grid">
-      {clients.logos.map((l, i) => (
-        <div class="lg rv" style={`--d:${(i % 6) * 60}ms`}>
-          <Image src={img(l.file)} alt={l.name} class:list={[{ white: l.white }]} />
-        </div>
+    <ul class="logo-card rv" role="list">
+      {logos.map((l) => (
+        <li>
+          <Image src={l.src} alt={l.name} width={l.w} densities={[1, 2]} style={`--w:${l.w}`} class:list={[{ white: l.white }]} />
+        </li>
       ))}
-    </div>
+    </ul>
   </div>
 </section>
 
 <style>
-  .clients { padding: 96px 0; background: var(--tint); }
-  .logo-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; }
-  .lg { flex: 0 0 calc((100% - 60px) / 6); display: grid; place-items: center; aspect-ratio: 3 / 2; padding: 14px; background: #fff; border: 1px solid #E6EBF3; border-radius: 12px; }
-  .lg :global(img) { max-height: 64px; max-width: 100%; width: auto; object-fit: contain; }
-  .lg :global(img.white) { filter: brightness(0); opacity: .72; }
-  @media (max-width: 960px) { .lg { flex-basis: calc((100% - 36px) / 4); } }
-  @media (max-width: 640px) { .logo-grid { gap: 8px; } .lg { flex-basis: calc((100% - 16px) / 3); padding: 10px; } .lg :global(img) { max-height: 44px; } }
+  .clients { padding: 80px 0; background: var(--tint); }
+  .clients .sec-head { margin-bottom: 28px; }
+  .logo-card { --s: 1; display: flex; flex-wrap: wrap; justify-content: center; margin: 0; padding: 24px 28px; list-style: none; background: #fff; border: 1px solid #E6EBF3; border-radius: 20px; box-shadow: 0 18px 40px -24px rgba(15, 27, 51, .18); }
+  li { flex: 0 0 calc(100% / 9); height: 64px; display: grid; place-items: center; padding: 0 8px; }
+  li :global(img) { width: calc(var(--w) * var(--s) * 1px); max-width: 100%; height: auto; }
+  li :global(img.white) { filter: brightness(0); opacity: .72; }
+  @media (max-width: 1080px) { li { flex-basis: calc(100% / 7); } }
+  @media (max-width: 760px) { li { flex-basis: calc(100% / 5); } }
+  @media (max-width: 640px) {
+    .clients { padding: 56px 0; }
+    .clients .sec-head { margin-bottom: 14px; }
+    .logo-card { --s: .64; padding: 8px 6px; border-radius: 16px; }
+    li { flex-basis: 25%; height: 38px; padding: 0 5px; }
+  }
 </style>

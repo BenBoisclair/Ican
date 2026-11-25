@@ -66,7 +66,7 @@ describe('hero', () => {
     const t = text(hero);
     expect(t).toContain('Your Trusted Partner in');
     expect(t).toContain('IT Solutions.');
-    expect(t).toContain('ICAN helps businesses build, assess, and improve their IT systems.');
+    expect(t).toContain('ICAN helps businesses build, assess, and improve their IT systems and cybersecurity.');
     expect(t).toContain('Trusted by');
     expect(t).toContain('50+ organizations');
     for (const alt of ['SCG', 'PTT', '7-Eleven', "L'Oréal Thailand", 'Synnex']) {
@@ -118,6 +118,10 @@ describe('solutions', () => {
     ]) { expect(t, title).toContain(title); expect(t, blurb).toContain(blurb); }
   });
 
+  test('compact cards: no repeated "Learn more" label', () => {
+    expect(text(section('solutions'))).not.toContain('Learn more');
+  });
+
   test('card hover only tints the border: no shadow, no lift', () => {
     const hovers = cssRules(/\.sol[^,{]*:hover(?![^,{]*\.)/);
     expect(hovers.length).toBeGreaterThan(0);
@@ -133,9 +137,32 @@ describe('Start easy (Chang ICAN)', () => {
     const t = text(s);
     expect(t).toContain('Start easy');
     expect(t).toContain('ช่างไอแคน');
+    expect(t).toContain('ICAN technicians for everyday home and office jobs.');
+    expect(t).not.toMatch(/\bFive\b/);
     for (const chip of ['Electrical & network', 'Handyman', 'Moving', 'Event setup']) expect(t, chip).toContain(chip);
     expect(s).toContain('href="tel:+66816135243"');
     expect(s).toMatch(/<a[^>]*href="https:\/\/lin\.ee\/zk70Gu8"[^>]*target="_blank"[^>]*rel="noopener"/);
+  });
+
+  test('rating: 4.5 of 5 stars from 22 reviews, readable by screen readers', () => {
+    const s = section('chang');
+    expect(s).toMatch(/role="img"[^>]*aria-label="Rated 4\.5 out of 5 from 22 reviews"/);
+    expect(s).toContain('--fill:90%');
+    expect(text(s)).toContain('(22 reviews)');
+  });
+
+  test('"All services" sits with the service chips and opens the full list, not with the contact buttons', () => {
+    const s = section('chang');
+    const details = s.match(/<details[\s\S]*?<\/details>/)?.[0] ?? '';
+    const summary = details.match(/<summary[\s\S]*?<\/summary>/)?.[0] ?? '';
+    expect(text(summary)).toContain('All services');
+    expect(text(summary)).toContain('Handyman');
+    for (const item of ['LAN & fiber cabling', 'Furniture assembly', 'Heavy items, any floor', 'Exhibition & fair move-in']) {
+      expect(text(details), item).toContain(item);
+    }
+    const ctas = s.slice(s.indexOf('class="ctas'));
+    expect(text(ctas)).not.toContain('All services');
+    expect(s).not.toContain('href="#chang"');
   });
 
   test('secondary photo sits top-right so no technician face is covered', () => {
@@ -147,12 +174,14 @@ describe('Start easy (Chang ICAN)', () => {
 });
 
 describe('Trusted by, Why ICAN, projects', () => {
-  test('"Trusted by" shows all 52 client logos, each with alt text', () => {
+  test('"Trusted by" shows all 52 client logos in one card, each with alt text', () => {
     const s = section('clients');
     expect(s).toMatch(/<h2[^>]*>Trusted by<\/h2>/);
     const imgs = [...s.matchAll(/<img[^>]*>/g)].map((m) => m[0]);
     expect(imgs).toHaveLength(52);
     for (const tag of imgs) expect(tag).toMatch(/alt="[^"]+"/);
+    const card = s.match(/<ul class="logo-card[\s\S]*?<\/ul>/)?.[0] ?? '';
+    expect([...card.matchAll(/<img/g)]).toHaveLength(52);
   });
 
   test('Why ICAN: heading, CTA, certifications and four points', () => {
