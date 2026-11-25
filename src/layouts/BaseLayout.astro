@@ -8,6 +8,8 @@ import '@fontsource/ibm-plex-sans-thai/600.css';
 import '../styles/global.css';
 import SiteHeader from '../components/SiteHeader.astro';
 import SiteFooter from '../components/SiteFooter.astro';
+import ConsentBanner from '../components/ConsentBanner.astro';
+import { analytics } from '../data/analytics';
 
 interface Props {
   title: string;
@@ -34,9 +36,12 @@ const { title, description } = Astro.props;
     <SiteHeader />
     <slot />
     <SiteFooter />
+    {analytics.measurementId && <ConsentBanner />}
     <script>
       import { initMotion } from '../scripts/motion';
+      import { initAnalytics } from '../scripts/analytics';
       initMotion();
+      initAnalytics();
     </script>
   </body>
 </html>

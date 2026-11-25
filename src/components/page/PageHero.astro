@@ -12,10 +12,12 @@ interface Props {
   facts?: string[];
   image?: string;
   imageAlt?: string;
+  /** Pages that share this header (the portfolio tabs) name it, so it holds still while the page changes. */
+  transitionName?: string;
 }
-const { crumbs, eyebrow, title, lead, facts = [], image, imageAlt = '' } = Astro.props;
+const { crumbs, eyebrow, title, lead, facts = [], image, imageAlt = '', transitionName } = Astro.props;
 ---
-<header class="page-hero" class:list={{ 'has-img': !!image }}>
+<header class="page-hero" class:list={{ 'has-img': !!image }} style={transitionName ? `view-transition-name:${transitionName}` : undefined}>
   <div class="wrap">
     <div class="text">
       <nav class="crumbs" aria-label="Breadcrumb">
@@ -55,7 +57,7 @@ const { crumbs, eyebrow, title, lead, facts = [], image, imageAlt = '' } = Astro
   .facts { display: flex; flex-wrap: wrap; gap: 8px; margin: 22px 0 0; padding: 0; list-style: none; }
   .facts li { display: inline-flex; align-items: center; gap: 6px; padding: 6px 12px; border-radius: 999px; background: #fff; border: 1px solid #DCE4F3; font-size: 13.5px; font-weight: 500; }
   .facts :global(svg) { color: var(--blue); }
-  .photo :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 18px; box-shadow: 0 24px 50px rgba(15, 27, 51, .18); }
+  .photo :global(img) { width: 100%; aspect-ratio: 4 / 3; object-fit: cover; border-radius: 18px; }
   @media (max-width: 960px) {
     .has-img .wrap { grid-template-columns: 1fr; gap: 28px; }
     .photo { max-width: 520px; }

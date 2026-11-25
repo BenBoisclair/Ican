@@ -26,20 +26,23 @@ export const galleries: Gallery[] = [
   { key: 'software', title: 'Software & Application', page: 'software', best: [1, 7, 10, 22] },
 ];
 
+/** Both portfolio pages share one header, so switching tabs only changes the tab highlight and the photos. */
+export const portfolioHero = { title: 'Our portfolio', lead: 'Photos, drawings and screenshots from our projects.' };
+
 export const portfolioPages = {
   'it-infrastructure': {
     title: 'IT Infrastructure',
     href: '/portfolio/it-infrastructure',
     metaTitle: 'IT Infrastructure Portfolio',
     description: 'Photos and design drawings from ICAN infrastructure projects: data centers, structured cabling, fiber, CCTV, access control, fire suppression and more.',
-    lead: 'Photos and design drawings from our projects. Pick a category or browse them all.',
+    note: '',
   },
   software: {
     title: 'Software & Application',
     href: '/portfolio/software',
     metaTitle: 'Software & Application Portfolio',
     description: 'Screenshots of custom applications ICAN has built: SAP interfaces, helpdesk, sales, maintenance and company systems.',
-    lead: 'Screenshots of systems we have built for clients. Some details are blurred for privacy.',
+    note: 'Some details are blurred for privacy.',
   },
 } as const;
 

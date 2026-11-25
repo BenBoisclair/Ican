@@ -28,7 +28,7 @@ const ratingLabel = `Rated ${s.rating.value} out of 5 from ${s.rating.count} ${s
     <p>{s.text}</p>
 
     <!-- What they do: the chips open the full service list (works without JavaScript). -->
-    <details class="svc">
+    <details class="svc" data-smooth>
       <summary>
         {s.services.map((c) => <span class="chip"><Icon name={c.icon} size={15} />{c.label}</span>)}
         <span class="all">{s.allServicesLabel} <Icon name="chevron-down" size={16} /></span>
@@ -61,8 +61,8 @@ const ratingLabel = `Rated ${s.rating.value} out of 5 from ${s.rating.count} ${s
   .easy { margin-top: 20px; display: grid; grid-template-columns: 300px 1fr; gap: 32px; align-items: center; padding: 18px 28px 18px 18px; border-radius: 18px; background: linear-gradient(120deg, #EAF1FF 0%, #F6F9FF 60%); border: 1px solid #DCE6FA; }
   /* The secondary photo sits top-right, over the curtain area only: every face in the team photo is below ~35% of its height. */
   .easy-media { position: relative; padding: 8% 4% 0 0; }
-  .easy-media :global(.main) { border-radius: 12px; aspect-ratio: 4 / 3; object-fit: cover; width: 100%; box-shadow: 0 14px 30px rgba(15, 27, 51, .16); }
-  .easy-media :global(.second) { position: absolute; right: 0; top: 0; width: 28%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; border: 3px solid #fff; box-shadow: 0 10px 24px rgba(15, 27, 51, .2); }
+  .easy-media :global(.main) { border-radius: 12px; aspect-ratio: 4 / 3; object-fit: cover; width: 100%; }
+  .easy-media :global(.second) { position: absolute; right: 0; top: 0; width: 28%; aspect-ratio: 1; object-fit: cover; border-radius: 10px; border: 3px solid #fff; }
   .eyebrow .th { letter-spacing: 0; text-transform: none; font-weight: 500; color: #7B869C; margin-left: 4px; }
 
   .title { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 16px; margin: 6px 0 8px; }
@@ -83,10 +83,10 @@ const ratingLabel = `Rated ${s.rating.value} out of 5 from ${s.rating.count} ${s
   .chip :global(svg) { color: var(--blue); }
   summary:hover .chip { border-color: #B9C8EA; }
   .all { display: inline-flex; align-items: center; gap: 4px; margin-left: 4px; font-size: 14px; font-weight: 600; color: var(--blue); }
-  .all :global(svg) { transition: transform .2s; }
-  .svc[open] .all :global(svg) { transform: rotate(180deg); }
+  .all :global(svg) { transition: transform .3s var(--ease); }
+  .svc[open]:not(.closing) .all :global(svg) { transform: rotate(180deg); }
   summary:hover .all { text-decoration: underline; text-underline-offset: 3px; }
-  .svc-list { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 16px; margin-top: 12px; padding: 14px 16px; border-radius: 12px; background: #fff; border: 1px solid #DCE4F3; }
+  .svc-list { overflow: hidden; display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px 16px; margin-top: 12px; padding: 14px 16px; border-radius: 12px; background: #fff; border: 1px solid #DCE4F3; }
   h4 { display: flex; align-items: center; gap: 6px; font-size: 14px; }
   h4 :global(svg) { color: var(--blue); }
   ul { margin: 6px 0 0; padding: 0; list-style: none; font-size: 13px; line-height: 1.6; color: var(--muted); }

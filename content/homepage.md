@@ -51,9 +51,10 @@ Certified expertise panel: Networking — Cisco CCIE, CCNP, CCNA · Cabling — 
 Data Center · Structured Cabling · Server & Storage Racks · Fiber Optic Installation · CCTV Control Room · Server Room Fire Suppression → View full portfolio. Each photo opens its gallery in the portfolio.
 
 ## 6. Visit Area54 (Vibhavadi Soi 5, Yaek 4) — last section
-"Six businesses, one address." Photo with numbered pins. Desktop: hovering or clicking a pin pops its card up on the photo beside the pin. Phones: only the picked card shows below the photo (the first business until a pin is tapped).
+"Six businesses. Tap a number to see more details." (2026-11-25) Photo with flat numbered pins (no shadow, no pulse); the business cards carry no number. Screens 1200px and wider: hovering or clicking a pin pops its card up on the photo beside the pin, never covering another pin. Smaller screens: only the picked card shows below the photo (the first business until a pin is tapped).
 (Ratings and details checked on Google, 2026-11-16. Ratings change, so recheck before launch.)
 "Get directions" (with a map symbol in front) links to the Google place "Area54 Vibhavadi".
+Cards 1, 3 and 5 show a storefront photo cropped from ICAN's own Area54 photo (2026-11-25).
 1. **Tidnuad Thai Massage** (top left) · Thai massage · ★ 5.0 (44 reviews): Traditional Thai health massage, a few steps from the office. Link: https://share.google/fep024W269fiv6ZjT
 2. **ICAN Group** (middle top): Our head office: infrastructure, security, software, and consulting since 1999.
 3. **Chef's Place** (top right) · Restaurant · ★ 5.0 (110 reviews): Chef-made Western comfort food: pasta, steak, and a 5-course tasting menu by reservation. Link: https://share.google/YkK6HwHjR3dihpZi0

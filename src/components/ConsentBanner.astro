@@ -1,0 +1,39 @@
+---
+// Asks before Google Analytics loads (PDPA). Shown by src/scripts/analytics.ts until the visitor chooses.
+import { analytics } from '../data/analytics';
+const { consent } = analytics;
+---
+<div
+  id="consent"
+  class="consent"
+  role="region"
+  aria-label={consent.label}
+  data-ga={analytics.measurementId}
+  data-domains={analytics.domains.join(',')}
+  hidden
+>
+  <p>{consent.text}</p>
+  <div class="actions">
+    <button type="button" class="btn btn-ghost" data-choice="denied">{consent.decline}</button>
+    <button type="button" class="btn btn-primary" data-choice="granted">{consent.accept}</button>
+  </div>
+</div>
+
+<style>
+  .consent {
+    position: fixed; z-index: 60; left: 24px; bottom: 24px; max-width: 540px;
+    display: flex; align-items: center; gap: 18px; padding: 14px 14px 14px 18px;
+    background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 12px 32px rgba(15, 27, 51, .14);
+    animation: consent-in .4s var(--ease) both;
+  }
+  .consent[hidden] { display: none; }
+  p { font-size: 14.5px; line-height: 1.45; }
+  .actions { display: flex; gap: 8px; flex: none; }
+  .btn { padding: 10px 16px; font-size: 14.5px; }
+  @keyframes consent-in { from { opacity: 0; transform: translateY(12px); } }
+  @media (max-width: 640px) {
+    .consent { left: 12px; right: 12px; bottom: 12px; max-width: none; flex-direction: column; align-items: stretch; gap: 12px; }
+    .actions .btn { flex: 1; }
+  }
+  @media print { .consent { display: none; } }
+</style>

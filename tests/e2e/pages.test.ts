@@ -41,6 +41,47 @@ async function open(path: string, width = 1366, height = 768): Promise<Page> {
   return page;
 }
 
+/**
+ * Opens the contact page with the form service faked: nothing ever reaches Web3Forms, and `sends` records
+ * each message the page tried to send. hCaptcha is blocked too; `fillContact` stands in for a solved check.
+ */
+async function openContact(path = '/contact', waitUntil: 'networkidle0' | 'domcontentloaded' = 'networkidle0') {
+  const page = await browser.newPage();
+  const sends: string[] = [];
+  const captchaLoads: string[] = [];
+  await page.setRequestInterception(true);
+  page.on('request', (req) => {
+    if (req.url().includes('hcaptcha.com')) { captchaLoads.push(req.url()); req.abort(); return; }
+    if (!req.url().includes('web3forms.com')) { req.continue(); return; }
+    if (req.method() === 'POST') sends.push(req.postData() ?? '');
+    req.respond({ status: 200, contentType: 'application/json', headers: { 'Access-Control-Allow-Origin': '*' }, body: '{"success":true}' });
+  });
+  await page.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'reduce' }]);
+  await page.goto(`${BASE}${path}`, { waitUntil });
+  await page.evaluate(() => localStorage.clear()); // each check starts without an earlier check's "sent a minute ago"
+  return { page, sends, captchaLoads };
+}
+
+/** Fills every required field of the contact form and, unless told not to, passes the robot check the way hCaptcha does. */
+async function fillContact(page: Page, solved = true) {
+  await page.select('#topic', 'support');
+  await page.evaluate((solved) => {
+    const set = (name: string, value: string) => { (document.querySelector(`[name="${name}"]`) as HTMLInputElement).value = value; };
+    set('name', 'Test Person');
+    set('email', 'test@example.com');
+    set('message', 'Hello');
+    const box = document.querySelector('.h-captcha');
+    if (solved && box) {
+      let token = box.querySelector<HTMLTextAreaElement>('textarea[name="h-captcha-response"]');
+      if (!token) { token = document.createElement('textarea'); token.name = 'h-captcha-response'; token.hidden = true; box.append(token); }
+      token.value = 'test-token';
+    }
+  }, solved);
+}
+
+const statusText = (page: Page) => page.waitForSelector('.status:not([hidden])').then(() => page.$eval('.status', (s) => s.textContent ?? ''));
+const pause = (ms: number) => new Promise((r) => setTimeout(r, ms));
+
 const PAGES = [
   '/about', '/contact', '/social-responsibility', '/portfolio/it-infrastructure', '/portfolio/software',
   '/solutions/network-it-infrastructure', '/solutions/server-room-cabling', '/solutions/software-applications',
@@ -92,7 +133,7 @@ describe.skipIf(!hasChrome)('inner pages in a real browser', { timeout: 90000 },
   });
 
   test('contact form: the solution list appears only for quotes and solution questions', async () => {
-    const page = await open('/contact');
+    const { page } = await openContact();
     const visible = () => page.$eval('#solution-field', (el) => !(el as HTMLElement).hidden);
     expect(await visible()).toBe(false);
     await page.select('#topic', 'quote');
@@ -105,7 +146,7 @@ describe.skipIf(!hasChrome)('inner pages in a real browser', { timeout: 90000 },
   });
 
   test('contact form: a link can pick the topic and solution, and sending without a form service opens email', async () => {
-    const page = await open('/contact?topic=quote&solution=enterprise-wifi');
+    const { page } = await openContact('/contact?topic=quote&solution=enterprise-wifi');
     expect(await page.$eval('#topic', (s) => (s as HTMLSelectElement).value)).toBe('quote');
     expect(await page.$eval('#solution', (s) => (s as HTMLSelectElement).value)).toBe('enterprise-wifi');
     const viaService = await page.$eval('#contact-form', (f) => (f as HTMLFormElement).dataset.service !== undefined);
@@ -121,10 +162,63 @@ describe.skipIf(!hasChrome)('inner pages in a real browser', { timeout: 90000 },
   });
 
   test('contact form: required fields stop an empty message from being sent', async () => {
-    const page = await open('/contact');
+    const { page, sends } = await openContact();
     await page.click('button[type="submit"]');
     expect(await page.$eval('.status', (s) => (s as HTMLElement).hidden)).toBe(true);
     expect(await page.$eval('#contact-form', (f) => (f as HTMLFormElement).checkValidity())).toBe(false);
+    expect(sends).toHaveLength(0);
+    await page.close();
+  });
+
+  test('contact form: a filled form sends once, then asks to wait a minute before another', async () => {
+    const { page, sends } = await openContact();
+    if (await page.$eval('#contact-form', (f) => (f as HTMLFormElement).dataset.service === undefined)) { await page.close(); return; }
+    await fillContact(page);
+    await pause(3100);
+    await page.click('button[type="submit"]');
+    expect(await statusText(page)).toContain('has been sent');
+    expect(sends).toHaveLength(1);
+    expect(sends[0]).toContain('Test Person');
+    expect(sends[0]).toContain('test-token');
+
+    await fillContact(page);
+    await page.click('button[type="submit"]');
+    await page.waitForFunction(() => document.querySelector('.status')!.textContent!.includes('wait a minute'));
+    expect(sends).toHaveLength(1);
+    await page.close();
+  });
+
+  test('contact form: sending within seconds of opening the page asks to check first and sends nothing', async () => {
+    const { page, sends } = await openContact('/contact', 'domcontentloaded');
+    if (await page.$eval('#contact-form', (f) => (f as HTMLFormElement).dataset.service === undefined)) { await page.close(); return; }
+    await fillContact(page);
+    await page.click('button[type="submit"]');
+    expect(await statusText(page)).toContain('press Send again');
+    expect(sends).toHaveLength(0);
+    await page.close();
+  });
+
+  test('contact form: without the robot check passed, it asks for it and sends nothing', async () => {
+    const { page, sends, captchaLoads } = await openContact();
+    if (await page.$eval('#contact-form', (f) => (f as HTMLFormElement).dataset.service === undefined)) { await page.close(); return; }
+    expect(captchaLoads.some((u) => u.startsWith('https://js.hcaptcha.com/1/api.js?') && u.includes('render=explicit'))).toBe(true);
+    await fillContact(page, false);
+    await pause(3100);
+    await page.click('button[type="submit"]');
+    expect(await statusText(page)).toContain('I am human');
+    expect(sends).toHaveLength(0);
+    await page.close();
+  });
+
+  test('contact form: a form that fills the hidden bot trap looks sent but sends nothing', async () => {
+    const { page, sends } = await openContact();
+    if (await page.$eval('#contact-form', (f) => (f as HTMLFormElement).dataset.service === undefined)) { await page.close(); return; }
+    await fillContact(page);
+    await page.evaluate(() => { (document.querySelector('[name="botcheck"]') as HTMLInputElement).checked = true; });
+    await pause(3100);
+    await page.click('button[type="submit"]');
+    expect(await statusText(page)).toContain('has been sent');
+    expect(sends).toHaveLength(0);
     await page.close();
   });
 
@@ -164,6 +258,18 @@ describe.skipIf(!hasChrome)('inner pages in a real browser', { timeout: 90000 },
     await page.waitForFunction(() => (document.getElementById('lightbox') as HTMLDialogElement).open);
     expect(await page.$eval('#lightbox .count', (c) => c.textContent)).toBe(`1 / ${total}`);
     await page.close();
+  });
+
+  test('portfolio tabs sit in exactly the same place on both pages, so switching does not shift the page', async () => {
+    for (const width of [1366, 390]) {
+      const spots: string[] = [];
+      for (const path of ['/portfolio/it-infrastructure', '/portfolio/software']) {
+        const page = await open(path, width, 800);
+        spots.push(await page.$eval('.tabs', (t) => { const b = t.getBoundingClientRect(); return `${Math.round(b.top)},${Math.round(b.left)},${Math.round(b.width)}`; }));
+        await page.close();
+      }
+      expect(spots[0], `${width}px`).toBe(spots[1]);
+    }
   });
 
   test('without JavaScript the portfolio shows every category and the photos are plain links', async () => {

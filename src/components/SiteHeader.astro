@@ -5,6 +5,9 @@ import MobileMenu from './islands/MobileMenu.vue';
 import { site } from '../data/site';
 import { img } from '../lib/assets';
 ---
+<!-- The header is fixed and this spacer holds its place, so shrinking it on scroll never moves the page
+     (a sticky header that shrinks makes the browser re-adjust the scroll and the page shakes). -->
+<div class="nav-space" aria-hidden="true"></div>
 <header class="nav" id="site-nav">
   <div class="wrap">
     <a class="logo" href="/"><Image src={img('images/ican-logo.png')} alt={site.logoAlt} height={44} densities={[1, 2]} loading="eager" /></a>
@@ -33,24 +36,25 @@ import { img } from '../lib/assets';
 </header>
 
 <style>
-  .nav { position: sticky; top: 0; z-index: 50; background: rgba(255, 255, 255, .9); backdrop-filter: blur(10px); border-bottom: 1px solid #E6EAF2; transition: box-shadow .25s; }
+  .nav-space { height: 76px; }
+  .nav { view-transition-name: site-nav; position: fixed; top: 0; left: 0; right: 0; z-index: 50; background: rgba(255, 255, 255, .9); backdrop-filter: blur(10px); border-bottom: 1px solid #E6EAF2; }
   .nav .wrap { position: relative; display: flex; align-items: center; justify-content: space-between; height: 76px; transition: height .25s var(--ease); }
   .logo :global(img) { height: 44px; width: auto; transition: height .25s var(--ease); }
   .menu { display: flex; align-items: center; gap: 2px; list-style: none; margin: 0; padding: 0; }
   .menu > li { position: relative; }
-  .menu > li > a { display: flex; align-items: center; gap: 4px; padding: 10px 14px; font-size: 15px; font-weight: 500; border-radius: 8px; }
-  .menu > li > a:hover { background: #F1F5FC; color: var(--blue); }
-  .menu > li > a :global(svg) { transition: transform .2s; }
+  .menu > li > a { display: flex; align-items: center; gap: 4px; padding: 10px 14px; font-size: 15px; font-weight: 500; border-radius: 8px; transition: background-color .2s, color .2s; }
+  /* Menu links tint on hover; the Contact Us button keeps its own blue hover. */
+  .menu > li:not(.cta) > a:hover { background: #F1F5FC; color: var(--blue); }
+  .menu > li > a :global(svg) { transition: transform .3s var(--ease); }
   .menu > li:hover > a :global(.lucide-chevron-down), .menu > li:focus-within > a :global(.lucide-chevron-down) { transform: rotate(180deg); }
   .menu > li > a :global(.lucide-map-pin) { color: var(--blue); }
-  .drop { position: absolute; top: 100%; left: 0; min-width: 310px; padding: 8px; margin: 0; list-style: none; border-radius: 12px; background: #fff; border: 1px solid var(--line); box-shadow: 0 16px 40px rgba(15, 27, 51, .12); opacity: 0; visibility: hidden; transform: translateY(6px); transition: opacity .18s, transform .18s, visibility .18s; }
-  .menu > li:hover .drop, .menu > li:focus-within .drop { opacity: 1; visibility: visible; transform: none; transition: opacity .18s, transform .18s, visibility 0s; }
-  .drop a { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; font-size: 14.5px; font-weight: 500; }
+  .drop { position: absolute; top: 100%; left: 0; min-width: 310px; padding: 8px; margin: 0; list-style: none; border-radius: 12px; background: #fff; border: 1px solid var(--line); box-shadow: 0 16px 40px rgba(15, 27, 51, .12); opacity: 0; visibility: hidden; transform: translateY(8px) scale(.985); transform-origin: top left; transition: opacity .22s ease, transform .3s var(--ease), visibility .22s; }
+  .menu > li:hover .drop, .menu > li:focus-within .drop { opacity: 1; visibility: visible; transform: none; transition: opacity .22s ease, transform .3s var(--ease), visibility 0s; }
+  .drop a { display: flex; align-items: center; gap: 12px; padding: 10px 12px; border-radius: 8px; font-size: 14.5px; font-weight: 500; transition: background-color .15s, color .15s; }
   .drop a:hover { background: #F1F5FC; color: var(--blue); }
   .drop a :global(svg) { flex: none; color: var(--blue); }
   .drop .sep { height: 1px; background: var(--line); margin: 6px 8px; }
   .menu .cta { margin-left: 10px; }
-  .nav:global(.scrolled) { box-shadow: 0 8px 28px rgba(15, 27, 51, .08); }
   .nav:global(.scrolled) .wrap { height: 62px; }
   .nav:global(.scrolled) .logo :global(img) { height: 36px; }
   @media (max-width: 960px) { nav[aria-label="Main"] { display: none; } }

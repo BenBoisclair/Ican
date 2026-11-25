@@ -42,13 +42,15 @@ onBeforeUnmount(() => {
     <X v-if="open" :size="26" aria-hidden="true" />
     <Menu v-else :size="26" aria-hidden="true" />
   </button>
-  <div :id="panelId" v-show="open" class="mobile-panel">
+  <Transition name="panel">
+  <div v-show="open" :id="panelId" class="mobile-panel">
     <template v-for="item in nav" :key="item.label">
       <a :href="item.href" @click="close"><MapPin v-if="item.icon === 'map-pin'" :size="17" aria-hidden="true" />{{ item.label }}</a>
       <a v-for="child in item.children ?? []" :key="child.label" class="sub" :href="child.href" @click="close">{{ child.label }}</a>
     </template>
     <a class="btn btn-primary" :href="contact.href" @click="close">{{ contact.label }}</a>
   </div>
+  </Transition>
 </template>
 
 <style scoped>
@@ -62,5 +64,8 @@ onBeforeUnmount(() => {
 .mobile-panel a svg { color: var(--blue); }
 .mobile-panel a.sub { padding-left: 16px; font-weight: 400; font-size: 15px; }
 .mobile-panel a.btn { display: inline-flex; margin-top: 14px; border-bottom: 0; }
+.panel-enter-active { transition: opacity .25s ease, transform .32s cubic-bezier(.2, .7, .2, 1); }
+.panel-leave-active { transition: opacity .18s ease, transform .2s ease; }
+.panel-enter-from, .panel-leave-to { opacity: 0; transform: translateY(-8px); }
 @media (max-width: 960px) { .burger { display: block; } }
 </style>

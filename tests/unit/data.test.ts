@@ -77,6 +77,7 @@ describe('homepage data', () => {
       hero.images.main, hero.images.second, ...hero.trustedLogos.map((l) => l.file),
       startEasy.images.main, startEasy.images.second, startEasy.lineQr,
       ...projects.items.map((p) => p.image), area54.image,
+      ...area54.spots.flatMap((s) => (s.image ? [s.image] : [])),
     ];
     for (const p of paths) expect(() => img(p), p).not.toThrow();
   });

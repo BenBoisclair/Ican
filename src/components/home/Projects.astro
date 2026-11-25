@@ -25,16 +25,15 @@ import { img } from '../../lib/assets';
 
 <style>
   .work { padding: 96px 0 110px; border-top: 1px solid #EEF1F6; }
-  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px 20px; }
   .tile { display: block; margin: 0; }
   .imgbox { border-radius: 16px; overflow: hidden; aspect-ratio: 4 / 3; background: var(--tint); }
-  /* Slightly oversized so the scroll parallax (motion.ts sets --py) never shows an edge. No hover zoom. */
-  .imgbox :global(img) { width: 100%; height: 100%; object-fit: cover; --py: 0px; transform: translateY(var(--py)) scale(1.14); transition: transform .2s linear; }
-  .cap { display: block; padding: 16px 4px 4px; }
+  /* Photos stay still: no scroll movement, no hover zoom. */
+  .imgbox :global(img) { width: 100%; height: 100%; object-fit: cover; }
+  .cap { display: block; padding: 10px 4px 0; }
   .tile:hover strong { color: var(--blue); }
   .cat { font-size: 12px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--blue-500); }
   strong { display: block; margin-top: 4px; font-size: 17px; }
-  @media (prefers-reduced-motion: reduce) { .imgbox :global(img) { transform: none; } }
   @media (max-width: 960px) { .grid { grid-template-columns: repeat(2, 1fr); } }
-  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; gap: 28px; } }
 </style>

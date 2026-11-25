@@ -2,6 +2,7 @@
 import { readFileSync, readdirSync, statSync } from 'node:fs';
 import { join } from 'node:path';
 import { describe, expect, test } from 'vitest';
+import { analytics } from '../src/data/analytics';
 
 const DIST = 'dist';
 
@@ -98,6 +99,22 @@ function cssRules(pattern: RegExp): string[] {
     + [...html().matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1]).join('\n');
   return [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)].filter((m) => pattern.test(m[1])).map((m) => `${m[1]}{${m[2]}}`);
 }
+
+describe('shadows', () => {
+  // Flat design (client request 2026-11-25): only the hero photos and their floating cards, the About photo, and things that float
+  // over the page — the Solutions dropdown, the phone menu, the cookie banner, the LINE QR pop-up, the Area54 card
+  // on the map — keep a shadow, plus focus rings.
+  test('no shadows on cards, icons, inner-page photos or the header', () => {
+    const files = walk(DIST);
+    const css = files.filter((f) => f.endsWith('.css')).map((f) => readFileSync(f, 'utf8')).join('\n')
+      + files.filter((f) => f.endsWith('.html')).flatMap((f) => [...readFileSync(f, 'utf8').matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)].map((m) => m[1])).join('\n');
+    const shadowed = [...css.matchAll(/([^{}]+)\{([^{}]*)\}/g)]
+      .filter((m) => /box-shadow:\s*(?!inset|none)/.test(m[2]))
+      .map((m) => m[1].trim());
+    const floating = /\.c-main|\.c-second|\.fcard|\.what|\.drop|\.mobile-panel|\.consent|\.pop|\.spot|:focus/;
+    expect(shadowed.filter((sel) => !floating.test(sel))).toEqual([]);
+  });
+});
 
 describe('solutions', () => {
   test('heading "Our Solutions" with no eyebrow above it', () => {
@@ -221,6 +238,11 @@ describe('Trusted by, Why ICAN, projects', () => {
   test('project photos do not zoom on hover', () => {
     for (const rule of cssRules(/\.tile[^,{]*:hover/)) expect(rule).not.toMatch(/--s|scale/);
   });
+
+  test('project photos never move on scroll: no parallax offset, no oversizing', () => {
+    expect(readDist()).not.toContain('--py');
+    for (const rule of cssRules(/\.imgbox[^,{]*img/)) expect(rule).not.toMatch(/transform|scale/);
+  });
 });
 
 describe('Area54 directory', () => {
@@ -232,6 +254,16 @@ describe('Area54 directory', () => {
       expect(t, name).toContain(name);
     }
     expect(s).toContain('href="https://www.google.com/maps/search/?api=1&amp;query=Area54+Vibhavadi"');
+  });
+
+  test('pins are flat (no shadow, no pulsing ring) and the photo has no shadow', () => {
+    expect(readDist()).not.toMatch(/@keyframes ping/);
+    for (const rule of cssRules(/\.pin(?![\w-])/)) expect(rule).not.toMatch(/box-shadow/);
+    for (const rule of cssRules(/\.photo(?![\w-])/)) expect(rule).not.toMatch(/box-shadow/);
+  });
+
+  test('subtitle reads "Six businesses. Tap a number to see more details."', () => {
+    expect(text(section('area54'))).toContain('Six businesses. Tap a number to see more details.');
   });
 
   test('"Get directions" starts with a map symbol', () => {
@@ -252,6 +284,36 @@ describe('links across the page', () => {
     const tags = [...html().matchAll(/<a\b[^>]*target="_blank"[^>]*>/g)].map((m) => m[0]);
     expect(tags.length).toBeGreaterThan(0);
     expect(tags.filter((t) => !/rel="[^"]*noopener/.test(t))).toEqual([]);
+  });
+});
+
+describe('smoothness', () => {
+  test('page changes cross-fade with the header held still, and the portfolio tab highlight slides', () => {
+    const css = readDist();
+    expect(css).toMatch(/@view-transition\s*\{\s*navigation:\s*auto/);
+    expect(cssRules(/\.nav(?![\w-])/).join('\n')).toContain('view-transition-name:site-nav');
+    expect(css).toMatch(/aria-current="?page"?\][^{]*\{[^}]*view-transition-name:portfolio-tab/);
+  });
+
+  test('"All services" is marked to open smoothly', () => {
+    expect(section('chang')).toMatch(/<details class="svc"[^>]*data-smooth/);
+  });
+});
+
+describe('buttons', () => {
+  test('hovering a button only changes its colour: no lift, no drop shadow', () => {
+    const rules = cssRules(/\.btn[\w-]*:hover(?![^,{]*(svg|\.lucide))/);
+    expect(rules.length).toBeGreaterThan(0);
+    for (const rule of rules) {
+      expect(rule).not.toMatch(/translateY|scale\(1/);
+      expect(rule).not.toMatch(/box-shadow:(?!inset)/);
+    }
+  });
+
+  test('the menu hover tint never applies to the Contact Us button', () => {
+    const tint = cssRules(/\.menu[^{,]*>li[^{,]*>a[^{,]*:hover/).filter((r) => /background/.test(r));
+    expect(tint.length).toBeGreaterThan(0);
+    for (const rule of tint) expect(rule).toMatch(/:not\(\.cta\)/);
   });
 });
 
@@ -406,5 +468,29 @@ describe('inner pages', () => {
     }
     expect(form).toMatch(/name="email"[^>]*type="email"[^>]*required|type="email"[^>]*required/);
     expect(form).toContain('data-ask-solution="quote solution"');
+    // With the form service on, a robot check (hCaptcha, through Web3Forms' free site key) guards sending.
+    if (form.includes('api.web3forms.com')) {
+      expect(form).toMatch(/<div[^>]*class="h-captcha"[^>]*data-sitekey="[0-9a-f-]{36}"/);
+    }
+    // Length caps keep oversized junk out of the inbox.
+    for (const name of ['name', 'company', 'email', 'phone']) expect(form, name).toMatch(new RegExp(`<input[^>]*name="${name}"[^>]*maxlength="\\d+"`));
+    expect(form).toMatch(/<textarea[^>]*name="message"[^>]*maxlength="\d+"/);
+  });
+});
+
+describe('analytics', () => {
+  test('Google Analytics never loads before a visitor accepts the banner', () => {
+    const page = html();
+    // Only the bundled script adds Google's tag, and only after Accept.
+    expect(page).not.toContain('googletagmanager.com');
+    if (analytics.measurementId) {
+      // The GA4 Measurement ID, not the "GTM-…" Google tag container that GA's setup dialog shows.
+      expect(analytics.measurementId).toMatch(/^G-[A-Z0-9]+$/);
+      expect(page).toMatch(new RegExp(`id="consent"[^>]*data-ga="${analytics.measurementId}"[^>]*hidden`));
+      expect(page).toContain('data-consent-open');
+    } else {
+      expect(page).not.toContain('id="consent"');
+      expect(page).not.toContain('data-consent-open');
+    }
   });
 });

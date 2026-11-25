@@ -109,6 +109,30 @@ describe.skipIf(!hasChrome)('homepage in a real browser', { timeout: 60000 }, ()
     await page.close();
   });
 
+  for (const width of [1200, 1366, 1440, 1920]) {
+    test(`Area54 on desktop: an open card never covers another pin, and stays on the photo (${width}px)`, async () => {
+      const page = await open(width, 900, still);
+      await page.$eval('#area54', (el) => el.scrollIntoView());
+      await page.waitForSelector('astro-island[component-url*="Area54"]:not([ssr])');
+      const ids = await page.$$eval('.pin', (ps) => ps.map((p) => (p as HTMLElement).dataset.spot!));
+      for (const id of ids) {
+        await page.$eval(`.pin[data-spot="${id}"]`, (p) => p.dispatchEvent(new MouseEvent('mouseenter')));
+        await page.waitForSelector(`.directory[data-open] .spot[data-spot="${id}"][data-shown]`, { visible: true });
+        const r = await page.evaluate((id) => {
+          const card = document.querySelector(`.spot[data-spot="${id}"]`)!.getBoundingClientRect();
+          const photo = document.querySelector('.directory .photo')!.getBoundingClientRect();
+          const covered = [...document.querySelectorAll<HTMLElement>('.pin')].filter((p) => p.dataset.spot !== id).filter((p) => {
+            const b = p.getBoundingClientRect();
+            return b.left < card.right && b.right > card.left && b.top < card.bottom && b.bottom > card.top;
+          }).map((p) => p.dataset.spot);
+          return { covered, inside: card.top >= photo.top - 1 && card.bottom <= photo.bottom + 1 && card.left >= photo.left - 1 && card.right <= photo.right + 1 };
+        }, id);
+        expect(r, `card ${id}`).toEqual({ covered: [], inside: true });
+      }
+      await page.close();
+    });
+  }
+
   test('Area54 on phones: only the picked card shows, under the photo', async () => {
     const page = await open(375, 800, still);
     await page.$eval('#area54', (el) => el.scrollIntoView());
@@ -129,6 +153,38 @@ describe.skipIf(!hasChrome)('homepage in a real browser', { timeout: 60000 }, ()
     await page.click('#chang summary .all');
     expect(await page.$eval('#chang .svc-list', (el) => el.checkVisibility())).toBe(true);
     await page.close();
+  });
+
+  test('"All services" slides open and closed instead of jumping', async () => {
+    const page = await open(1440, 900, (p) => p.emulateMediaFeatures([{ name: 'prefers-reduced-motion', value: 'no-preference' }]));
+    const height = () => page.$eval('#chang .svc-list', (el) => el.getBoundingClientRect().height);
+    await page.click('#chang summary .all');
+    await new Promise((r) => setTimeout(r, 90));
+    const mid = await height();
+    await new Promise((r) => setTimeout(r, 450));
+    const full = await height();
+    expect(full).toBeGreaterThan(40);
+    expect(mid).toBeLessThan(full);
+    await page.click('#chang summary .all');
+    await page.waitForFunction(() => !(document.querySelector('#chang details') as HTMLDetailsElement).open, { timeout: 2000 });
+    await page.close();
+  });
+
+  test('scrolling a few pixels never makes the header flicker or the page shake', async () => {
+    for (const delta of [12, 18, 24]) {
+      const page = await open(1440, 900);
+      await page.mouse.move(700, 600);
+      await page.mouse.wheel({ deltaY: delta });
+      const flips = await page.evaluate(() => new Promise<number>((done) => {
+        const nav = document.querySelector('.nav')!;
+        let last = nav.classList.contains('scrolled');
+        let n = 0;
+        const id = setInterval(() => { const now = nav.classList.contains('scrolled'); if (now !== last) { n++; last = now; } }, 5);
+        setTimeout(() => { clearInterval(id); done(n); }, 800);
+      }));
+      expect(flips, `${delta}px`).toBeLessThanOrEqual(1);
+      await page.close();
+    }
   });
 
   test('every image on the page loads after scrolling through it', async () => {
@@ -206,10 +262,12 @@ describe.skipIf(!hasChrome)('homepage in a real browser', { timeout: 60000 }, ()
     const page = await browser.newPage();
     await page.setViewport({ width: 1440, height: 900 });
     await page.setRequestInterception(true);
+    // The motion script ships either inline or as its own file, depending on its size: break it either way.
     page.on('request', (req) => {
+      if (req.url().includes('/_astro/BaseLayout')) { req.abort(); return; }
       if (req.resourceType() !== 'document') { req.continue(); return; }
       const broken = readFileSync(join(process.cwd(), 'dist', 'index.html'), 'utf8')
-        .replace(/<script type="module">[\s\S]*?<\/script>/, '<script type="module">throw new Error("simulated motion failure")</script>');
+        .replace(/<script type="module">[\s\S]*?initMotion[\s\S]*?<\/script>/, '<script type="module">throw new Error("simulated motion failure")</script>');
       req.respond({ status: 200, contentType: 'text/html; charset=utf-8', body: broken });
     });
     await page.goto(URL, { waitUntil: 'networkidle0' });

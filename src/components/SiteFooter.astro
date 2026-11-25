@@ -2,6 +2,7 @@
 import { Image } from 'astro:assets';
 import Icon from './Icon.astro';
 import { site } from '../data/site';
+import { analytics } from '../data/analytics';
 import { img } from '../lib/assets';
 ---
 <footer id="contact">
@@ -25,7 +26,10 @@ import { img } from '../lib/assets';
         <a class="tel" href={p.tel}><Icon name={p.icon} size={17} /><span>{p.display} <small>{p.note}</small></span></a>
       ))}
     </div>
-    <p class="legal">{site.copyright}</p>
+    <p class="legal">
+      {site.copyright}
+      {analytics.measurementId && <button type="button" class="cookies" data-consent-open>{analytics.consent.settings}</button>}
+    </p>
   </div>
 </footer>
 
@@ -44,5 +48,7 @@ import { img } from '../lib/assets';
   .tel { display: flex; align-items: center; gap: 10px; font-size: 15px; line-height: 1.5; margin-bottom: 10px; }
   .tel small { opacity: .7; }
   .legal { grid-column: 1 / -1; padding-top: 24px; margin-top: 8px; font-size: 13px; border-top: 1px solid rgba(255, 255, 255, .1); color: #8394BA; }
+  .cookies { margin-left: 16px; padding: 0; border: 0; background: none; font: inherit; color: inherit; text-decoration: underline; cursor: pointer; }
+  .cookies:hover { color: #fff; }
   @media (max-width: 960px) { .wrap { grid-template-columns: 1fr; } }
 </style>

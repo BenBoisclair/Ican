@@ -31,12 +31,13 @@ npm install
 | The eight solutions (cards, menu and solution pages) | `src/data/solutions.ts` — a solution without `page` opens the contact form instead |
 | Portfolio categories and which photos lead | `src/data/portfolio.ts` (photos in `src/assets/portfolio/<category>/`) |
 | About and Contact pages, contact form options | `src/data/about.ts`, `src/data/contact.ts` |
-| Make the contact form send directly | Add a free [Web3Forms](https://web3forms.com) access key to `web3formsKey` in `src/data/contact.ts` |
+| Contact form sending and spam guards | It sends through [Web3Forms](https://web3forms.com) (`web3formsKey` in `src/data/contact.ts`) and asks for the free hCaptcha robot check (`hcaptchaSiteKey`). hCaptcha must also be on for the form in the Web3Forms dashboard so messages without the check are refused. |
+| Turn on Google Analytics | Paste the Measurement ID (`G-…`) into `measurementId` in `src/data/analytics.ts`. The consent banner, the footer's Cookie settings link and the click events (calls, LINE, directions, contact form sends…) switch on with it. Event rules are in `src/scripts/analytics.ts` |
 | Images and logos | `src/assets/images/`, `src/assets/logos/` (referenced by path in the data files) |
 | Colours, fonts, buttons, links | `src/styles/global.css` |
 | A section's layout | `src/components/home/*.astro`; inner-page blocks in `src/components/page/*.astro` |
 | Interactive parts | `src/components/islands/*.vue` |
-| Scroll animations, header shrink, photo parallax | `src/scripts/motion.ts` |
+| Scroll animations, header shrink, smooth "All services" panel | `src/scripts/motion.ts` |
 
 Animations switch off automatically for visitors who turn on "reduce motion", and all content stays visible if JavaScript fails to load.
 

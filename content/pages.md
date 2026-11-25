@@ -25,7 +25,7 @@ Breadcrumb · title · lead · three key facts · photo · **Get a quote** (open
 Infrastructure pages share **How we work**: Survey → Design (you approve a To-be Design) → Install and test (results in the delivery report) → Maintain (anywhere in Thailand).
 
 ## Portfolio
-199 infrastructure photos and drawings in 11 categories, plus 22 software screenshots, resized from the old site. Category chips filter the page (and still work as jump links without JavaScript). Photos open full size in a viewer.
+199 infrastructure photos and drawings in 11 categories, plus 22 software screenshots, resized from the old site. Both portfolio pages share one header ("Our portfolio") so the tab switch doesn't move the page; the blue tab highlight slides across. Category chips filter the page (and still work as jump links without JavaScript). Photos open full size in a viewer.
 Left out: vendor stock product photos (Cisco phones, APC UPS, servers), near-duplicate drawings, and images under ~600 px.
 
 ## Social Responsibility

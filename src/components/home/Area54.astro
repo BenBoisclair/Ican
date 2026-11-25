@@ -8,6 +8,10 @@ import { img } from '../../lib/assets';
 const photo = img(area54.image);
 const small = await getImage({ src: photo, width: 1100 });
 const large = await getImage({ src: photo, width: 2200 });
+// Card photos are resized here and handed to the island as plain URLs.
+const spots = await Promise.all(area54.spots.map(async (s) => (
+  s.image ? { ...s, photo: (await getImage({ src: img(s.image), width: 720, format: 'webp' })).src } : s
+)));
 ---
 <section id="area54" class="area">
   <div class="wrap">
@@ -22,7 +26,7 @@ const large = await getImage({ src: photo, width: 2200 });
     <div class="rv">
       <Area54Directory
         client:visible
-        spots={area54.spots}
+        spots={spots}
         imageSrc={large.src}
         imageSrcset={`${small.src} 1100w, ${large.src} 2200w`}
         imageAlt={area54.imageAlt}

@@ -43,10 +43,10 @@ describe('Area54Directory', () => {
     expect(order).toEqual(area54.spots.flatMap((s) => [`pin:${s.id}`, `spot:${s.id}`]));
   });
 
-  test('cards on the left half open to the right of their pin, and vice versa', () => {
+  test('cards open away from the nearer edge, unless a spot overrides it to keep other pins clear', () => {
     const w = mountDir();
     for (const s of area54.spots) {
-      expect(w.get(`.spot[data-spot="${s.id}"]`).attributes('data-side')).toBe(s.pin.left < 50 ? 'right' : 'left');
+      expect(w.get(`.spot[data-spot="${s.id}"]`).attributes('data-side')).toBe(s.cardSide ?? (s.pin.left < 50 ? 'right' : 'left'));
     }
   });
 
@@ -111,6 +111,25 @@ describe('Area54Directory', () => {
       expect(p.attributes('aria-label')).toBe(area54.spots[i].name);
       expect(p.attributes('aria-controls')).toBe(`spot-${area54.spots[i].id}`);
     });
+  });
+
+  test('cards carry no number badge, and phone numbers never break across lines', () => {
+    const w = mountDir();
+    expect(w.findAll('.spot .n')).toHaveLength(0);
+    for (const s of area54.spots) expect(w.get(`.spot[data-spot="${s.id}"]`).text()).not.toMatch(new RegExp(`^${s.id}`));
+    expect(w.get('.spot[data-spot="6"] .nw').text()).toBe('081-613-5243');
+  });
+
+  test('cards with a photo show it across the top, with alt text; the others have none', () => {
+    const spots = area54.spots.map((s) => (s.image ? { ...s, photo: `/${s.image}` } : s));
+    const w = mount(Area54Directory, { props: { spots, imageSrc: '/area54.webp', imageAlt: area54.imageAlt }, attachTo: document.body });
+    const withPhoto = area54.spots.filter((s) => s.image).map((s) => s.id);
+    expect(withPhoto).toEqual([1, 3, 5]);
+    for (const s of area54.spots) {
+      const thumb = w.find(`.spot[data-spot="${s.id}"] img.thumb`);
+      expect(thumb.exists(), s.name).toBe(withPhoto.includes(s.id));
+      if (thumb.exists()) expect(thumb.attributes('alt')).toBe(s.imageAlt);
+    }
   });
 
   test('Maps links open safely in a new tab; in-page links do not', () => {

@@ -6,21 +6,21 @@ import Gallery from '../../components/page/Gallery.astro';
 import Lightbox from '../../components/page/Lightbox.astro';
 import CtaBand from '../../components/page/CtaBand.astro';
 import Icon from '../../components/Icon.astro';
-import { photos, portfolioPages } from '../../data/portfolio';
+import { photos, portfolioHero, portfolioPages } from '../../data/portfolio';
 
 const page = portfolioPages.software;
 const shots = photos('software');
 ---
 <BaseLayout title={`${page.metaTitle} | ICAN Group`} description={page.description}>
   <main>
-    <PageHero crumbs={[{ label: 'Home', href: '/' }, { label: 'Portfolio' }, { label: page.title }]} eyebrow="Portfolio" title={page.title} lead={page.lead}>
+    <PageHero crumbs={[{ label: 'Home', href: '/' }, { label: 'Portfolio' }, { label: page.title }]} title={portfolioHero.title} lead={portfolioHero.lead} transitionName="portfolio-hero">
       <PortfolioTabs current="software" />
     </PageHero>
 
     <section class="pf">
       <div class="wrap">
         <div class="sec-head row">
-          <h2>{shots.length} screenshots</h2>
+          <div><h2>{shots.length} screenshots</h2><p class="note">{page.note}</p></div>
           <a class="link" href="/solutions/software-applications">What each system does <Icon name="arrow-right" /></a>
         </div>
         <Gallery photos={shots} label={page.title} />
@@ -36,4 +36,5 @@ const shots = photos('software');
   .pf { padding: 40px 0 72px; }
   .pf .sec-head { margin-bottom: 20px; }
   .pf h2 { font-size: 22px; }
+  .note { margin-top: 4px; font-size: 14px; color: var(--muted); }
 </style>

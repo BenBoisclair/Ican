@@ -8,6 +8,7 @@ import { startEasy } from '../data/home';
 
 const f = contact.form;
 const viaService = f.web3formsKey.length > 0;
+const captcha = viaService && f.hcaptchaSiteKey.length > 0;
 const askSolution = f.topics.filter((t) => t.askSolution).map((t) => t.value).join(' ');
 ---
 <BaseLayout title={`${contact.metaTitle} | ICAN Group`} description={contact.description}>
@@ -16,7 +17,7 @@ const askSolution = f.topics.filter((t) => t.askSolution).map((t) => t.value).jo
 
     <section class="contact">
       <div class="wrap">
-        <!-- Without JavaScript the form still posts: to Web3Forms, or as an email from the visitor's mail app. -->
+        <!-- Without JavaScript the form still posts: to Web3Forms (refused once the robot check is required), or as an email from the visitor's mail app. -->
         <form
           id="contact-form"
           class="card"
@@ -29,6 +30,9 @@ const askSolution = f.topics.filter((t) => t.askSolution).map((t) => t.value).jo
           data-sent={f.sent}
           data-mail-opened={f.mailOpened}
           data-failed={f.failed}
+          data-too-fast={f.tooFast}
+          data-wait={f.wait}
+          data-captcha-missing={f.captchaMissing}
         >
           <h2>{f.heading}</h2>
           {viaService && <input type="hidden" name="access_key" value={f.web3formsKey} />}
@@ -52,20 +56,22 @@ const askSolution = f.topics.filter((t) => t.askSolution).map((t) => t.value).jo
             </label>
           </div>
           <div class="row two">
-            <label><span>Name</span><input name="name" autocomplete="name" required /></label>
-            <label><span>Company <small>(optional)</small></span><input name="company" autocomplete="organization" /></label>
+            <label><span>Name</span><input name="name" autocomplete="name" maxlength="100" required /></label>
+            <label><span>Company <small>(optional)</small></span><input name="company" autocomplete="organization" maxlength="100" /></label>
           </div>
           <div class="row two">
-            <label><span>Email</span><input name="email" type="email" autocomplete="email" required /></label>
-            <label><span>Phone <small>(optional)</small></span><input name="phone" type="tel" autocomplete="tel" /></label>
+            <label><span>Email</span><input name="email" type="email" autocomplete="email" maxlength="254" required /></label>
+            <label><span>Phone <small>(optional)</small></span><input name="phone" type="tel" autocomplete="tel" maxlength="30" /></label>
           </div>
-          <label class="row"><span>Message</span><textarea name="message" rows="6" required></textarea></label>
+          <label class="row"><span>Message</span><textarea name="message" rows="6" maxlength="4000" required></textarea></label>
+          {captcha && <div class="h-captcha" data-sitekey={f.hcaptchaSiteKey}></div>}
 
           <div class="send">
             <button class="btn btn-primary btn-lg" type="submit"><Icon name="send" />{f.submit}</button>
             <p class="privacy">{f.privacy}</p>
           </div>
           <p class="status" role="status" aria-live="polite" hidden></p>
+          {captcha && <noscript><p class="status" data-kind="error">{f.noScript} <a href={`mailto:${f.to}`}>{f.to}</a>.</p></noscript>}
         </form>
 
         <aside class="details">
@@ -109,8 +115,12 @@ const askSolution = f.topics.filter((t) => t.askSolution).map((t) => t.value).jo
     const to = form.dataset.to!;
 
     // The solution list only applies to quotes and solution questions.
-    const sync = () => {
+    const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const sync = (animate = false) => {
       const show = askSolution.includes(topic.value);
+      if (show && field.hidden && animate && !still) {
+        field.animate([{ opacity: 0, transform: 'translateY(-6px)' }, { opacity: 1, transform: 'none' }], { duration: 260, easing: 'cubic-bezier(.2, .7, .2, 1)' });
+      }
       field.hidden = !show;
       solution.required = show;
       solution.disabled = !show;
@@ -123,7 +133,7 @@ const askSolution = f.topics.filter((t) => t.askSolution).map((t) => t.value).jo
     };
     pick(topic, params.get('topic'));
     pick(solution, params.get('solution'));
-    topic.addEventListener('change', sync);
+    topic.addEventListener('change', () => sync(true));
     sync();
 
     const say = (text: string, kind: 'ok' | 'error', email = false) => {
@@ -139,6 +149,32 @@ const askSolution = f.topics.filter((t) => t.askSolution).map((t) => t.value).jo
     };
 
     const label = (select: HTMLSelectElement) => select.selectedOptions[0]?.textContent?.trim() ?? '';
+
+    // Spam guards on top of the service's own filter: a hidden bot trap, a pause before the first send, and one
+    // message a minute per browser. They stop simple bots and repeat sends, not someone scripting the service directly.
+    const loadedAt = Date.now();
+    const lastSentKey = 'ican-contact-last-sent';
+    const lastSent = () => { try { return Number(localStorage.getItem(lastSentKey)) || 0; } catch { return 0; } };
+    const trap = form.querySelector<HTMLInputElement>('input[name=botcheck]')!;
+    // The robot check: hCaptcha puts its token in a hidden h-captcha-response field inside the box once ticked.
+    // The page loads and draws it (rather than hCaptcha drawing it on its own) so that where the normal 303px box
+    // doesn't fit, as on most phones, the compact one is used instead.
+    const captchaBox = form.querySelector<HTMLElement>('.h-captcha');
+    type HCaptcha = { render(box: HTMLElement, options: { sitekey: string; size: 'normal' | 'compact' }): string; reset(id?: string): void };
+    const w = window as unknown as { hcaptcha?: HCaptcha; icanCaptchaReady?: () => void };
+    let captchaId: string | undefined;
+    if (captchaBox) {
+      w.icanCaptchaReady = () => {
+        captchaId = w.hcaptcha!.render(captchaBox, { sitekey: captchaBox.dataset.sitekey!, size: captchaBox.clientWidth < 303 ? 'compact' : 'normal' });
+      };
+      const api = document.createElement('script');
+      api.src = 'https://js.hcaptcha.com/1/api.js?render=explicit&recaptchacompat=off&onload=icanCaptchaReady';
+      api.async = true;
+      document.head.append(api);
+    }
+    const captchaToken = () => captchaBox?.querySelector<HTMLTextAreaElement>('[name="h-captcha-response"]')?.value ?? '';
+    // Each token is good for one send, so the box is cleared after every attempt.
+    const resetCaptcha = () => { if (captchaId !== undefined) w.hcaptcha?.reset(captchaId); };
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
@@ -161,6 +197,16 @@ const askSolution = f.topics.filter((t) => t.askSolution).map((t) => t.value).jo
         say(form.dataset.mailOpened!, 'ok', true);
         return;
       }
+      if (trap.checked) {
+        form.reset();
+        sync();
+        say(form.dataset.sent!, 'ok');
+        return;
+      }
+      if (Date.now() - loadedAt < 3000) { say(form.dataset.tooFast!, 'error'); return; }
+      if (Date.now() - lastSent() < 60000) { say(form.dataset.wait!, 'ok'); return; }
+      if (captchaBox && !captchaToken()) { say(form.dataset.captchaMissing!, 'error', true); return; }
+
       const button = form.querySelector<HTMLButtonElement>('button[type=submit]')!;
       button.disabled = true;
       try {
@@ -169,6 +215,11 @@ const askSolution = f.topics.filter((t) => t.askSolution).map((t) => t.value).jo
         if (!solution.disabled) data.set('solution', label(solution));
         const res = await fetch(form.action, { method: 'POST', body: data, headers: { Accept: 'application/json' } });
         if (!res.ok) throw new Error(String(res.status));
+        try { localStorage.setItem(lastSentKey, String(Date.now())); } catch { /* private mode: no limit */ }
+        // Counted as a lead in analytics (src/scripts/analytics.ts).
+        const detail: Record<string, string> = { topic: label(topic) };
+        if (!solution.disabled) detail.solution = label(solution);
+        form.dispatchEvent(new CustomEvent('contact:sent', { bubbles: true, detail }));
         form.reset();
         sync();
         say(form.dataset.sent!, 'ok');
@@ -176,6 +227,7 @@ const askSolution = f.topics.filter((t) => t.askSolution).map((t) => t.value).jo
         say(form.dataset.failed!, 'error', true);
       } finally {
         button.disabled = false;
+        resetCaptcha();
       }
     });
   }
@@ -184,7 +236,7 @@ const askSolution = f.topics.filter((t) => t.askSolution).map((t) => t.value).jo
 <style>
   .contact { padding: 40px 0 80px; }
   .wrap { display: grid; grid-template-columns: 1fr 380px; gap: 28px; align-items: start; }
-  .card { padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: #fff; box-shadow: 0 18px 40px -28px rgba(15, 27, 51, .25); }
+  .card { padding: 28px; border: 1px solid var(--line); border-radius: 18px; background: #fff; }
   h2 { font-size: 22px; margin-bottom: 18px; }
   .row { display: grid; gap: 14px; margin-bottom: 14px; }
   .row.two { grid-template-columns: 1fr 1fr; }
@@ -197,6 +249,7 @@ const askSolution = f.topics.filter((t) => t.askSolution).map((t) => t.value).jo
   input:focus, select:focus, textarea:focus { outline: none; border-color: var(--blue-500); box-shadow: 0 0 0 3px rgba(36, 83, 196, .18); }
   input:user-invalid, select:user-invalid, textarea:user-invalid { border-color: #C2410C; }
   .hp { position: absolute; left: -9999px; }
+  .h-captcha { min-height: 78px; margin-bottom: 14px; }
   .send { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 6px; }
   .privacy { font-size: 13px; color: var(--muted); }
   .status { margin-top: 16px; padding: 12px 14px; border-radius: 10px; font-size: 14.5px; line-height: 1.5; }
@@ -213,7 +266,7 @@ const askSolution = f.topics.filter((t) => t.askSolution).map((t) => t.value).jo
   .addr { display: flex; gap: 12px; padding: 12px 0 0; border-top: 1px solid #EEF1F6; }
   address { font-style: normal; font-size: 14.5px; line-height: 1.6; }
   .links { display: flex; flex-wrap: wrap; gap: 8px 18px; margin-top: 14px; font-size: 14.5px; }
-  .chang { background: linear-gradient(120deg, #EAF1FF 0%, #F6F9FF 60%); border-color: #DCE6FA; box-shadow: none; }
+  .chang { background: linear-gradient(120deg, #EAF1FF 0%, #F6F9FF 60%); border-color: #DCE6FA; }
   .chang h3 { font-size: 17px; }
   .chang p { margin-top: 6px; font-size: 14.5px; line-height: 1.5; color: #3F4B66; }
 

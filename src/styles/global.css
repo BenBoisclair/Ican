@@ -44,7 +44,8 @@ h1, h2, h3, h4, p { margin: 0; }
 .btn svg { width: 18px; height: 18px; flex: none; transition: transform .25s var(--ease); }
 .btn-lg { padding: 15px 26px; font-size: 16px; }
 .btn-primary { background: var(--blue); color: #fff; }
-.btn-primary:hover { background: var(--blue-600); transform: translateY(-2px); box-shadow: 0 12px 24px -8px rgba(20, 58, 147, .5); }
+/* Hover only darkens the button: no lift, no shadow (client request 2026-11-25). */
+.btn-primary:hover { background: var(--blue-600); }
 .btn-primary:hover svg { transform: translateX(4px); }
 .btn-ghost { background: #fff; color: var(--blue); box-shadow: inset 0 0 0 1.5px #C9D4EA; }
 .btn-ghost:hover { background: var(--tint-2); box-shadow: inset 0 0 0 1.5px var(--blue); }
@@ -76,6 +77,16 @@ h2 { font-size: clamp(28px, 3.4vw, 40px); line-height: 1.15; font-weight: 700; l
 @media print {
   .js .rv { opacity: 1 !important; transform: none !important; transition: none !important; }
 }
+/* ---------- page changes: the header stays put while the page cross-fades ---------- */
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition { navigation: auto; }
+  ::view-transition-old(root) { animation: vt-out .16s ease-out both; }
+  ::view-transition-new(root) { animation: vt-in .34s var(--ease) both; }
+  ::view-transition-group(*) { animation-duration: .36s; animation-timing-function: var(--ease); }
+}
+@keyframes vt-out { to { opacity: 0; } }
+@keyframes vt-in { from { opacity: 0; transform: translateY(8px); } }
+
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
   *, *::before, *::after { animation: none !important; transition: none !important; }

@@ -5,7 +5,7 @@ import PortfolioTabs from '../../components/page/PortfolioTabs.astro';
 import Gallery from '../../components/page/Gallery.astro';
 import Lightbox from '../../components/page/Lightbox.astro';
 import CtaBand from '../../components/page/CtaBand.astro';
-import { bestFirst, galleries, portfolioPages } from '../../data/portfolio';
+import { bestFirst, galleries, portfolioHero, portfolioPages } from '../../data/portfolio';
 
 const page = portfolioPages['it-infrastructure'];
 const cats = galleries.filter((g) => g.page === 'it-infrastructure').map((g) => ({ ...g, photos: bestFirst(g.key) }));
@@ -13,7 +13,7 @@ const total = cats.reduce((n, c) => n + c.photos.length, 0);
 ---
 <BaseLayout title={`${page.metaTitle} | ICAN Group`} description={page.description}>
   <main>
-    <PageHero crumbs={[{ label: 'Home', href: '/' }, { label: 'Portfolio' }, { label: page.title }]} eyebrow="Portfolio" title={page.title} lead={page.lead}>
+    <PageHero crumbs={[{ label: 'Home', href: '/' }, { label: 'Portfolio' }, { label: page.title }]} title={portfolioHero.title} lead={portfolioHero.lead} transitionName="portfolio-hero">
       <PortfolioTabs current="it-infrastructure" />
     </PageHero>
 
@@ -42,14 +42,23 @@ const total = cats.reduce((n, c) => n + c.photos.length, 0);
   const bar = document.getElementById('categories')!;
   const links = Array.from(bar.querySelectorAll<HTMLAnchorElement>('a'));
   const cats = Array.from(document.querySelectorAll<HTMLElement>('.cat'));
+  const still = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let first = true;
   const apply = () => {
     const key = location.hash.slice(1);
     const known = cats.some((c) => c.dataset.cat === key);
     const active = known ? key : 'all';
-    for (const c of cats) c.hidden = active !== 'all' && c.dataset.cat !== active;
+    for (const c of cats) {
+      const show = active === 'all' || c.dataset.cat === active;
+      c.hidden = !show;
+      if (show && !first && !still) {
+        c.animate([{ opacity: 0, transform: 'translateY(10px)' }, { opacity: 1, transform: 'none' }], { duration: 320, easing: 'cubic-bezier(.2, .7, .2, 1)' });
+      }
+    }
+    first = false;
     for (const a of links) a.toggleAttribute('aria-current', a.dataset.filter === active);
     // The browser jumped to where the category was before the others were hidden: bring the bar back into view.
-    if (known) bar.scrollIntoView({ block: 'start' });
+    if (known) bar.scrollIntoView({ block: 'start', behavior: still ? 'auto' : 'smooth' });
   };
   window.addEventListener('hashchange', apply);
   apply();
@@ -63,7 +72,7 @@ const total = cats.reduce((n, c) => n + c.photos.length, 0);
 <style>
   .pf { padding: 32px 0 72px; }
   .filter { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 8px; }
-  .filter a { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; background: #fff; border: 1px solid #DCE4F3; font-size: 14px; font-weight: 500; transition: border-color .2s, background .2s, color .2s; }
+  .filter a { display: inline-flex; align-items: center; gap: 6px; padding: 8px 14px; border-radius: 999px; background: #fff; border: 1px solid #DCE4F3; font-size: 14px; font-weight: 500; transition: border-color .25s, background-color .25s, color .25s; }
   .filter a:hover { border-color: var(--blue-500); color: var(--blue); }
   .filter a[aria-current] { background: var(--blue); border-color: var(--blue); color: #fff; }
   .filter small { font-size: 12px; opacity: .7; }

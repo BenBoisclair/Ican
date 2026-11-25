@@ -20,6 +20,13 @@ export interface Spot {
   text: string;
   pin: { left: number; top: number };
   link?: { label: string; href: string; external: boolean };
+  /** Storefront photo for the card, cropped from ICAN's own Area54 photo (assets/photos/area54-exterior.jpg). */
+  image?: string;
+  imageAlt?: string;
+  /** Filled in by Area54.astro: the web-ready URL of `image`. */
+  photo?: string;
+  /** Desktop: which side of the pin the card opens on, when the default (away from the nearer edge) would cover another pin. */
+  cardSide?: 'left' | 'right';
 }
 
 export const hero = {
@@ -155,7 +162,7 @@ export const projects = {
 export const area54 = {
   eyebrow: 'Vibhavadi Soi 5, Yaek 4',
   heading: 'Visit Area54',
-  sub: "Six businesses, one address. Tap a number to see what's where.",
+  sub: 'Six businesses. Tap a number to see more details.',
   directionsLabel: 'Get directions',
   directionsUrl: 'https://www.google.com/maps/search/?api=1&query=Area54+Vibhavadi',
   image: 'images/area54.jpg',
@@ -165,6 +172,7 @@ export const area54 = {
       id: 1, name: 'Tidnuad Thai Massage', tag: 'Thai massage · ★ 5.0 Google',
       text: 'Traditional Thai health massage, a few steps from the office.',
       pin: { left: 15, top: 20 },
+      image: 'images/area54-tidnuad.jpg', imageAlt: 'Tidnuad Thai Massage shopfront at Area54',
       link: { label: 'Open in Maps', href: 'https://share.google/fep024W269fiv6ZjT', external: true },
     },
     {
@@ -177,6 +185,7 @@ export const area54 = {
       id: 3, name: "Chef's Place", tag: 'Restaurant · ★ 5.0 Google',
       text: 'Chef-made Western comfort food: pasta, steak, and a 5-course tasting menu by reservation.',
       pin: { left: 82, top: 26 },
+      image: 'images/area54-chefs.jpg', imageAlt: "Chef's Place dining room above the Area54 courtyard",
       link: { label: 'Open in Maps', href: 'https://share.google/YkK6HwHjR3dihpZi0', external: true },
     },
     {
@@ -187,7 +196,8 @@ export const area54 = {
     {
       id: 5, name: 'Carfé Area54 Specialty Coffee', tag: 'Café · ★ 4.9 Google',
       text: 'Vintage coffee shop filled with classic cars. Pickup and delivery available.',
-      pin: { left: 47, top: 64 },
+      pin: { left: 47, top: 64 }, cardSide: 'left',
+      image: 'images/area54-carfe.jpg', imageAlt: 'Carfé coffee shop entrance at Area54',
       link: { label: 'Open in Maps', href: 'https://share.google/eFkmi0EJoEdeAjz2U', external: true },
     },
     {
